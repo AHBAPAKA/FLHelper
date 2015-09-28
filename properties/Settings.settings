@@ -1,0 +1,116 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="SvetanFlickrApp.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="ApiKey" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">63619b74e4361d4857e65b827cab055a</Value>
+    </Setting>
+    <Setting Name="SharedSecret" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">98200e4436c2ca50</Value>
+    </Setting>
+    <Setting Name="SvetaUserID" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">42268376@N06</Value>
+    </Setting>
+    <Setting Name="SvetaAuthToken" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">72157625585701964-e284b116b85520e9</Value>
+    </Setting>
+    <Setting Name="AnvarUserID" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">33669907@N08</Value>
+    </Setting>
+    <Setting Name="AnvarAuthToken" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">72157625482901225-e096749a1a4f4565</Value>
+    </Setting>
+    <Setting Name="DefMinDate" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">12/01/2008</Value>
+    </Setting>
+    <Setting Name="DefmaxDate" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">06/01/2010</Value>
+    </Setting>
+    <Setting Name="DefPageNum" Type="System.Int32" Scope="Application">
+      <Value Profile="(Default)">5</Value>
+    </Setting>
+    <Setting Name="DefPerpage" Type="System.Int32" Scope="Application">
+      <Value Profile="(Default)">500</Value>
+    </Setting>
+    <Setting Name="FlickrConnectionString" Type="(Connection string)" Scope="Application">
+      <DesignTimeValue Profile="(Default)">&lt;?xml version="1.0" encoding="utf-16"?&gt;
+&lt;SerializableConnectionString xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"&gt;
+  &lt;ConnectionString&gt;Data Source=|DataDirectory|\DB\Flickr.sdf&lt;/ConnectionString&gt;
+  &lt;ProviderName&gt;Microsoft.SqlServerCe.Client.3.5&lt;/ProviderName&gt;
+&lt;/SerializableConnectionString&gt;</DesignTimeValue>
+      <Value Profile="(Default)">Data Source=|DataDirectory|\DB\Flickr.sdf</Value>
+    </Setting>
+    <Setting Name="Comment1" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">Fine work {0}!&lt;br&gt;Bravo!&lt;br&gt;Fav!</Value>
+    </Setting>
+    <Setting Name="Comment2" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">Stunning work {0}!&lt;br&gt;Bravo!&lt;br&gt;Fav!</Value>
+    </Setting>
+    <Setting Name="Comment3" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">Real masterpiece {0}!&lt;br&gt;Bravo!&lt;br&gt;Fav!</Value>
+    </Setting>
+    <Setting Name="Comment4" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">Superb work {0}!&lt;br&gt;Bravo!&lt;br&gt;Fav!</Value>
+    </Setting>
+    <Setting Name="Comment5" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">Top class art work here!</Value>
+    </Setting>
+    <Setting Name="Comment6" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">Absolutely gorgeous art work!</Value>
+    </Setting>
+    <Setting Name="Comment7" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">Very lovely!&lt;br&gt;Bravo!&lt;br&gt;Fav!</Value>
+    </Setting>
+    <Setting Name="Comment8" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">I love this work of art!&lt;br&gt;Bravo!&lt;br&gt;Fav!</Value>
+    </Setting>
+    <Setting Name="Comment9" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">Top league image quality!&lt;br&gt;Bravo {0}!&lt;br&gt;Fav!</Value>
+    </Setting>
+    <Setting Name="Comment10" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">Excellent work {0}!&lt;br&gt;Bravo!&lt;br&gt;Fav!</Value>
+    </Setting>
+    <Setting Name="Comment11" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">Very creative!&lt;br&gt;Well done {0}!&lt;br&gt;Bravo!&lt;br&gt;Fav!</Value>
+    </Setting>
+    <Setting Name="Comment13" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">Stunning work Bro][er!</Value>
+    </Setting>
+    <Setting Name="Comment14" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">Stunning work bratello!</Value>
+    </Setting>
+    <Setting Name="Comment15" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">Absolutely beautiful shot!&lt;br&gt;Bravo {0}!</Value>
+    </Setting>
+    <Setting Name="Comment16" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">Excellent capture!&lt;br&gt;Bravo {0}!&lt;br&gt;Fav!</Value>
+    </Setting>
+    <Setting Name="Comment17" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">Fantatsic shot!&lt;br&gt;Bravo {0}!&lt;br&gt;Fav!</Value>
+    </Setting>
+    <Setting Name="Comment18" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">What an amazing catch!&lt;br&gt;Bravo {0}!&lt;br&gt;Fav!</Value>
+    </Setting>
+    <Setting Name="Comment19" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">Beautiful capture!&lt;br&gt;Bravo {0}!&lt;br&gt;Fav!</Value>
+    </Setting>
+    <Setting Name="Comment20" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">Просто великолепно!</Value>
+    </Setting>
+    <Setting Name="Comment21" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">Beautiful shot!!! Well done!!!&lt;br&gt;Bravo {0}!&lt;br&gt;Fav!
+</Value>
+    </Setting>
+    <Setting Name="Comment12" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">Прекрасная работа!&lt;br&gt;Высший класс!</Value>
+    </Setting>
+    <Setting Name="FDBConnectionString" Type="(Connection string)" Scope="Application">
+      <DesignTimeValue Profile="(Default)">&lt;?xml version="1.0" encoding="utf-16"?&gt;
+&lt;SerializableConnectionString xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"&gt;
+  &lt;ConnectionString&gt;Data Source=(LocalDB)\v11.0;AttachDbFilename=|DataDirectory|\DB\FDB.mdf;Integrated Security=True&lt;/ConnectionString&gt;
+  &lt;ProviderName&gt;System.Data.SqlClient&lt;/ProviderName&gt;
+&lt;/SerializableConnectionString&gt;</DesignTimeValue>
+      <Value Profile="(Default)">Data Source=(LocalDB)\v11.0;AttachDbFilename=|DataDirectory|\DB\FDB.mdf;Integrated Security=True</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>

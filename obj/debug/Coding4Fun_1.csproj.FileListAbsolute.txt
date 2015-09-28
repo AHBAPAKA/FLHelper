@@ -1,0 +1,36 @@
+C:\Users\Sam\Documents\Visual Studio 2008\Projects\Coding4Fun_1\Coding4Fun_1\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\Sam\Documents\Visual Studio 2008\Projects\Coding4Fun_1\Coding4Fun_1\obj\Debug\Coding4Fun_1.AuthenticationForm.resources
+C:\Users\Sam\Documents\Visual Studio 2008\Projects\Coding4Fun_1\Coding4Fun_1\obj\Debug\Coding4Fun_1.UpdateForm.resources
+C:\Users\Sam\Documents\Visual Studio 2008\Projects\Coding4Fun_1\Coding4Fun_1\obj\Debug\Coding4Fun_1.ExampleForm1.resources
+C:\Users\Sam\Documents\Visual Studio 2008\Projects\Coding4Fun_1\Coding4Fun_1\obj\Debug\Coding4Fun_1.MainForm.resources
+C:\Users\Sam\Documents\Visual Studio 2008\Projects\Coding4Fun_1\Coding4Fun_1\obj\Debug\Coding4Fun_1.TemplateForm.resources
+C:\Users\Sam\Documents\Visual Studio 2008\Projects\Coding4Fun_1\Coding4Fun_1\obj\Debug\Coding4Fun_1.Properties.Resources.resources
+C:\Users\Sam\Documents\Visual Studio 2008\Projects\Coding4Fun_1\Coding4Fun_1\obj\Debug\Coding4Fun_1.UploadForm.resources
+C:\Users\Sam\Documents\Visual Studio 2008\Projects\Coding4Fun_1\Coding4Fun_1\obj\Debug\Coding4Fun_1.csproj.GenerateResource.Cache
+C:\Users\Sam\Documents\Visual Studio 2008\Projects\Coding4Fun_1\Coding4Fun_1\bin\Debug\Coding4Fun_1.exe
+C:\Users\Sam\Documents\Visual Studio 2008\Projects\Coding4Fun_1\Coding4Fun_1\bin\Debug\Coding4Fun_1.pdb
+C:\Users\Sam\Documents\Visual Studio 2008\Projects\Coding4Fun_1\Coding4Fun_1\bin\Debug\FlickrNet.dll
+C:\Users\Sam\Documents\Visual Studio 2008\Projects\Coding4Fun_1\Coding4Fun_1\bin\Debug\FlickrNet.pdb
+C:\Users\Sam\Documents\Visual Studio 2008\Projects\Coding4Fun_1\Coding4Fun_1\bin\Debug\FlickrNet.xml
+C:\Users\Sam\Documents\Visual Studio 2008\Projects\Coding4Fun_1\Coding4Fun_1\obj\Debug\Coding4Fun_1.exe
+C:\Users\Sam\Documents\Visual Studio 2008\Projects\Coding4Fun_1\Coding4Fun_1\obj\Debug\Coding4Fun_1.pdb
+C:\PROJECTS\CodeFun\Coding4Fun_1\obj\Debug\Coding4Fun_1.exe
+C:\PROJECTS\CodeFun\Coding4Fun_1\obj\Debug\Coding4Fun_1.pdb
+C:\PROJECTS\CodeFun\Coding4Fun_1\bin\Debug\Coding4Fun_1.exe
+C:\PROJECTS\CodeFun\Coding4Fun_1\bin\Debug\Coding4Fun_1.pdb
+C:\PROJECTS\CodeFun\Coding4Fun_1\bin\Debug\FlickrNet.dll
+C:\PROJECTS\CodeFun\Coding4Fun_1\obj\Debug\ResolveAssemblyReference.cache
+C:\PROJECTS\CodeFun\Coding4Fun_1\obj\Debug\Coding4Fun_1.AuthenticationForm.resources
+C:\PROJECTS\CodeFun\Coding4Fun_1\obj\Debug\Coding4Fun_1.UpdateForm.resources
+C:\PROJECTS\CodeFun\Coding4Fun_1\obj\Debug\Coding4Fun_1.ExampleForm1.resources
+C:\PROJECTS\CodeFun\Coding4Fun_1\obj\Debug\Coding4Fun_1.MainForm.resources
+C:\PROJECTS\CodeFun\Coding4Fun_1\obj\Debug\Coding4Fun_1.TemplateForm.resources
+C:\PROJECTS\CodeFun\Coding4Fun_1\obj\Debug\Coding4Fun_1.Properties.Resources.resources
+C:\PROJECTS\CodeFun\Coding4Fun_1\obj\Debug\Coding4Fun_1.UploadForm.resources
+C:\PROJECTS\CodeFun\Coding4Fun_1\obj\Debug\ResGen.read.1.tlog
+C:\PROJECTS\CodeFun\Coding4Fun_1\obj\Debug\ResGen.write.1.tlog
+C:\PROJECTS\CodeFun\Coding4Fun_1\bin\Debug\FlickrNet.pdb
+C:\PROJECTS\CodeFun\Coding4Fun_1\bin\Debug\FlickrNet.xml
+C:\PROJECTS\CodeFun\Coding4Fun_1\bin\Debug\Coding4Fun_1.exe.config
+C:\PROJECTS\CodeFun\Coding4Fun_1\obj\Debug\Coding4Fun_1.Favorites.resources
+C:\PROJECTS\CodeFun\Coding4Fun_1\bin\Debug\SvetanFlickrAPP.exe.config

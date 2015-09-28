@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="FDB" Class="DataClasses1DataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Connection Mode="AppSettings" ConnectionString="Data Source=(LocalDB)\v11.0;AttachDbFilename=|DataDirectory|\DB\FDB.mdf;Integrated Security=True" SettingsObjectName="SvetanFlickrApp.Properties.Settings" SettingsPropertyName="FDBConnectionString" Provider="System.Data.SqlClient" />
+  <Table Name="dbo.Favs" Member="Favs">
+    <Type Name="Fav">
+      <Column Name="photoid" Type="System.String" DbType="NChar(11) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+    </Type>
+  </Table>
+</Database>
