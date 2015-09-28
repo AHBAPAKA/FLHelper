@@ -1463,12 +1463,12 @@ namespace SvetanFlickrApp
             FullMyFlickrContacts = activefriendsphotos(activefriends);
 
             //get rid of duplicates
-            FullMyFlickrContacts = FullMyFlickrContacts.Distinct().ToList<MyFlickrContact>();
+            FullMyFlickrContacts = FullMyFlickrContacts.GroupBy(x => x.LastPhotoID).Select(y => y.First()).ToList<MyFlickrContact>();
 
             //populate global collection
             PeopleCommentedMyLastPhotos = FullMyFlickrContacts;
 
-            BindGrid(FullMyFlickrContacts);
+            DataFuncs.BindGrid(FullMyFlickrContacts, grdFavs);
         }
         private List<MyFlickrContact> activefriendsphotos(List<Person> activefriends)
         {
