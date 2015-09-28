@@ -61,6 +61,7 @@
             this.itemDelete = new System.Windows.Forms.ToolStripMenuItem();
             this.cmdFavsToDelete = new System.Windows.Forms.Button();
             this.dtDeleteMaxDate = new System.Windows.Forms.DateTimePicker();
+            this.cmdDeleteFavs = new System.Windows.Forms.Button();
             this.tblMain.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.grdFavs)).BeginInit();
             this.tableLayoutPanel1.SuspendLayout();
@@ -226,6 +227,7 @@
             this.tableLayoutPanel2.Controls.Add(this.cmdSearch, 0, 4);
             this.tableLayoutPanel2.Controls.Add(this.cmdFavsToDelete, 0, 0);
             this.tableLayoutPanel2.Controls.Add(this.dtDeleteMaxDate, 1, 0);
+            this.tableLayoutPanel2.Controls.Add(this.cmdDeleteFavs, 1, 1);
             this.tableLayoutPanel2.Location = new System.Drawing.Point(338, 3);
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
             this.tableLayoutPanel2.RowCount = 5;
@@ -430,6 +432,17 @@
             this.dtDeleteMaxDate.Size = new System.Drawing.Size(407, 20);
             this.dtDeleteMaxDate.TabIndex = 8;
             // 
+            // cmdDeleteFavs
+            // 
+            this.cmdDeleteFavs.Dock = System.Windows.Forms.DockStyle.Left;
+            this.cmdDeleteFavs.Location = new System.Drawing.Point(142, 36);
+            this.cmdDeleteFavs.Name = "cmdDeleteFavs";
+            this.cmdDeleteFavs.Size = new System.Drawing.Size(105, 28);
+            this.cmdDeleteFavs.TabIndex = 9;
+            this.cmdDeleteFavs.Text = "Delete Favs";
+            this.cmdDeleteFavs.UseVisualStyleBackColor = true;
+            this.cmdDeleteFavs.Click += new System.EventHandler(this.cmdDeleteFavs_Click);
+            // 
             // ContactList
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -486,6 +499,7 @@
         private System.Windows.Forms.CheckBox chkUseLocalFavs;
         private System.Windows.Forms.Button cmdFavsToDelete;
         private System.Windows.Forms.DateTimePicker dtDeleteMaxDate;
+        private System.Windows.Forms.Button cmdDeleteFavs;
 
 
     }

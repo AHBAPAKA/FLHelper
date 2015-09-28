@@ -792,6 +792,7 @@ namespace SvetanFlickrApp
         private void ContactList_Load(object sender, EventArgs e)
         {
             Cache.Responses.Flush();
+            this.dtDeleteMaxDate.Value = DateTime.Now.AddMonths(-4);
             List<string> users = new List<string>();
             users.Add("Anvar");
             users.Add("Sveta");
@@ -1633,6 +1634,38 @@ namespace SvetanFlickrApp
 
             DataFuncs.LoadDBFavsToDelete();
             this.Text = "Saved to DB " + DataFuncs.FavsToDeleteList.Count.ToString() + " favs to DELETE";
+        }
+
+        private void cmdDeleteFavs_Click(object sender, EventArgs e)
+        {
+
+            DateTime maxtime = this.dtDeleteMaxDate.Value;
+            List<FavsToDelete> delproclist = DataFuncs.GetSavedFavsToDEleteList();
+            List<string> photostodeletelist = (from f in delproclist
+                                               where f.DateAdded < maxtime
+                                               select f.photoID).ToList<string>();
+            progressBar1.Visible = true;
+            progressBar1.Maximum = photostodeletelist.Count;
+            progressBar1.Minimum = 0;
+            progressBar1.Value = 0;
+            int counter = 1;
+            foreach (var pho in photostodeletelist)
+            {
+                try
+                {
+                    flickr.FavoritesRemove(pho);
+                }
+                catch (Exception)
+                {
+                    
+                    throw;
+                }
+                counter++;
+                progressBar1.Value = counter;
+                this.Text = "Deleted " + counter.ToString() + " favs";
+            }
+
+
         }
 
         
