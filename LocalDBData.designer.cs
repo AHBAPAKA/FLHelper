@@ -33,6 +33,9 @@ namespace SvetanFlickrApp
     partial void InsertFav(Fav instance);
     partial void UpdateFav(Fav instance);
     partial void DeleteFav(Fav instance);
+    partial void InsertFavsToDelete(FavsToDelete instance);
+    partial void UpdateFavsToDelete(FavsToDelete instance);
+    partial void DeleteFavsToDelete(FavsToDelete instance);
     #endregion
 		
 		public DataClasses1DataContext() : 
@@ -70,6 +73,14 @@ namespace SvetanFlickrApp
 			get
 			{
 				return this.GetTable<Fav>();
+			}
+		}
+		
+		public System.Data.Linq.Table<FavsToDelete> FavsToDeletes
+		{
+			get
+			{
+				return this.GetTable<FavsToDelete>();
 			}
 		}
 	}
@@ -111,6 +122,92 @@ namespace SvetanFlickrApp
 					this._photoid = value;
 					this.SendPropertyChanged("photoid");
 					this.OnphotoidChanged();
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.FavsToDelete")]
+	public partial class FavsToDelete : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private string _photoID;
+		
+		private System.DateTime _DateAdded;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnphotoIDChanging(string value);
+    partial void OnphotoIDChanged();
+    partial void OnDateAddedChanging(System.DateTime value);
+    partial void OnDateAddedChanged();
+    #endregion
+		
+		public FavsToDelete()
+		{
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_photoID", DbType="VarChar(50) NOT NULL", CanBeNull=false, IsPrimaryKey=true)]
+		public string photoID
+		{
+			get
+			{
+				return this._photoID;
+			}
+			set
+			{
+				if ((this._photoID != value))
+				{
+					this.OnphotoIDChanging(value);
+					this.SendPropertyChanging();
+					this._photoID = value;
+					this.SendPropertyChanged("photoID");
+					this.OnphotoIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DateAdded", DbType="DateTime NOT NULL")]
+		public System.DateTime DateAdded
+		{
+			get
+			{
+				return this._DateAdded;
+			}
+			set
+			{
+				if ((this._DateAdded != value))
+				{
+					this.OnDateAddedChanging(value);
+					this.SendPropertyChanging();
+					this._DateAdded = value;
+					this.SendPropertyChanged("DateAdded");
+					this.OnDateAddedChanged();
 				}
 			}
 		}

@@ -182,24 +182,6 @@ namespace SvetanFlickrApp
             }
 
 
-           //lfavs = xmlPhotos.Element("rsp").Element("photos").Descendants().Select(p => new FlickrFavorite
-           // {
-           //     Id = (string)p.Attribute("id"),
-           //     Owner = (string)p.Attribute("owner"),
-           //     Secret = (string)p.Attribute("secret"),
-           //     Server = (string)p.Attribute("server"),
-           //     Farm = (string)p.Attribute("farm"),
-           //     Title = (string)p.Attribute("title"),
-           //     IsFamily = (string)p.Attribute("isfamily"),
-           //     IsFriend = (string)p.Attribute("isfriend"),
-           //     Date_Faved = (string)p.Attribute("date_faved")
-           // }).ToList<FlickrFavorite>();
-
-            if (sb.Length > 0)
-            {
-                //MessageBox.Show(sb.ToString());
-            }
-
         }
 
         private Bitmap LoadPicture(string url)

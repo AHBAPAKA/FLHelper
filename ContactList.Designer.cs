@@ -41,7 +41,6 @@
             this.btnCommentSelected = new System.Windows.Forms.Button();
             this.btnFavAll = new System.Windows.Forms.Button();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
-            this.lblUser = new System.Windows.Forms.Label();
             this.cmbUsers = new System.Windows.Forms.ComboBox();
             this.cmbComments = new System.Windows.Forms.ComboBox();
             this.cmdUpdateFavDB = new System.Windows.Forms.Button();
@@ -60,6 +59,8 @@
             this.lblRandomComment = new System.Windows.Forms.Label();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.itemDelete = new System.Windows.Forms.ToolStripMenuItem();
+            this.cmdFavsToDelete = new System.Windows.Forms.Button();
+            this.dtDeleteMaxDate = new System.Windows.Forms.DateTimePicker();
             this.tblMain.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.grdFavs)).BeginInit();
             this.tableLayoutPanel1.SuspendLayout();
@@ -218,12 +219,13 @@
             this.tableLayoutPanel2.ColumnCount = 2;
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25.18116F));
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 74.81884F));
-            this.tableLayoutPanel2.Controls.Add(this.lblUser, 0, 0);
             this.tableLayoutPanel2.Controls.Add(this.cmbUsers, 0, 2);
             this.tableLayoutPanel2.Controls.Add(this.cmbComments, 1, 2);
             this.tableLayoutPanel2.Controls.Add(this.cmdUpdateFavDB, 0, 1);
             this.tableLayoutPanel2.Controls.Add(this.txtSearch, 1, 4);
             this.tableLayoutPanel2.Controls.Add(this.cmdSearch, 0, 4);
+            this.tableLayoutPanel2.Controls.Add(this.cmdFavsToDelete, 0, 0);
+            this.tableLayoutPanel2.Controls.Add(this.dtDeleteMaxDate, 1, 0);
             this.tableLayoutPanel2.Location = new System.Drawing.Point(338, 3);
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
             this.tableLayoutPanel2.RowCount = 5;
@@ -232,20 +234,9 @@
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 8F));
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 31.25F));
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 37F));
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanel2.Size = new System.Drawing.Size(552, 150);
             this.tableLayoutPanel2.TabIndex = 7;
-            // 
-            // lblUser
-            // 
-            this.lblUser.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.lblUser.AutoSize = true;
-            this.lblUser.Location = new System.Drawing.Point(3, 0);
-            this.lblUser.Name = "lblUser";
-            this.lblUser.Size = new System.Drawing.Size(133, 33);
-            this.lblUser.TabIndex = 1;
-            this.lblUser.Text = "Selected User";
             // 
             // cmbUsers
             // 
@@ -272,9 +263,10 @@
             // 
             // cmdUpdateFavDB
             // 
+            this.cmdUpdateFavDB.Dock = System.Windows.Forms.DockStyle.Fill;
             this.cmdUpdateFavDB.Location = new System.Drawing.Point(3, 36);
             this.cmdUpdateFavDB.Name = "cmdUpdateFavDB";
-            this.cmdUpdateFavDB.Size = new System.Drawing.Size(107, 26);
+            this.cmdUpdateFavDB.Size = new System.Drawing.Size(133, 28);
             this.cmdUpdateFavDB.TabIndex = 4;
             this.cmdUpdateFavDB.Text = "Update Fav DB";
             this.cmdUpdateFavDB.UseVisualStyleBackColor = true;
@@ -419,6 +411,25 @@
             this.itemDelete.Size = new System.Drawing.Size(133, 22);
             this.itemDelete.Text = "Delete Row";
             // 
+            // cmdFavsToDelete
+            // 
+            this.cmdFavsToDelete.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.cmdFavsToDelete.Location = new System.Drawing.Point(3, 3);
+            this.cmdFavsToDelete.Name = "cmdFavsToDelete";
+            this.cmdFavsToDelete.Size = new System.Drawing.Size(133, 27);
+            this.cmdFavsToDelete.TabIndex = 7;
+            this.cmdFavsToDelete.Text = "Load Favs To Delete";
+            this.cmdFavsToDelete.UseVisualStyleBackColor = true;
+            this.cmdFavsToDelete.Click += new System.EventHandler(this.cmdFavsToDelete_Click);
+            // 
+            // dtDeleteMaxDate
+            // 
+            this.dtDeleteMaxDate.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dtDeleteMaxDate.Location = new System.Drawing.Point(142, 3);
+            this.dtDeleteMaxDate.Name = "dtDeleteMaxDate";
+            this.dtDeleteMaxDate.Size = new System.Drawing.Size(407, 20);
+            this.dtDeleteMaxDate.TabIndex = 8;
+            // 
             // ContactList
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -456,7 +467,6 @@
         private System.Windows.Forms.Button btnPopulateDefComments;
         private System.Windows.Forms.Button btnFavAll;
         private System.Windows.Forms.ComboBox cmbComments;
-        private System.Windows.Forms.Label lblUser;
         private System.Windows.Forms.Button btnLastPhotofavs;
         private System.Windows.Forms.ProgressBar progressBar1;
         private System.Windows.Forms.ComboBox cmbUsers;
@@ -474,6 +484,8 @@
         private System.Windows.Forms.Button cmdHideGavnoColumns;
         private System.Windows.Forms.ComboBox cmdMyPhotos;
         private System.Windows.Forms.CheckBox chkUseLocalFavs;
+        private System.Windows.Forms.Button cmdFavsToDelete;
+        private System.Windows.Forms.DateTimePicker dtDeleteMaxDate;
 
 
     }

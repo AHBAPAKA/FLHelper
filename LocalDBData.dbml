@@ -5,4 +5,10 @@
       <Column Name="photoid" Type="System.String" DbType="NChar(11) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
     </Type>
   </Table>
+  <Table Name="dbo.FavsToDelete" Member="FavsToDeletes">
+    <Type Name="FavsToDelete">
+      <Column Name="photoID" Type="System.String" DbType="VarChar(50) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="DateAdded" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+    </Type>
+  </Table>
 </Database>

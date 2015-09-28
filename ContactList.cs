@@ -721,8 +721,6 @@ namespace SvetanFlickrApp
                         Fav fav = new Fav();
                         fav.photoid = f.ToString().ToString();
                         favstoinsert.Add(fav);
-                        //db.Favs.InsertOnSubmit(fav);
-                        //db.SubmitChanges();
                     }
 
                     favstoinsert.GroupBy(i => i.photoid).Select(group => group.First());
@@ -772,7 +770,7 @@ namespace SvetanFlickrApp
             {
                 s_userid = Properties.Settings.Default.SvetaUserID;
                 s_authtoken = Properties.Settings.Default.SvetaAuthToken;
-                lblUser.Text = "User " + "Marquisa" + " " + s_userid;
+                //lblUser.Text = "User " + "Marquisa" + " " + s_userid;
                 this.Text = "Marquisa Contacts";
             }
 
@@ -780,7 +778,7 @@ namespace SvetanFlickrApp
             {
                 s_userid = Properties.Settings.Default.AnvarUserID;
                 s_authtoken = Properties.Settings.Default.AnvarAuthToken;
-                lblUser.Text = "User " + "Russiantexan" + " " + s_userid;
+                //lblUser.Text = "User " + "Russiantexan" + " " + s_userid;
                 this.Text = "RussianTexan Contacts";
             }
 
@@ -1603,6 +1601,38 @@ namespace SvetanFlickrApp
         private void tableLayoutPanel1_Paint(object sender, PaintEventArgs e)
         {
 
+        }
+
+        private void cmdFavsToDelete_Click(object sender, EventArgs e)
+        {
+            PhotoCollection favs;
+            DataFuncs.PopulateMyFriensList();
+            DataFuncs.FavsToDeleteList = new List<FavsToDelete>();
+
+            for (int i = 1; i < 1000; i++)
+            {
+                //send request to the server
+                favs = flickr.FavoritesGetList(s_userid, i, 450);
+
+                if (favs != null)
+                {
+                    this.Text = "Favorite Trip #" + i.ToString() + " delivered " + favs.Count.ToString() + " favs";
+
+                    if (favs.Count == 0)
+                    {
+                        //last request to the server
+                        break;
+                    }
+
+                    DataFuncs.PopulateCustomCollection(favs);
+                    //Process favs
+
+                }
+
+            }
+
+            DataFuncs.LoadDBFavsToDelete();
+            this.Text = "Saved to DB " + DataFuncs.FavsToDeleteList.Count.ToString() + " favs to DELETE";
         }
 
         
