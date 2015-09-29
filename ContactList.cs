@@ -1202,7 +1202,11 @@ namespace SvetanFlickrApp
                         mycontact.Icon = LoadPicture(person.BuddyIconUrl);
                         mycontact.UploadDT = curphoto.DateUploaded;
 
-                        mycontuploadlast.Add(mycontact);
+                        DateTime maxdt = DateTime.Now.AddMonths(-1);
+                        if (mycontact.UploadDT > maxdt)
+                        {
+                            mycontuploadlast.Add(mycontact);
+                        }
 
                     }
 
@@ -1360,7 +1364,12 @@ namespace SvetanFlickrApp
                         mycontact.Icon = LoadPicture(person.BuddyIconUrl);
                         mycontact.UploadDT = curphoto.DateUploaded;
 
-                        mycontuploadlast.Add(mycontact);
+                        DateTime maxdt = DateTime.Now.AddMonths(-1);
+                        if (mycontact.UploadDT > maxdt)
+                        {
+                            mycontuploadlast.Add(mycontact);
+                        }
+
                     }
 
                 }
@@ -1613,11 +1622,11 @@ namespace SvetanFlickrApp
             for (int i = 1; i < 1000; i++)
             {
                 //send request to the server
-                favs = flickr.FavoritesGetList(s_userid, i, 450);
+                favs = flickr.FavoritesGetList(s_userid, i, 500);
 
                 if (favs != null)
                 {
-                    this.Text = "Favorite Trip #" + i.ToString() + " delivered " + favs.Count.ToString() + " favs";
+                    this.Text = "Favorite Trip #" + i.ToString() + " delivered " + favs.Count.ToString() + " favs, total: " + DataFuncs.FavsToDeleteList.Count.ToString();
 
                     if (favs.Count == 0)
                     {
@@ -1641,29 +1650,39 @@ namespace SvetanFlickrApp
 
             DateTime maxtime = this.dtDeleteMaxDate.Value;
             List<FavsToDelete> delproclist = DataFuncs.GetSavedFavsToDEleteList();
-            List<string> photostodeletelist = (from f in delproclist
+
+            List<FavsToDelete> photostodeletelist = (from f in delproclist
                                                where f.DateAdded < maxtime
-                                               select f.photoID).ToList<string>();
+                                               orderby f.DateAdded descending
+                                                     select f).ToList<FavsToDelete>();
+
             progressBar1.Visible = true;
             progressBar1.Maximum = photostodeletelist.Count;
             progressBar1.Minimum = 0;
             progressBar1.Value = 0;
             int counter = 1;
+
             foreach (var pho in photostodeletelist)
             {
                 try
                 {
-                    flickr.FavoritesRemove(pho);
+                    flickr.FavoritesRemove(pho.photoID);
                 }
                 catch (Exception)
                 {
                     
-                    throw;
+                    //throw;
                 }
                 counter++;
-                progressBar1.Value = counter;
-                this.Text = "Deleted " + counter.ToString() + " favs";
+                if (counter < photostodeletelist.Count - 1)
+                {
+                    progressBar1.Value = counter;
+                }
+                this.Text = "Deleted " + counter.ToString() + " favs from total of:" + photostodeletelist.Count.ToString();
             }
+
+            progressBar1.Visible = false;
+            progressBar1.Value = 0;
 
 
         }

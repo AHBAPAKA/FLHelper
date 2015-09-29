@@ -173,6 +173,7 @@ namespace SvetanFlickrApp
 
 
                     FavsToDeleteList.GroupBy(i => i.photoID).Select(group => group.First());
+                    FavsToDeleteList.OrderByDescending(d => d.DateAdded);
 
                     DataFuncs.BulkInsert(db.Connection.ConnectionString, "FavsToDelete", FavsToDeleteList);
 

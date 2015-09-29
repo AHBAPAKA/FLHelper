@@ -46,6 +46,9 @@
             this.cmdUpdateFavDB = new System.Windows.Forms.Button();
             this.txtSearch = new System.Windows.Forms.TextBox();
             this.cmdSearch = new System.Windows.Forms.Button();
+            this.cmdFavsToDelete = new System.Windows.Forms.Button();
+            this.dtDeleteMaxDate = new System.Windows.Forms.DateTimePicker();
+            this.cmdDeleteFavs = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
             this.chkUseLocalFavs = new System.Windows.Forms.CheckBox();
             this.cmdHideGavnoColumns = new System.Windows.Forms.Button();
@@ -59,9 +62,6 @@
             this.lblRandomComment = new System.Windows.Forms.Label();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.itemDelete = new System.Windows.Forms.ToolStripMenuItem();
-            this.cmdFavsToDelete = new System.Windows.Forms.Button();
-            this.dtDeleteMaxDate = new System.Windows.Forms.DateTimePicker();
-            this.cmdDeleteFavs = new System.Windows.Forms.Button();
             this.tblMain.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.grdFavs)).BeginInit();
             this.tableLayoutPanel1.SuspendLayout();
@@ -292,6 +292,36 @@
             this.cmdSearch.UseVisualStyleBackColor = true;
             this.cmdSearch.Click += new System.EventHandler(this.cmdSearch_Click);
             // 
+            // cmdFavsToDelete
+            // 
+            this.cmdFavsToDelete.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.cmdFavsToDelete.Location = new System.Drawing.Point(3, 3);
+            this.cmdFavsToDelete.Name = "cmdFavsToDelete";
+            this.cmdFavsToDelete.Size = new System.Drawing.Size(133, 27);
+            this.cmdFavsToDelete.TabIndex = 7;
+            this.cmdFavsToDelete.Text = "Load Favs To Delete";
+            this.cmdFavsToDelete.UseVisualStyleBackColor = true;
+            this.cmdFavsToDelete.Click += new System.EventHandler(this.cmdFavsToDelete_Click);
+            // 
+            // dtDeleteMaxDate
+            // 
+            this.dtDeleteMaxDate.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dtDeleteMaxDate.Location = new System.Drawing.Point(142, 3);
+            this.dtDeleteMaxDate.Name = "dtDeleteMaxDate";
+            this.dtDeleteMaxDate.Size = new System.Drawing.Size(407, 20);
+            this.dtDeleteMaxDate.TabIndex = 8;
+            // 
+            // cmdDeleteFavs
+            // 
+            this.cmdDeleteFavs.Dock = System.Windows.Forms.DockStyle.Left;
+            this.cmdDeleteFavs.Location = new System.Drawing.Point(142, 36);
+            this.cmdDeleteFavs.Name = "cmdDeleteFavs";
+            this.cmdDeleteFavs.Size = new System.Drawing.Size(105, 28);
+            this.cmdDeleteFavs.TabIndex = 9;
+            this.cmdDeleteFavs.Text = "Delete Favs";
+            this.cmdDeleteFavs.UseVisualStyleBackColor = true;
+            this.cmdDeleteFavs.Click += new System.EventHandler(this.cmdDeleteFavs_Click);
+            // 
             // panel1
             // 
             this.panel1.Controls.Add(this.chkUseLocalFavs);
@@ -412,36 +442,6 @@
             this.itemDelete.Name = "itemDelete";
             this.itemDelete.Size = new System.Drawing.Size(133, 22);
             this.itemDelete.Text = "Delete Row";
-            // 
-            // cmdFavsToDelete
-            // 
-            this.cmdFavsToDelete.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.cmdFavsToDelete.Location = new System.Drawing.Point(3, 3);
-            this.cmdFavsToDelete.Name = "cmdFavsToDelete";
-            this.cmdFavsToDelete.Size = new System.Drawing.Size(133, 27);
-            this.cmdFavsToDelete.TabIndex = 7;
-            this.cmdFavsToDelete.Text = "Load Favs To Delete";
-            this.cmdFavsToDelete.UseVisualStyleBackColor = true;
-            this.cmdFavsToDelete.Click += new System.EventHandler(this.cmdFavsToDelete_Click);
-            // 
-            // dtDeleteMaxDate
-            // 
-            this.dtDeleteMaxDate.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dtDeleteMaxDate.Location = new System.Drawing.Point(142, 3);
-            this.dtDeleteMaxDate.Name = "dtDeleteMaxDate";
-            this.dtDeleteMaxDate.Size = new System.Drawing.Size(407, 20);
-            this.dtDeleteMaxDate.TabIndex = 8;
-            // 
-            // cmdDeleteFavs
-            // 
-            this.cmdDeleteFavs.Dock = System.Windows.Forms.DockStyle.Left;
-            this.cmdDeleteFavs.Location = new System.Drawing.Point(142, 36);
-            this.cmdDeleteFavs.Name = "cmdDeleteFavs";
-            this.cmdDeleteFavs.Size = new System.Drawing.Size(105, 28);
-            this.cmdDeleteFavs.TabIndex = 9;
-            this.cmdDeleteFavs.Text = "Delete Favs";
-            this.cmdDeleteFavs.UseVisualStyleBackColor = true;
-            this.cmdDeleteFavs.Click += new System.EventHandler(this.cmdDeleteFavs_Click);
             // 
             // ContactList
             // 
