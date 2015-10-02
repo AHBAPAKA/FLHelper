@@ -1,5 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <Comments>
+    <Comment>
+    <Value>&lt;br&gt;</Value>
+  </Comment>
   <Comment>
     <Value>Perfect composition and processing {0}.&lt;br&gt;Enjoy your time my friend!</Value>
   </Comment>

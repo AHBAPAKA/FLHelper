@@ -1283,6 +1283,8 @@ namespace SvetanFlickrApp
                 //throw;
             }
 
+            retval = retval.GroupBy(x => x.UserId).Select(y => y.First()).ToList<Person>();
+
             return retval;
         }
 
@@ -1474,7 +1476,7 @@ namespace SvetanFlickrApp
             FullMyFlickrContacts = FullMyFlickrContacts.GroupBy(x => x.LastPhotoID).Select(y => y.First()).ToList<MyFlickrContact>();
 
             //populate global collection
-            PeopleCommentedMyLastPhotos = FullMyFlickrContacts;
+            //PeopleCommentedMyLastPhotos = FullMyFlickrContacts;
 
             DataFuncs.BindGrid(FullMyFlickrContacts, grdFavs);
         }
