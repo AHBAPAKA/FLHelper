@@ -70,6 +70,7 @@ namespace SvetanFlickrApp
             BindingSource grigbindingSource = new BindingSource();
             grigbindingSource.DataSource = bindingsource;
             dgv.DataSource = grigbindingSource;
+            dgv.Visible = true;
 
         }
 
