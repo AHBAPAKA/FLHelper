@@ -43,6 +43,7 @@
             this.gbox1 = new System.Windows.Forms.GroupBox();
             this.radioComments = new System.Windows.Forms.RadioButton();
             this.radioFavs = new System.Windows.Forms.RadioButton();
+            this.button2 = new System.Windows.Forms.Button();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.cmbUsers = new System.Windows.Forms.ComboBox();
             this.cmbComments = new System.Windows.Forms.ComboBox();
@@ -77,8 +78,8 @@
             // tblMain
             // 
             this.tblMain.ColumnCount = 3;
-            this.tblMain.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 31.5197F));
-            this.tblMain.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 52.43903F));
+            this.tblMain.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 31.61351F));
+            this.tblMain.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 52.1576F));
             this.tblMain.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 16.13508F));
             this.tblMain.Controls.Add(this.grdFavs, 0, 1);
             this.tblMain.Controls.Add(this.tableLayoutPanel1, 0, 0);
@@ -92,8 +93,8 @@
             this.tblMain.Location = new System.Drawing.Point(0, 0);
             this.tblMain.Name = "tblMain";
             this.tblMain.RowCount = 4;
-            this.tblMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 21.10961F));
-            this.tblMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 78.8904F));
+            this.tblMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 28.83436F));
+            this.tblMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 71.16564F));
             this.tblMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tblMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tblMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
@@ -109,9 +110,9 @@
             this.grdFavs.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.tblMain.SetColumnSpan(this.grdFavs, 4);
             this.grdFavs.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.grdFavs.Location = new System.Drawing.Point(3, 140);
+            this.grdFavs.Location = new System.Drawing.Point(3, 191);
             this.grdFavs.Name = "grdFavs";
-            this.grdFavs.Size = new System.Drawing.Size(1060, 509);
+            this.grdFavs.Size = new System.Drawing.Size(1060, 458);
             this.grdFavs.TabIndex = 0;
             this.grdFavs.Visible = false;
             this.grdFavs.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.grdFavs_CellContentClick);
@@ -131,25 +132,26 @@
             this.tableLayoutPanel1.Controls.Add(this.btnFavAll, 1, 3);
             this.tableLayoutPanel1.Controls.Add(this.btnPopulateDefComments, 1, 2);
             this.tableLayoutPanel1.Controls.Add(this.gbox1, 1, 1);
+            this.tableLayoutPanel1.Controls.Add(this.button2, 0, 5);
             this.tableLayoutPanel1.Location = new System.Drawing.Point(3, 3);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            this.tableLayoutPanel1.RowCount = 5;
+            this.tableLayoutPanel1.RowCount = 6;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 8F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 49.01961F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50.98039F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 37F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 31F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(329, 131);
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 38F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 26F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(329, 182);
             this.tableLayoutPanel1.TabIndex = 6;
             this.tableLayoutPanel1.Paint += new System.Windows.Forms.PaintEventHandler(this.tableLayoutPanel1_Paint);
             // 
             // btnLastPhotofavs
             // 
             this.btnLastPhotofavs.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.btnLastPhotofavs.Location = new System.Drawing.Point(3, 65);
+            this.btnLastPhotofavs.Location = new System.Drawing.Point(3, 95);
             this.btnLastPhotofavs.Name = "btnLastPhotofavs";
-            this.btnLastPhotofavs.Size = new System.Drawing.Size(182, 31);
+            this.btnLastPhotofavs.Size = new System.Drawing.Size(182, 32);
             this.btnLastPhotofavs.TabIndex = 2;
             this.btnLastPhotofavs.Text = "Selected Photo Favs";
             this.btnLastPhotofavs.UseVisualStyleBackColor = true;
@@ -161,7 +163,7 @@
             this.cmd10PhotoFavs.Name = "cmd10PhotoFavs";
             this.cmd10PhotoFavs.Size = new System.Drawing.Size(181, 20);
             this.cmd10PhotoFavs.TabIndex = 2;
-            this.cmd10PhotoFavs.Text = "10 photo favs";
+            this.cmd10PhotoFavs.Text = "20 photo favs";
             this.cmd10PhotoFavs.UseVisualStyleBackColor = true;
             this.cmd10PhotoFavs.Click += new System.EventHandler(this.cmdTestRCom_Click);
             // 
@@ -169,7 +171,7 @@
             // 
             this.cmdMyPhotos.Dock = System.Windows.Forms.DockStyle.Fill;
             this.cmdMyPhotos.FormattingEnabled = true;
-            this.cmdMyPhotos.Location = new System.Drawing.Point(3, 37);
+            this.cmdMyPhotos.Location = new System.Drawing.Point(3, 52);
             this.cmdMyPhotos.Name = "cmdMyPhotos";
             this.cmdMyPhotos.Size = new System.Drawing.Size(182, 21);
             this.cmdMyPhotos.TabIndex = 5;
@@ -178,9 +180,9 @@
             // btnLastPhotoComments
             // 
             this.btnLastPhotoComments.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.btnLastPhotoComments.Location = new System.Drawing.Point(3, 102);
+            this.btnLastPhotoComments.Location = new System.Drawing.Point(3, 133);
             this.btnLastPhotoComments.Name = "btnLastPhotoComments";
-            this.btnLastPhotoComments.Size = new System.Drawing.Size(182, 26);
+            this.btnLastPhotoComments.Size = new System.Drawing.Size(182, 20);
             this.btnLastPhotoComments.TabIndex = 4;
             this.btnLastPhotoComments.Text = "Selected Photo Comments";
             this.btnLastPhotoComments.UseVisualStyleBackColor = true;
@@ -189,9 +191,9 @@
             // btnCommentSelected
             // 
             this.btnCommentSelected.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.btnCommentSelected.Location = new System.Drawing.Point(191, 102);
+            this.btnCommentSelected.Location = new System.Drawing.Point(191, 133);
             this.btnCommentSelected.Name = "btnCommentSelected";
-            this.btnCommentSelected.Size = new System.Drawing.Size(135, 26);
+            this.btnCommentSelected.Size = new System.Drawing.Size(135, 20);
             this.btnCommentSelected.TabIndex = 3;
             this.btnCommentSelected.Text = "Comment Selected";
             this.btnCommentSelected.UseVisualStyleBackColor = true;
@@ -200,9 +202,9 @@
             // btnFavAll
             // 
             this.btnFavAll.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.btnFavAll.Location = new System.Drawing.Point(191, 65);
+            this.btnFavAll.Location = new System.Drawing.Point(191, 95);
             this.btnFavAll.Name = "btnFavAll";
-            this.btnFavAll.Size = new System.Drawing.Size(135, 31);
+            this.btnFavAll.Size = new System.Drawing.Size(135, 32);
             this.btnFavAll.TabIndex = 1;
             this.btnFavAll.Text = "Fav All";
             this.btnFavAll.UseVisualStyleBackColor = true;
@@ -211,11 +213,11 @@
             // btnPopulateDefComments
             // 
             this.btnPopulateDefComments.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.btnPopulateDefComments.Location = new System.Drawing.Point(191, 37);
+            this.btnPopulateDefComments.Location = new System.Drawing.Point(191, 52);
             this.btnPopulateDefComments.Name = "btnPopulateDefComments";
-            this.btnPopulateDefComments.Size = new System.Drawing.Size(135, 22);
+            this.btnPopulateDefComments.Size = new System.Drawing.Size(135, 37);
             this.btnPopulateDefComments.TabIndex = 0;
-            this.btnPopulateDefComments.Text = "Populate Default Comments";
+            this.btnPopulateDefComments.Text = "Run User Stats";
             this.btnPopulateDefComments.UseVisualStyleBackColor = true;
             this.btnPopulateDefComments.Click += new System.EventHandler(this.btnPopulateDefComments_Click);
             // 
@@ -226,7 +228,7 @@
             this.gbox1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.gbox1.Location = new System.Drawing.Point(191, 11);
             this.gbox1.Name = "gbox1";
-            this.gbox1.Size = new System.Drawing.Size(135, 20);
+            this.gbox1.Size = new System.Drawing.Size(135, 35);
             this.gbox1.TabIndex = 6;
             this.gbox1.TabStop = false;
             // 
@@ -253,6 +255,17 @@
             this.radioFavs.Text = "Favs";
             this.radioFavs.UseVisualStyleBackColor = true;
             // 
+            // button2
+            // 
+            this.button2.Location = new System.Drawing.Point(3, 159);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(120, 20);
+            this.button2.TabIndex = 7;
+            this.button2.Text = "button2";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Visible = false;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
+            // 
             // tableLayoutPanel2
             // 
             this.tableLayoutPanel2.AutoSize = true;
@@ -268,7 +281,7 @@
             this.tableLayoutPanel2.Controls.Add(this.cmdFavsToDelete, 0, 0);
             this.tableLayoutPanel2.Controls.Add(this.dtDeleteMaxDate, 1, 0);
             this.tableLayoutPanel2.Controls.Add(this.cmdDeleteFavs, 1, 1);
-            this.tableLayoutPanel2.Location = new System.Drawing.Point(338, 3);
+            this.tableLayoutPanel2.Location = new System.Drawing.Point(340, 3);
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
             this.tableLayoutPanel2.RowCount = 5;
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 29F));
@@ -277,7 +290,7 @@
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 31.25F));
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 37F));
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel2.Size = new System.Drawing.Size(552, 131);
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(550, 182);
             this.tableLayoutPanel2.TabIndex = 7;
             // 
             // cmbUsers
@@ -286,9 +299,9 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.cmbUsers.FormattingEnabled = true;
-            this.cmbUsers.Location = new System.Drawing.Point(3, 58);
+            this.cmbUsers.Location = new System.Drawing.Point(3, 89);
             this.cmbUsers.Name = "cmbUsers";
-            this.cmbUsers.Size = new System.Drawing.Size(133, 21);
+            this.cmbUsers.Size = new System.Drawing.Size(132, 21);
             this.cmbUsers.TabIndex = 3;
             this.cmbUsers.SelectedIndexChanged += new System.EventHandler(this.cmbUsers_SelectedIndexChanged);
             // 
@@ -298,17 +311,17 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.cmbComments.FormattingEnabled = true;
-            this.cmbComments.Location = new System.Drawing.Point(142, 58);
+            this.cmbComments.Location = new System.Drawing.Point(141, 89);
             this.cmbComments.Name = "cmbComments";
-            this.cmbComments.Size = new System.Drawing.Size(407, 21);
+            this.cmbComments.Size = new System.Drawing.Size(406, 21);
             this.cmbComments.TabIndex = 0;
             // 
             // cmdUpdateFavDB
             // 
             this.cmdUpdateFavDB.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.cmdUpdateFavDB.Location = new System.Drawing.Point(3, 30);
+            this.cmdUpdateFavDB.Location = new System.Drawing.Point(3, 45);
             this.cmdUpdateFavDB.Name = "cmdUpdateFavDB";
-            this.cmdUpdateFavDB.Size = new System.Drawing.Size(133, 22);
+            this.cmdUpdateFavDB.Size = new System.Drawing.Size(132, 38);
             this.cmdUpdateFavDB.TabIndex = 4;
             this.cmdUpdateFavDB.Text = "Update Fav DB";
             this.cmdUpdateFavDB.UseVisualStyleBackColor = true;
@@ -316,7 +329,7 @@
             // 
             // txtSearch
             // 
-            this.txtSearch.Location = new System.Drawing.Point(142, 94);
+            this.txtSearch.Location = new System.Drawing.Point(141, 146);
             this.txtSearch.Name = "txtSearch";
             this.txtSearch.Size = new System.Drawing.Size(387, 20);
             this.txtSearch.TabIndex = 5;
@@ -324,9 +337,9 @@
             // cmdSearch
             // 
             this.cmdSearch.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.cmdSearch.Location = new System.Drawing.Point(3, 94);
+            this.cmdSearch.Location = new System.Drawing.Point(3, 146);
             this.cmdSearch.Name = "cmdSearch";
-            this.cmdSearch.Size = new System.Drawing.Size(133, 34);
+            this.cmdSearch.Size = new System.Drawing.Size(132, 33);
             this.cmdSearch.TabIndex = 6;
             this.cmdSearch.Text = "Search Grid";
             this.cmdSearch.UseVisualStyleBackColor = true;
@@ -337,7 +350,7 @@
             this.cmdFavsToDelete.Dock = System.Windows.Forms.DockStyle.Fill;
             this.cmdFavsToDelete.Location = new System.Drawing.Point(3, 3);
             this.cmdFavsToDelete.Name = "cmdFavsToDelete";
-            this.cmdFavsToDelete.Size = new System.Drawing.Size(133, 21);
+            this.cmdFavsToDelete.Size = new System.Drawing.Size(132, 36);
             this.cmdFavsToDelete.TabIndex = 7;
             this.cmdFavsToDelete.Text = "Load Favs To Delete";
             this.cmdFavsToDelete.UseVisualStyleBackColor = true;
@@ -346,17 +359,17 @@
             // dtDeleteMaxDate
             // 
             this.dtDeleteMaxDate.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dtDeleteMaxDate.Location = new System.Drawing.Point(142, 3);
+            this.dtDeleteMaxDate.Location = new System.Drawing.Point(141, 3);
             this.dtDeleteMaxDate.Name = "dtDeleteMaxDate";
-            this.dtDeleteMaxDate.Size = new System.Drawing.Size(407, 20);
+            this.dtDeleteMaxDate.Size = new System.Drawing.Size(406, 20);
             this.dtDeleteMaxDate.TabIndex = 8;
             // 
             // cmdDeleteFavs
             // 
             this.cmdDeleteFavs.Dock = System.Windows.Forms.DockStyle.Left;
-            this.cmdDeleteFavs.Location = new System.Drawing.Point(142, 30);
+            this.cmdDeleteFavs.Location = new System.Drawing.Point(141, 45);
             this.cmdDeleteFavs.Name = "cmdDeleteFavs";
-            this.cmdDeleteFavs.Size = new System.Drawing.Size(105, 22);
+            this.cmdDeleteFavs.Size = new System.Drawing.Size(105, 38);
             this.cmdDeleteFavs.TabIndex = 9;
             this.cmdDeleteFavs.Text = "Delete Favs";
             this.cmdDeleteFavs.UseVisualStyleBackColor = true;
@@ -370,9 +383,10 @@
             this.panel1.Controls.Add(this.cmdHideColums);
             this.panel1.Controls.Add(this.button1);
             this.panel1.Controls.Add(this.btnProceed);
+            this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel1.Location = new System.Drawing.Point(896, 3);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(158, 131);
+            this.panel1.Size = new System.Drawing.Size(167, 182);
             this.panel1.TabIndex = 10;
             // 
             // chkUseLocalFavs
@@ -465,9 +479,9 @@
             // 
             this.lblRandomComment.AutoSize = true;
             this.lblRandomComment.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lblRandomComment.Location = new System.Drawing.Point(338, 652);
+            this.lblRandomComment.Location = new System.Drawing.Point(340, 652);
             this.lblRandomComment.Name = "lblRandomComment";
-            this.lblRandomComment.Size = new System.Drawing.Size(552, 20);
+            this.lblRandomComment.Size = new System.Drawing.Size(550, 20);
             this.lblRandomComment.TabIndex = 14;
             // 
             // contextMenuStrip1
@@ -545,6 +559,7 @@
         private System.Windows.Forms.RadioButton radioFavs;
         public System.Windows.Forms.Label lblCount;
         public System.Windows.Forms.ProgressBar progressBar1;
+        private System.Windows.Forms.Button button2;
 
 
     }

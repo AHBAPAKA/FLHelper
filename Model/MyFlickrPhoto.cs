@@ -6,7 +6,7 @@ using FlickrNet;
 using System.Drawing;
 
 
-namespace SvetanFlickrApp.Model
+namespace SvetanFlickrApp
 {
     public class MyFlickrPhoto
     {
@@ -14,6 +14,9 @@ namespace SvetanFlickrApp.Model
         public List<PhotoFavorite> PhotoFavList;
         public Flickr flickr;
         public List<PhotoComment> PhotoComList;
+        public ContactCollection ContactsList;
+        public List<Person> FriendsComList;
+        public List<Person> FriendsFavList;
 
         public MyFlickrPhoto(Photo photo, Flickr f)
         {
@@ -38,7 +41,7 @@ namespace SvetanFlickrApp.Model
         public PhotoCommentCollection GetPhotoComments(string photoid)
         {
             PhotoCommentCollection retlist = flickr.PhotosCommentsGetList(photoid);
-            //retlist[0].
+            PhotoComList = retlist.ToList<PhotoComment>();
             return retlist;
 
         }
@@ -46,13 +49,26 @@ namespace SvetanFlickrApp.Model
         public PhotoFavoriteCollection GetPhotoFavs(string photoid)
         {
             PhotoFavoriteCollection retlist = flickr.PhotosGetFavorites(photoid);
-            //retlist[0].
+            PhotoFavList = retlist.ToList<PhotoFavorite>();
             return retlist;
 
         }
+        public List<Person> GetFriendsCommmented()
+        {
+            List<Person> retlist = null;
 
+            foreach(var com in PhotoComList)
+            {
+                string uid = com.AuthorUserId;
+                Contact foundfriend = ContactsList.Where(c => c.UserId == com.AuthorUserId).FirstOrDefault<Contact>();
+                if(foundfriend !=null)
+                {
+                    //retlist.Add
+                }
+            };
 
-
+            return retlist;
+        }
 
 
     }

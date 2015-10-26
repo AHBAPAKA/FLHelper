@@ -115,9 +115,11 @@
     <Compile Include="ManageContacts.Designer.cs">
       <DependentUpon>ManageContacts.cs</DependentUpon>
     </Compile>
+    <Compile Include="Model\FlickFriendStat.cs" />
     <Compile Include="Model\FlickrContacts.cs" />
     <Compile Include="Model\FlickrFavorite.cs" />
     <Compile Include="Model\MyFlickrPhoto.cs" />
+    <Compile Include="Model\PhotoStat.cs" />
     <Compile Include="Model\SilverFavoriteModel.cs" />
     <Compile Include="Settings.cs" />
     <Compile Include="UpdateForm.cs">
@@ -222,7 +224,6 @@
     <None Include="FlickrDataSet.xss">
       <DependentUpon>FlickrDataSet.xsd</DependentUpon>
     </None>
-    <None Include="Properties\DataSources\SvetanFlickrApp.Model.FlickrEntities.datasource" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -270,13 +271,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <DependentUpon>FDB.mdf</DependentUpon>
     </Content>
-    <Content Include="DB\Flickr.sdf">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <Content Include="flash_edit.ico" />
-    <Content Include="Flickr.sdf">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
     <Content Include="FlickrNet.dll" />
     <Content Include="MTM.ico" />
     <Content Include="ProductIcon.ico" />
