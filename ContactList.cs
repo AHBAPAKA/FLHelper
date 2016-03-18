@@ -107,6 +107,8 @@ namespace SvetanFlickrApp
                 }
             }
 
+
+
             this.Text = "Processing collection...";
 
             progressBar1.Visible = true;
@@ -135,9 +137,10 @@ namespace SvetanFlickrApp
         {
             ContactCollection retval = new ContactCollection();
 
-            this.Text = "Retrieving my contacts collection...";
+            string sloadingmsg = "Retrieving my contacts collection:";
             for (int i = 1; i < 10000; i++)
             {
+                this.Text = sloadingmsg + " trip " + i.ToString();
                 LoopCol = flickr.ContactsGetPublicList(s_userid, i, 100);
                 if (LoopCol.Count == 0)
                 {
@@ -598,7 +601,29 @@ namespace SvetanFlickrApp
 
         private void btnPopulateDefComments_Click(object sender, EventArgs e)
         {
-            GetFriendsStats(10);
+            ContactCollection mycontacts = GetMyContactsList();
+            List<string> deadcontacts = new List<string>();
+            MyPeople PersonActive = null;
+            List<MyPeople> mypeople = GeAlltMyActivePeopleFromDB();
+            try
+                {
+                foreach (Contact contact in mycontacts)
+                    {
+                    PersonActive = mypeople.Where(m => m.UserId == contact.UserId).FirstOrDefault<MyPeople>();
+                    if (PersonActive == null)
+                        {
+                        contact.IsFamily = false;
+                        contact.IsFriend = false;
+                        deadcontacts.Add(contact.UserName);
+                        }
+                    }
+                }
+            catch (Exception exp)
+                {
+
+                //throw;
+                }
+            GetFriendsStats(20);
 
         }
 
@@ -796,7 +821,7 @@ namespace SvetanFlickrApp
             users.Add("Sveta");
             this.cmbUsers.DataSource = users;
             this.CommentsCol = GetComments();
-            CurUserPhotos = GetPhotoColForUser();
+            //CurUserPhotos = GetPhotoColForUser();
             PopulateCommentsCombo();
             PopulateBadUsers();
             this.radioFavs.Checked = true;
@@ -1312,13 +1337,15 @@ namespace SvetanFlickrApp
         }
         private List<Person> PeopleWhoFavedMyPhotos(List<string> myphotos)
         {
+            myphotos.Sort();
             List<Person> retval = new List<Person>();
+            int num = 1;
             try
-            {
+                {
 
                 foreach (var photoid in myphotos)
-                {
-                    int num = 1;
+                    {
+
                     this.lblCount.Visible = true;
                     lblCount.Text = "Processing data for photo #" + num.ToString();
                     this.progressBar1.Visible = true;
@@ -1327,30 +1354,92 @@ namespace SvetanFlickrApp
                     List<PhotoFavorite> mylastphotofavs = GetMyLastPhotoFavs(photoid);
                     progressBar1.Minimum = 0;
                     progressBar1.Maximum = mylastphotofavs.Count + 1;
+                    progressBar1.Step = 1;
                     int progress = 1;
                     foreach (var photofav in mylastphotofavs)
-                    {
-                        progressBar1.Value = progress;
-                        Person person = flickr.PeopleGetInfo(photofav.UserId);
-                        if (!retval.Contains(person))
                         {
-                            retval.Add(person);
-                        }
-                        progress++; ;
+                        progressBar1.PerformStep();
+                        Person person = flickr.PeopleGetInfo(photofav.UserId);
+                        //Save data to DB
+                        if (person != null)
+                            {
+                            using (DataClasses1DataContext db = new DataClasses1DataContext())
+                                {
+                                //Check id user already exists in DB
+                                MyPeople ps = db.MyPeoples.Where(p => p.UserId.Trim() == person.UserId.Trim()).FirstOrDefault<MyPeople>();
+                                if (ps != null)
+                                    {
+
+                                    ps.UserName = person.UserName;
+                                    ps.RealName = person.RealName;
+                                    ps.Location = person.Location;
+                                    ps.IsFriend = person.IsFriend;
+                                    ps.IsFamily = person.IsFamily;
+                                    ps.IsContact = person.IsContact;
+                                    ps.IsPro = person.IsPro;
+                                    //newps.LastPostedImage = person.LastPostedImage;
+                                    ps.BuddyIconUrl = person.BuddyIconUrl;
+                                    ps.IconFarm = person.IconFarm;
+                                    ps.IconServer = person.IconServer;
+                                    ps.PhotosUrl = person.PhotosUrl;
+                                    ps.ProfileUrl = person.ProfileUrl;
+
+                                    if (ps.LastFavedMe != null)
+                                        {
+                                        if (ps.LastFavedMe < photofav.FavoriteDate)
+                                            {
+                                            ps.LastFavedMe = photofav.FavoriteDate;
+                                            ps.LastReacted = photofav.FavoriteDate;
+                                            }
+                                        }
+
+                                    //Found Person --update data
+                                    db.SubmitChanges();
+                                    }
+                                else
+                                    {
+                                    MyPeople newps = new MyPeople();
+                                    newps.UserId = person.UserId;
+                                    newps.UserName = person.UserName;
+                                    newps.RealName = person.RealName;
+                                    newps.Location = person.Location;
+                                    newps.IsFriend = person.IsFriend;
+                                    newps.IsFamily = person.IsFamily;
+                                    newps.IsContact = person.IsContact;
+                                    newps.IsPro = person.IsPro;
+                                    //newps.LastPostedImage = person.LastPostedImage;
+                                    newps.LastFavedMe = photofav.FavoriteDate;
+                                    newps.LastReacted = photofav.FavoriteDate;
+                                    newps.BuddyIconUrl = person.BuddyIconUrl;
+                                    newps.IconFarm = person.IconFarm;
+                                    newps.IconServer = person.IconServer;
+                                    newps.PhotosUrl = person.PhotosUrl;
+                                    newps.ProfileUrl = person.ProfileUrl;
+
+                                    db.MyPeoples.InsertOnSubmit(newps);
+                                    db.SubmitChanges();
+                                    }
+                                }
+                            if (!retval.Contains(person))
+                                {
+                                retval.Add(person);
+                                }
+                            progress++; ;
+
+                            }
+
+
+                        num++;
+                        } // end of foreach loop
+
 
                     }
-
-
-                    num++;
                 }
-
-
-            }
             catch (Exception exp)
-            {
+                {
 
                 //throw;
-            }
+                }
 
             retval = retval.GroupBy(x => x.UserId).Select(y => y.First()).ToList<Person>();
 
@@ -1358,6 +1447,8 @@ namespace SvetanFlickrApp
         }
         private List<Person> PeopleWhoCommentedMyPhotos(List<string> myphotos)
         {
+            myphotos.Sort();
+
             List<Person> retval = new List<Person>();
             try
             {
@@ -1381,7 +1472,70 @@ namespace SvetanFlickrApp
                         progressBar1.Value = progress;
                         Person person = flickr.PeopleGetInfo(photocom.AuthorUserId);
 
-                        if (!retval.Contains(person))
+                        //Save data to DB
+                        if (person != null)
+                            {
+                            using (DataClasses1DataContext db = new DataClasses1DataContext())
+                                {
+                                //Check id user already exists in DB
+                                MyPeople ps = db.MyPeoples.Where(p => p.UserId.Trim() == person.UserId.Trim()).FirstOrDefault<MyPeople>();
+                                if (ps != null)
+                                    {
+
+                                    ps.UserName = person.UserName;
+                                    ps.RealName = person.RealName;
+                                    ps.Location = person.Location;
+                                    ps.IsFriend = person.IsFriend;
+                                    ps.IsFamily = person.IsFamily;
+                                    ps.IsContact = person.IsContact;
+                                    ps.IsPro = person.IsPro;
+                                    ps.BuddyIconUrl = person.BuddyIconUrl;
+                                    ps.IconFarm = person.IconFarm;
+                                    ps.IconServer = person.IconServer;
+                                    ps.PhotosUrl = person.PhotosUrl;
+                                    ps.ProfileUrl = person.ProfileUrl;
+
+                                    if (ps.LastFavedMe != null)
+                                        {
+                                        if (ps.LastCommentedMe < photocom.DateCreated)
+                                            {
+                                            ps.LastCommentedMe = photocom.DateCreated;
+                                            ps.LastReacted = photocom.DateCreated;
+                                            }
+                                        }
+
+                                    //Found Person --update data
+                                    db.SubmitChanges();
+                                    }
+                                else
+                                    {
+                                    MyPeople newps = new MyPeople();
+                                    newps.UserId = person.UserId;
+                                    newps.UserName = person.UserName;
+                                    newps.RealName = person.RealName;
+                                    newps.Location = person.Location;
+                                    newps.IsFriend = person.IsFriend;
+                                    newps.IsFamily = person.IsFamily;
+                                    newps.IsContact = person.IsContact;
+                                    newps.IsPro = person.IsPro;
+                                    //newps.LastPostedImage = person.LastPostedImage;
+                                    newps.LastCommentedMe = photocom.DateCreated;
+                                    newps.LastReacted = photocom.DateCreated;
+                                    newps.BuddyIconUrl = person.BuddyIconUrl;
+                                    newps.IconFarm = person.IconFarm;
+                                    newps.IconServer = person.IconServer;
+                                    newps.PhotosUrl = person.PhotosUrl;
+                                    newps.ProfileUrl = person.ProfileUrl;
+
+                                    db.MyPeoples.InsertOnSubmit(newps);
+                                    db.SubmitChanges();
+                                    }
+
+                                }
+
+                            }//if Person !=null
+
+                            if (!retval.Contains(person))
                         {
                             if (person.UserId != s_userid)
                             {
@@ -1405,6 +1559,245 @@ namespace SvetanFlickrApp
 
             return retval;
         }
+
+        private void UpdateDBWhoCommentedMyPhotos(List<string> myphotos)
+            {
+
+            myphotos.Sort();
+
+            try
+                {
+                int num = 1;
+
+                foreach (var photoid in myphotos)
+                    {
+                    this.lblCount.Visible = true;
+                    lblCount.Text = "Processing data for photo #" + num.ToString();
+                    this.progressBar1.Visible = true;
+                    this.Text = "Checking favs of my photo # " + num.ToString() + " from " + myphotos.Count().ToString();
+                    Application.DoEvents();
+                    this.Text = "Checking favs of my photo # " + num.ToString() + " from " + myphotos.Count().ToString();
+                    Application.DoEvents();
+                    List<PhotoComment> mylastphotocoms = GetMyLastPhotoComments(photoid);
+                    progressBar1.Minimum = 0;
+                    progressBar1.Maximum = mylastphotocoms.Count + 1;
+                    int progress = 1;
+                    foreach (var photocom in mylastphotocoms)
+                        {
+                        progressBar1.Value = progress;
+                        Person person = null;
+
+                        try
+                            {
+                                person = flickr.PeopleGetInfo(photocom.AuthorUserId);
+                            }
+                        catch (Exception exp)
+                            {
+
+                            }
+
+                        //Save data to DB
+                        if (person != null)
+                            {
+                            using (DataClasses1DataContext db = new DataClasses1DataContext())
+                                {
+                                //Check id user already exists in DB
+                                MyPeople ps = db.MyPeoples.Where(p => p.UserId.Trim() == person.UserId.Trim()).FirstOrDefault<MyPeople>();
+                                if (ps != null)
+                                    {
+
+                                    ps.UserName = person.UserName;
+                                    ps.RealName = person.RealName;
+                                    ps.Location = person.Location;
+                                    ps.IsFriend = person.IsFriend;
+                                    ps.IsFamily = person.IsFamily;
+                                    ps.IsContact = person.IsContact;
+                                    ps.IsPro = person.IsPro;
+                                    ps.BuddyIconUrl = person.BuddyIconUrl;
+                                    ps.IconFarm = person.IconFarm;
+                                    ps.IconServer = person.IconServer;
+                                    ps.PhotosUrl = person.PhotosUrl;
+                                    ps.ProfileUrl = person.ProfileUrl;
+
+                                    if (ps.LastCommentedMe != null)
+                                        {
+                                        if (ps.LastCommentedMe < photocom.DateCreated)
+                                            {
+                                            ps.LastCommentedMe = photocom.DateCreated;
+                                            ps.LastReacted = photocom.DateCreated;
+                                            }
+                                        }
+                                    else
+                                        {
+                                            ps.LastCommentedMe = photocom.DateCreated;
+                                        if(ps.LastReacted != null)
+                                            {
+                                            if (ps.LastReacted < photocom.DateCreated)
+                                                {
+                                                    ps.LastReacted = photocom.DateCreated;
+                                                }
+                                            }
+                                        }
+
+                                    //Found Person --update data
+                                    db.SubmitChanges();
+                                    }
+                                else
+                                    {
+                                    MyPeople newps = new MyPeople();
+                                    newps.UserId = person.UserId;
+                                    newps.UserName = person.UserName;
+                                    newps.RealName = person.RealName;
+                                    newps.Location = person.Location;
+                                    newps.IsFriend = person.IsFriend;
+                                    newps.IsFamily = person.IsFamily;
+                                    newps.IsContact = person.IsContact;
+                                    newps.IsPro = person.IsPro;
+                                    //newps.LastPostedImage = person.LastPostedImage;
+                                    newps.LastCommentedMe = photocom.DateCreated;
+                                    newps.LastReacted = photocom.DateCreated;
+                                    newps.BuddyIconUrl = person.BuddyIconUrl;
+                                    newps.IconFarm = person.IconFarm;
+                                    newps.IconServer = person.IconServer;
+                                    newps.PhotosUrl = person.PhotosUrl;
+                                    newps.ProfileUrl = person.ProfileUrl;
+
+                                    db.MyPeoples.InsertOnSubmit(newps);
+                                    db.SubmitChanges();
+                                    }
+
+                                }
+
+                            }//if Person !=null
+
+                        progress++;
+                        }
+                    num++;
+                    }
+
+
+                }
+            catch (Exception exp)
+                {
+
+                //throw;
+                }
+            }
+
+        private void UpdateDBWhoFavedMyPhotos(List<string> myphotos)
+            {
+            myphotos.Sort();
+            int num = 1;
+            try
+                {
+
+                foreach (var photoid in myphotos)
+                    {
+
+                    this.lblCount.Visible = true;
+                    lblCount.Text = "Processing data for photo #" + num.ToString();
+                    this.progressBar1.Visible = true;
+                    this.Text = "Checking favs of my photo # " + num.ToString() + " from " + myphotos.Count().ToString();
+                    Application.DoEvents();
+                    List<PhotoFavorite> mylastphotofavs = GetMyLastPhotoFavs(photoid);
+                    progressBar1.Minimum = 0;
+                    progressBar1.Maximum = mylastphotofavs.Count + 1;
+                    progressBar1.Step = 1;
+                    int progress = 1;
+                    foreach (var photofav in mylastphotofavs)
+                        {
+                        progressBar1.PerformStep();
+                        Person person = null;
+
+                        try
+                            {
+                            person = flickr.PeopleGetInfo(photofav.UserId);
+                            }
+                        catch (Exception exp)
+                            {
+
+                           
+                            }
+                        //Save data to DB
+                        if (person != null)
+                            {
+                            using (DataClasses1DataContext db = new DataClasses1DataContext())
+                                {
+                                //Check id user already exists in DB
+                                MyPeople ps = db.MyPeoples.Where(p => p.UserId.Trim() == person.UserId.Trim()).FirstOrDefault<MyPeople>();
+                                if (ps != null)
+                                    {
+
+                                    ps.UserName = person.UserName;
+                                    ps.RealName = person.RealName;
+                                    ps.Location = person.Location;
+                                    ps.IsFriend = person.IsFriend;
+                                    ps.IsFamily = person.IsFamily;
+                                    ps.IsContact = person.IsContact;
+                                    ps.IsPro = person.IsPro;
+                                    //newps.LastPostedImage = person.LastPostedImage;
+                                    ps.BuddyIconUrl = person.BuddyIconUrl;
+                                    ps.IconFarm = person.IconFarm;
+                                    ps.IconServer = person.IconServer;
+                                    ps.PhotosUrl = person.PhotosUrl;
+                                    ps.ProfileUrl = person.ProfileUrl;
+
+                                    if (ps.LastFavedMe != null)
+                                        {
+                                        if (ps.LastFavedMe < photofav.FavoriteDate)
+                                            {
+                                            ps.LastFavedMe = photofav.FavoriteDate;
+                                            ps.LastReacted = photofav.FavoriteDate;
+                                            }
+                                        }
+
+                                    //Found Person --update data
+                                    db.SubmitChanges();
+                                    }
+                                else
+                                    {
+                                    MyPeople newps = new MyPeople();
+                                    newps.UserId = person.UserId;
+                                    newps.UserName = person.UserName;
+                                    newps.RealName = person.RealName;
+                                    newps.Location = person.Location;
+                                    newps.IsFriend = person.IsFriend;
+                                    newps.IsFamily = person.IsFamily;
+                                    newps.IsContact = person.IsContact;
+                                    newps.IsPro = person.IsPro;
+                                    //newps.LastPostedImage = person.LastPostedImage;
+                                    newps.LastFavedMe = photofav.FavoriteDate;
+                                    newps.LastReacted = photofav.FavoriteDate;
+                                    newps.BuddyIconUrl = person.BuddyIconUrl;
+                                    newps.IconFarm = person.IconFarm;
+                                    newps.IconServer = person.IconServer;
+                                    newps.PhotosUrl = person.PhotosUrl;
+                                    newps.ProfileUrl = person.ProfileUrl;
+
+                                    db.MyPeoples.InsertOnSubmit(newps);
+                                    db.SubmitChanges();
+                                    }
+                                }
+
+                            progress++; ;
+                            person = null;
+
+                            }
+
+
+                        num++;
+                        } // end of foreach loop
+
+
+                    }
+                }
+            catch (Exception exp)
+                {
+
+                //throw;
+                }
+
+            }
 
         private List<PhotoFavorite> WhoFavedPhoto(string myphotoid)
         {
@@ -1601,47 +1994,22 @@ namespace SvetanFlickrApp
             this.Text = grdFavs.Rows.Count.ToString() + " photos selected";
 
         }
-        private void GetFriendsStats(int limit = 10)
+        private void GetFriendsStats(int limit = 20)
         {
-            List<PhotoFavorite> mylastphotofavs = null;
-            List<PhotoComment> mylastphotocomments = null;
-            List<MyFlickrPhoto> MyPhotosListForAnal = new List<MyFlickrPhoto>();
-            if (CurUserPhotos.Count == 0) return;
+            List<string> myphotoids = new List<string>();
 
-            //my photo col loop
-            foreach(var ph in CurUserPhotos)
-            {
-                MyFlickrPhoto myphoto = new MyFlickrPhoto(ph, flickr);
-                myphoto.GetPhotoComments(ph.PhotoId);
-                myphoto.GetPhotoFavs(ph.PhotoId);;
+            for (int i = 0; i < limit; i++)
+                {
+                myphotoids.Add(CurUserPhotos[i].PhotoId);
+                }
 
+            PopulateActiveContactsReaction(myphotoids);
 
-                MyPhotosListForAnal.Add(myphoto);
-            }//end of y photo col loop
+        }
 
-            //List<string> myphotoids = new List<string>();
-            //for (int i = 0; i < limit; i++)
-            //{
-            //    myphotoids.Add(CurUserPhotos[i].PhotoId);
-            //}
+        private void CleanUpNonCommunicatingContacts()
+        {
 
-            ContactCollection contacts = GetMyContactsList();
-
-            //List<Person> FreindsWhoFavedMe = PeopleWhoFavedMyPhotos(myphotoids);
-            //List<Person> FreindsWhoCommentedMe = PeopleWhoCommentedMyPhotos(myphotoids);
-
-            //GetMyFavs();
-
-            //List<MyFlickrContact> FullMyFlickrContacts = new List<MyFlickrContact>();
-            //FullMyFlickrContacts = activefriendsphotos(activefriends);
-
-            ////get rid of duplicates
-            //FullMyFlickrContacts = FullMyFlickrContacts.GroupBy(x => x.LastPhotoID).Select(y => y.First()).ToList<MyFlickrContact>();
-
-            ////populate global collection
-            ////PeopleCommentedMyLastPhotos = FullMyFlickrContacts;
-
-            //DataFuncs.BindGrid(FullMyFlickrContacts, grdFavs);
         }
         private void LoadMyLastPhotosFavs(int limit=5)
         {
@@ -1672,6 +2040,111 @@ namespace SvetanFlickrApp
             this.Text = grdFavs.Rows.Count.ToString() + " photos selected";
 
         }
+
+        private void PopulateActiveContactsReaction(List<string> myphotoids)
+            {
+            //Update DB with active contacts base on favs and comments
+            //of my last photos
+            UpdateDBWhoFavedMyPhotos(myphotoids);
+            UpdateDBWhoCommentedMyPhotos(myphotoids);
+
+
+            }
+        private List<MyFlickrContact> activefriendsphotos(List<MyPeople> activefriends)
+            {
+            List<MyFlickrContact> retval = new List<MyFlickrContact>();
+            int num = 0;
+            progressBar1.Visible = true;
+            progressBar1.Maximum = activefriends.Count;
+            progressBar1.Minimum = 0;
+            progressBar1.Value = 0;
+            lblCount.Visible = true;
+
+            try
+                {
+                foreach (var friend in activefriends)
+                    {
+                    progressBar1.Value = num;
+                    lblCount.Text = "Checking last photo of " + friend.RealName + ";" + num.ToString() + " from " + activefriends.Count.ToString() + ", added photos:" + retval.Count.ToString();
+                    Application.DoEvents();
+                    string friendLastPhotoId = string.Empty;
+                    try
+                        {
+
+                            friendLastPhotoId = GetLastPhotoID(friend.UserId);
+                        }
+                    catch (Exception exp)
+                        {
+                            continue;
+                        //throw;
+                        }
+
+                    if (friendLastPhotoId.Length == 0)
+                        {
+                            continue;
+                        }
+
+                    if (!MyLastfavs.Contains(friendLastPhotoId))
+                        {
+                        MyPeople person = friend;
+                        PhotoInfo curphoto = flickr.PhotosGetInfo(friendLastPhotoId);
+
+                        num++;
+
+                        MyFlickrContact mycontact = new MyFlickrContact();
+                        mycontact.ItemNum = num;
+                        mycontact.UserID = person.UserId; ;
+                        mycontact.UserName = person.UserName;
+                        mycontact.RealName = person.RealName;
+
+                        string fname, mname, lname;
+
+                        if (curphoto != null)
+                            {
+
+                            if (!String.IsNullOrEmpty(curphoto.OwnerRealName))
+                                {
+                                mycontact.RealName = curphoto.OwnerRealName;
+                                mycontact.ParseFullName(curphoto.OwnerRealName, out fname, out mname, out lname);
+                                mycontact.FirstName = fname;
+                                }
+                            mycontact.Location = curphoto.WebUrl;
+                            mycontact.UploadDT = curphoto.DateUploaded;
+                            }
+
+                        mycontact.Family = person.IsFamily;
+                        mycontact.Friend = person.IsFriend;
+
+                        mycontact.LastPhotoID = curphoto.PhotoId;
+                        mycontact.LastPhoto = LoadPicture(curphoto.SmallUrl);
+                        mycontact.Icon = LoadPicture(person.BuddyIconUrl);
+                        mycontact.UploadDT = curphoto.DateUploaded;
+
+                        //exclude old photos, older then 90 days
+                        DateTime oldestdt = DateTime.Now.AddDays(-90);
+                        if (curphoto.DatePosted > oldestdt)
+                            {
+                            retval.Add(mycontact);
+                            this.Text = "Collected so far  " + retval.Count.ToString() + " photos...";
+                            Application.DoEvents();
+                            }
+                        else
+                            {
+
+                            }
+                        }
+
+                    }
+                }
+            catch (Exception exp)
+                {
+
+                //throw;
+                }
+
+            return retval;
+            }
+
         private List<MyFlickrContact> activefriendsphotos(List<Person> activefriends)
         {
             List<MyFlickrContact> retval = new List<MyFlickrContact>();
@@ -1689,7 +2162,7 @@ namespace SvetanFlickrApp
                 Application.DoEvents();
                 string friendLastPhotoId = GetLastPhotoID(friend.UserId);
 
-                if (friendLastPhotoId.Length == 0) break;
+                if (friendLastPhotoId.Length == 0) continue;
 
                 if (!MyLastfavs.Contains(friendLastPhotoId))
                 {
@@ -1847,8 +2320,19 @@ namespace SvetanFlickrApp
                         break;
                     }
 
-                    DataFuncs.PopulateCustomCollection(favs);
-                    //Process favs
+                    foreach (var f in favs)
+                    {
+                        FavsToDelete fdelete = new FavsToDelete();
+                        fdelete.photoID = f.PhotoId.ToString();
+                        fdelete.DateAdded = Convert.ToDateTime(f.DateFavorited);
+                        if (!DataFuncs.MyFriendsList.Contains(f.UserId))
+                        {
+                            DataFuncs.FavsToDeleteList.Add(fdelete);
+                        }
+                        else
+                        {
+                        }
+                    }
 
                 }
 
@@ -1868,6 +2352,11 @@ namespace SvetanFlickrApp
                                                where f.DateAdded < maxtime
                                                orderby f.DateAdded descending
                                                      select f).ToList<FavsToDelete>();
+
+            if (photostodeletelist.Count == 0)
+            {
+                this.Text = "There are no favs to delete for selelected  date range";
+            }
 
             progressBar1.Visible = true;
             progressBar1.Maximum = photostodeletelist.Count;
@@ -1915,12 +2404,122 @@ namespace SvetanFlickrApp
 
         private void button2_Click(object sender, EventArgs e)
         {
+            List<string> myphotoids = new List<string>();
 
+            for (int i = 0; i < 20; i++)
+                {
+                myphotoids.Add(CurUserPhotos[i].PhotoId);
+                }
+                if (!chkUsersFromDB.Checked)
+                {
+                PopulateActiveContactsReaction(myphotoids);
+                }
+
+                GetMyFavs();
+                List<MyFlickrContact> FullMyFlickrContacts = new List<MyFlickrContact>();
+                List<MyPeople> activefriends = GetMyActivePeopleFromDB();
+                if (activefriends.Count == 0)
+                    {
+                this.Text = "No data";
+                return;
+                    }
+                FullMyFlickrContacts = activefriendsphotos(activefriends);
+
+                //get rid of duplicates
+                FullMyFlickrContacts = FullMyFlickrContacts.GroupBy(x => x.LastPhotoID).Select(y => y.First()).ToList<MyFlickrContact>();
+
+                //populate global collection
+                //PeopleCommentedMyLastPhotos = FullMyFlickrContacts;
+                //Make sure my photos are excluded
+                FullMyFlickrContacts = FullMyFlickrContacts.Where(c => !c.UserID.Equals(s_userid)).ToList<MyFlickrContact>();
+                DataFuncs.BindGrid(FullMyFlickrContacts, grdFavs);
+                this.Text = grdFavs.Rows.Count.ToString() + " photos selected";
+
+            }
+
+        private List<MyPeople> GetMyActivePeopleFromDB()
+            {
+            List<MyPeople> retval = new List<MyPeople>();
+
+            try
+                {
+                using (DataClasses1DataContext db = new DataClasses1DataContext())
+                    {
+                    //select those who reacted to my photo staring from 2 month ago till now
+                    retval = db.MyPeoples.Where(p => p.LastReacted > DateTime.Now.AddMonths(-2)).ToList<MyPeople>();
+
+                    }
+                }
+            catch (Exception)
+                {
+
+                    throw;
+                }
+
+
+                return retval;
+
+            }
+
+        private List<MyPeople> GeAlltMyActivePeopleFromDB()
+            {
+            List<MyPeople> retval = new List<MyPeople>();
+
+            try
+                {
+                using (DataClasses1DataContext db = new DataClasses1DataContext())
+                    {
+                    //select those who reacted to my photo staring from 2 month ago till now
+                    retval = db.MyPeoples.OrderBy(m => m.LastReacted).ToList<MyPeople>();
+                    }
+                }
+            catch (Exception)
+                {
+
+                throw;
+                }
+
+
+            return retval;
+
+            }
+
+        private void ContactList_Shown(object sender, EventArgs e)
+            {
+            this.CommentsCol = GetComments();
+            PopulateCommentsCombo();
+            PopulateBadUsers();
+            CurUserPhotos = GetPhotoColForUser();
+            }
+
+        private void cmdShowUserStas_Click(object sender, EventArgs e)
+            {
+                List <MyPeople> mypeople  = GeAlltMyActivePeopleFromDB();
+                DataFuncs.BindGrid<MyPeople>(mypeople, grdFavs);
+                List<string> gavnocols = new List<string>();
+            gavnocols.Add("IconFarm");
+            gavnocols.Add("IconServer");
+            grdFavs = ExtensionGridView.HideListedGavnoColumns(gavnocols, grdFavs);
+                grdFavs.Visible = true;
+            }
+
+        private void grdFavs_ColumnHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
+            {
+                if (grdFavs.SortOrder.ToString() == "Ascending") // Check if sorting is Ascending
+                    {
+                grdFavs.Sort(grdFavs.Columns[grdFavs.SortedColumn.Name], ListSortDirection.Descending);
+                    }
+                else
+                    {
+                grdFavs.Sort(grdFavs.Columns[grdFavs.SortedColumn.Name], ListSortDirection.Ascending);
+                    }
+            }
+
+        private void chkUseLocalFavs_CheckedChanged(object sender, EventArgs e)
+            {
+
+            }
         }
-
-        
-
-    }
 
 
 
@@ -1950,6 +2549,20 @@ namespace SvetanFlickrApp
 
             return grdView;
         }
+        public static DataGridView HideListedGavnoColumns(List<string> MiscCols, DataGridView grdView)
+            {
+
+            foreach (DataGridViewColumn clm in grdView.Columns)
+                {
+
+                if (MiscCols.Contains(clm.Name))
+                    {
+                    grdView.Columns[clm.Index].Visible = false;
+                    }
+                }
+
+            return grdView;
+            }
         public static DataGridView RemoveEmptyColumns(DataGridView grdView)
         {
 

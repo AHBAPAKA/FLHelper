@@ -11,4 +11,25 @@
       <Column Name="DateAdded" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
     </Type>
   </Table>
+  <Table Name="dbo.MyPeople" Member="MyPeoples">
+    <Type Name="MyPeople">
+      <Column Name="UserId" Type="System.String" DbType="NVarChar(200) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="UserName" Type="System.String" DbType="NVarChar(200)" CanBeNull="true" />
+      <Column Name="RealName" Type="System.String" DbType="NVarChar(200)" CanBeNull="true" />
+      <Column Name="Location" Type="System.String" DbType="NVarChar(200)" CanBeNull="true" />
+      <Column Name="IsFriend" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="IsFamily" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="IsContact" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="IsPro" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="LastPostedImage" Type="System.DateTime" DbType="DateTime2" CanBeNull="true" />
+      <Column Name="LastFavedMe" Type="System.DateTime" DbType="DateTime2" CanBeNull="true" />
+      <Column Name="LastCommentedMe" Type="System.DateTime" DbType="DateTime2" CanBeNull="true" />
+      <Column Name="BuddyIconUrl" Type="System.String" DbType="NVarChar(500)" CanBeNull="true" />
+      <Column Name="IconFarm" Type="System.String" DbType="NVarChar(300)" CanBeNull="true" />
+      <Column Name="IconServer" Type="System.String" DbType="NVarChar(300)" CanBeNull="true" />
+      <Column Name="PhotosUrl" Type="System.String" DbType="NVarChar(500)" CanBeNull="true" />
+      <Column Name="ProfileUrl" Type="System.String" DbType="NVarChar(500)" CanBeNull="true" />
+      <Column Name="LastReacted" Type="System.DateTime" DbType="DateTime2" CanBeNull="true" />
+    </Type>
+  </Table>
 </Database>

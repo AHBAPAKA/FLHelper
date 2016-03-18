@@ -34,7 +34,6 @@
             this.grdFavs = new System.Windows.Forms.DataGridView();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.btnLastPhotofavs = new System.Windows.Forms.Button();
-            this.cmd10PhotoFavs = new System.Windows.Forms.Button();
             this.cmdMyPhotos = new System.Windows.Forms.ComboBox();
             this.btnLastPhotoComments = new System.Windows.Forms.Button();
             this.btnCommentSelected = new System.Windows.Forms.Button();
@@ -43,17 +42,20 @@
             this.gbox1 = new System.Windows.Forms.GroupBox();
             this.radioComments = new System.Windows.Forms.RadioButton();
             this.radioFavs = new System.Windows.Forms.RadioButton();
-            this.button2 = new System.Windows.Forms.Button();
+            this.cmdProcessActiveContacts = new System.Windows.Forms.Button();
+            this.cmd10PhotoFavs = new System.Windows.Forms.Button();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
-            this.cmbUsers = new System.Windows.Forms.ComboBox();
-            this.cmbComments = new System.Windows.Forms.ComboBox();
             this.cmdUpdateFavDB = new System.Windows.Forms.Button();
             this.txtSearch = new System.Windows.Forms.TextBox();
             this.cmdSearch = new System.Windows.Forms.Button();
             this.cmdFavsToDelete = new System.Windows.Forms.Button();
             this.dtDeleteMaxDate = new System.Windows.Forms.DateTimePicker();
             this.cmdDeleteFavs = new System.Windows.Forms.Button();
+            this.cmdShowUserStas = new System.Windows.Forms.Button();
+            this.cmbComments = new System.Windows.Forms.ComboBox();
+            this.cmbUsers = new System.Windows.Forms.ComboBox();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.chkUsersFromDB = new System.Windows.Forms.CheckBox();
             this.chkUseLocalFavs = new System.Windows.Forms.CheckBox();
             this.cmdHideGavnoColumns = new System.Windows.Forms.Button();
             this.cmdDeleteRows = new System.Windows.Forms.Button();
@@ -117,6 +119,7 @@
             this.grdFavs.Visible = false;
             this.grdFavs.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.grdFavs_CellContentClick);
             this.grdFavs.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.grdFavs_CellValueChanged);
+            this.grdFavs.ColumnHeaderMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.grdFavs_ColumnHeaderMouseClick);
             this.grdFavs.EditingControlShowing += new System.Windows.Forms.DataGridViewEditingControlShowingEventHandler(this.grdFavs_EditingControlShowing);
             // 
             // tableLayoutPanel1
@@ -125,14 +128,14 @@
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 57.14286F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 42.85714F));
             this.tableLayoutPanel1.Controls.Add(this.btnLastPhotofavs, 0, 3);
-            this.tableLayoutPanel1.Controls.Add(this.cmd10PhotoFavs, 0, 1);
             this.tableLayoutPanel1.Controls.Add(this.cmdMyPhotos, 0, 2);
             this.tableLayoutPanel1.Controls.Add(this.btnLastPhotoComments, 0, 4);
             this.tableLayoutPanel1.Controls.Add(this.btnCommentSelected, 1, 4);
             this.tableLayoutPanel1.Controls.Add(this.btnFavAll, 1, 3);
             this.tableLayoutPanel1.Controls.Add(this.btnPopulateDefComments, 1, 2);
             this.tableLayoutPanel1.Controls.Add(this.gbox1, 1, 1);
-            this.tableLayoutPanel1.Controls.Add(this.button2, 0, 5);
+            this.tableLayoutPanel1.Controls.Add(this.cmdProcessActiveContacts, 0, 5);
+            this.tableLayoutPanel1.Controls.Add(this.cmd10PhotoFavs, 0, 1);
             this.tableLayoutPanel1.Location = new System.Drawing.Point(3, 3);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 6;
@@ -156,16 +159,6 @@
             this.btnLastPhotofavs.Text = "Selected Photo Favs";
             this.btnLastPhotofavs.UseVisualStyleBackColor = true;
             this.btnLastPhotofavs.Click += new System.EventHandler(this.btnLastPhotofavs_Click);
-            // 
-            // cmd10PhotoFavs
-            // 
-            this.cmd10PhotoFavs.Location = new System.Drawing.Point(3, 11);
-            this.cmd10PhotoFavs.Name = "cmd10PhotoFavs";
-            this.cmd10PhotoFavs.Size = new System.Drawing.Size(181, 20);
-            this.cmd10PhotoFavs.TabIndex = 2;
-            this.cmd10PhotoFavs.Text = "20 photo favs";
-            this.cmd10PhotoFavs.UseVisualStyleBackColor = true;
-            this.cmd10PhotoFavs.Click += new System.EventHandler(this.cmdTestRCom_Click);
             // 
             // cmdMyPhotos
             // 
@@ -217,7 +210,7 @@
             this.btnPopulateDefComments.Name = "btnPopulateDefComments";
             this.btnPopulateDefComments.Size = new System.Drawing.Size(135, 37);
             this.btnPopulateDefComments.TabIndex = 0;
-            this.btnPopulateDefComments.Text = "Run User Stats";
+            this.btnPopulateDefComments.Text = "Update User Stats DB";
             this.btnPopulateDefComments.UseVisualStyleBackColor = true;
             this.btnPopulateDefComments.Click += new System.EventHandler(this.btnPopulateDefComments_Click);
             // 
@@ -255,73 +248,60 @@
             this.radioFavs.Text = "Favs";
             this.radioFavs.UseVisualStyleBackColor = true;
             // 
-            // button2
+            // cmdProcessActiveContacts
             // 
-            this.button2.Location = new System.Drawing.Point(3, 159);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(120, 20);
-            this.button2.TabIndex = 7;
-            this.button2.Text = "button2";
-            this.button2.UseVisualStyleBackColor = true;
-            this.button2.Visible = false;
-            this.button2.Click += new System.EventHandler(this.button2_Click);
+            this.cmdProcessActiveContacts.Location = new System.Drawing.Point(3, 159);
+            this.cmdProcessActiveContacts.Name = "cmdProcessActiveContacts";
+            this.cmdProcessActiveContacts.Size = new System.Drawing.Size(181, 20);
+            this.cmdProcessActiveContacts.TabIndex = 7;
+            this.cmdProcessActiveContacts.Text = "Process Active Contacts";
+            this.cmdProcessActiveContacts.UseVisualStyleBackColor = true;
+            this.cmdProcessActiveContacts.Click += new System.EventHandler(this.button2_Click);
+            // 
+            // cmd10PhotoFavs
+            // 
+            this.cmd10PhotoFavs.Location = new System.Drawing.Point(3, 11);
+            this.cmd10PhotoFavs.Name = "cmd10PhotoFavs";
+            this.cmd10PhotoFavs.Size = new System.Drawing.Size(181, 28);
+            this.cmd10PhotoFavs.TabIndex = 2;
+            this.cmd10PhotoFavs.Text = "20 photo favs";
+            this.cmd10PhotoFavs.UseVisualStyleBackColor = true;
+            this.cmd10PhotoFavs.Click += new System.EventHandler(this.cmdTestRCom_Click);
             // 
             // tableLayoutPanel2
             // 
             this.tableLayoutPanel2.AutoSize = true;
             this.tableLayoutPanel2.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.tableLayoutPanel2.ColumnCount = 2;
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25.18116F));
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 74.81884F));
-            this.tableLayoutPanel2.Controls.Add(this.cmbUsers, 0, 2);
-            this.tableLayoutPanel2.Controls.Add(this.cmbComments, 1, 2);
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 23.09091F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 76.90909F));
             this.tableLayoutPanel2.Controls.Add(this.cmdUpdateFavDB, 0, 1);
             this.tableLayoutPanel2.Controls.Add(this.txtSearch, 1, 4);
             this.tableLayoutPanel2.Controls.Add(this.cmdSearch, 0, 4);
             this.tableLayoutPanel2.Controls.Add(this.cmdFavsToDelete, 0, 0);
             this.tableLayoutPanel2.Controls.Add(this.dtDeleteMaxDate, 1, 0);
             this.tableLayoutPanel2.Controls.Add(this.cmdDeleteFavs, 1, 1);
+            this.tableLayoutPanel2.Controls.Add(this.cmdShowUserStas, 0, 2);
+            this.tableLayoutPanel2.Controls.Add(this.cmbComments, 1, 2);
+            this.tableLayoutPanel2.Controls.Add(this.cmbUsers, 1, 3);
             this.tableLayoutPanel2.Location = new System.Drawing.Point(340, 3);
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
             this.tableLayoutPanel2.RowCount = 5;
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 29F));
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 30F));
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 8F));
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 31.25F));
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 20.97902F));
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 19.58042F));
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 37F));
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel2.Size = new System.Drawing.Size(550, 182);
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(550, 180);
             this.tableLayoutPanel2.TabIndex = 7;
-            // 
-            // cmbUsers
-            // 
-            this.cmbUsers.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.cmbUsers.FormattingEnabled = true;
-            this.cmbUsers.Location = new System.Drawing.Point(3, 89);
-            this.cmbUsers.Name = "cmbUsers";
-            this.cmbUsers.Size = new System.Drawing.Size(132, 21);
-            this.cmbUsers.TabIndex = 3;
-            this.cmbUsers.SelectedIndexChanged += new System.EventHandler(this.cmbUsers_SelectedIndexChanged);
-            // 
-            // cmbComments
-            // 
-            this.cmbComments.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.cmbComments.FormattingEnabled = true;
-            this.cmbComments.Location = new System.Drawing.Point(141, 89);
-            this.cmbComments.Name = "cmbComments";
-            this.cmbComments.Size = new System.Drawing.Size(406, 21);
-            this.cmbComments.TabIndex = 0;
             // 
             // cmdUpdateFavDB
             // 
             this.cmdUpdateFavDB.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.cmdUpdateFavDB.Location = new System.Drawing.Point(3, 45);
+            this.cmdUpdateFavDB.Location = new System.Drawing.Point(3, 44);
             this.cmdUpdateFavDB.Name = "cmdUpdateFavDB";
-            this.cmdUpdateFavDB.Size = new System.Drawing.Size(132, 38);
+            this.cmdUpdateFavDB.Size = new System.Drawing.Size(121, 37);
             this.cmdUpdateFavDB.TabIndex = 4;
             this.cmdUpdateFavDB.Text = "Update Fav DB";
             this.cmdUpdateFavDB.UseVisualStyleBackColor = true;
@@ -329,7 +309,7 @@
             // 
             // txtSearch
             // 
-            this.txtSearch.Location = new System.Drawing.Point(141, 146);
+            this.txtSearch.Location = new System.Drawing.Point(130, 145);
             this.txtSearch.Name = "txtSearch";
             this.txtSearch.Size = new System.Drawing.Size(387, 20);
             this.txtSearch.TabIndex = 5;
@@ -337,9 +317,9 @@
             // cmdSearch
             // 
             this.cmdSearch.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.cmdSearch.Location = new System.Drawing.Point(3, 146);
+            this.cmdSearch.Location = new System.Drawing.Point(3, 145);
             this.cmdSearch.Name = "cmdSearch";
-            this.cmdSearch.Size = new System.Drawing.Size(132, 33);
+            this.cmdSearch.Size = new System.Drawing.Size(121, 32);
             this.cmdSearch.TabIndex = 6;
             this.cmdSearch.Text = "Search Grid";
             this.cmdSearch.UseVisualStyleBackColor = true;
@@ -350,7 +330,7 @@
             this.cmdFavsToDelete.Dock = System.Windows.Forms.DockStyle.Fill;
             this.cmdFavsToDelete.Location = new System.Drawing.Point(3, 3);
             this.cmdFavsToDelete.Name = "cmdFavsToDelete";
-            this.cmdFavsToDelete.Size = new System.Drawing.Size(132, 36);
+            this.cmdFavsToDelete.Size = new System.Drawing.Size(121, 35);
             this.cmdFavsToDelete.TabIndex = 7;
             this.cmdFavsToDelete.Text = "Load Favs To Delete";
             this.cmdFavsToDelete.UseVisualStyleBackColor = true;
@@ -359,24 +339,58 @@
             // dtDeleteMaxDate
             // 
             this.dtDeleteMaxDate.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dtDeleteMaxDate.Location = new System.Drawing.Point(141, 3);
+            this.dtDeleteMaxDate.Location = new System.Drawing.Point(130, 3);
             this.dtDeleteMaxDate.Name = "dtDeleteMaxDate";
-            this.dtDeleteMaxDate.Size = new System.Drawing.Size(406, 20);
+            this.dtDeleteMaxDate.Size = new System.Drawing.Size(417, 20);
             this.dtDeleteMaxDate.TabIndex = 8;
             // 
             // cmdDeleteFavs
             // 
             this.cmdDeleteFavs.Dock = System.Windows.Forms.DockStyle.Left;
-            this.cmdDeleteFavs.Location = new System.Drawing.Point(141, 45);
+            this.cmdDeleteFavs.Location = new System.Drawing.Point(130, 44);
             this.cmdDeleteFavs.Name = "cmdDeleteFavs";
-            this.cmdDeleteFavs.Size = new System.Drawing.Size(105, 38);
+            this.cmdDeleteFavs.Size = new System.Drawing.Size(105, 37);
             this.cmdDeleteFavs.TabIndex = 9;
             this.cmdDeleteFavs.Text = "Delete Favs";
             this.cmdDeleteFavs.UseVisualStyleBackColor = true;
             this.cmdDeleteFavs.Click += new System.EventHandler(this.cmdDeleteFavs_Click);
             // 
+            // cmdShowUserStas
+            // 
+            this.cmdShowUserStas.Location = new System.Drawing.Point(3, 87);
+            this.cmdShowUserStas.Name = "cmdShowUserStas";
+            this.cmdShowUserStas.Size = new System.Drawing.Size(121, 24);
+            this.cmdShowUserStas.TabIndex = 8;
+            this.cmdShowUserStas.Text = "Show User Stats";
+            this.cmdShowUserStas.UseVisualStyleBackColor = true;
+            this.cmdShowUserStas.Click += new System.EventHandler(this.cmdShowUserStas_Click);
+            // 
+            // cmbComments
+            // 
+            this.cmbComments.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.cmbComments.FormattingEnabled = true;
+            this.cmbComments.Location = new System.Drawing.Point(130, 87);
+            this.cmbComments.Name = "cmbComments";
+            this.cmbComments.Size = new System.Drawing.Size(417, 21);
+            this.cmbComments.TabIndex = 0;
+            // 
+            // cmbUsers
+            // 
+            this.cmbUsers.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.cmbUsers.FormattingEnabled = true;
+            this.cmbUsers.Location = new System.Drawing.Point(130, 117);
+            this.cmbUsers.Name = "cmbUsers";
+            this.cmbUsers.Size = new System.Drawing.Size(417, 21);
+            this.cmbUsers.TabIndex = 3;
+            this.cmbUsers.SelectedIndexChanged += new System.EventHandler(this.cmbUsers_SelectedIndexChanged);
+            // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.chkUsersFromDB);
             this.panel1.Controls.Add(this.chkUseLocalFavs);
             this.panel1.Controls.Add(this.cmdHideGavnoColumns);
             this.panel1.Controls.Add(this.cmdDeleteRows);
@@ -389,15 +403,26 @@
             this.panel1.Size = new System.Drawing.Size(167, 182);
             this.panel1.TabIndex = 10;
             // 
+            // chkUsersFromDB
+            // 
+            this.chkUsersFromDB.AutoSize = true;
+            this.chkUsersFromDB.Location = new System.Drawing.Point(3, 148);
+            this.chkUsersFromDB.Name = "chkUsersFromDB";
+            this.chkUsersFromDB.Size = new System.Drawing.Size(131, 17);
+            this.chkUsersFromDB.TabIndex = 14;
+            this.chkUsersFromDB.Text = "Use Contacts from DB";
+            this.chkUsersFromDB.UseVisualStyleBackColor = true;
+            // 
             // chkUseLocalFavs
             // 
             this.chkUseLocalFavs.AutoSize = true;
-            this.chkUseLocalFavs.Location = new System.Drawing.Point(0, 129);
+            this.chkUseLocalFavs.Location = new System.Drawing.Point(3, 129);
             this.chkUseLocalFavs.Name = "chkUseLocalFavs";
             this.chkUseLocalFavs.Size = new System.Drawing.Size(141, 17);
             this.chkUseLocalFavs.TabIndex = 13;
             this.chkUseLocalFavs.Text = "Use Local Favs from DB";
             this.chkUseLocalFavs.UseVisualStyleBackColor = true;
+            this.chkUseLocalFavs.CheckedChanged += new System.EventHandler(this.chkUseLocalFavs_CheckedChanged);
             // 
             // cmdHideGavnoColumns
             // 
@@ -507,6 +532,7 @@
             this.Name = "ContactList";
             this.Text = "ContactList";
             this.Load += new System.EventHandler(this.ContactList_Load);
+            this.Shown += new System.EventHandler(this.ContactList_Shown);
             this.tblMain.ResumeLayout(false);
             this.tblMain.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.grdFavs)).EndInit();
@@ -559,8 +585,8 @@
         private System.Windows.Forms.RadioButton radioFavs;
         public System.Windows.Forms.Label lblCount;
         public System.Windows.Forms.ProgressBar progressBar1;
-        private System.Windows.Forms.Button button2;
-
-
-    }
+        private System.Windows.Forms.Button cmdProcessActiveContacts;
+        private System.Windows.Forms.Button cmdShowUserStas;
+        private System.Windows.Forms.CheckBox chkUsersFromDB;
+        }
 }

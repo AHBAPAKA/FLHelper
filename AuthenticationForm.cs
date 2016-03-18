@@ -27,21 +27,21 @@ namespace SvetanFlickrApp
         {
             try
             {
-                Flickr flickr = new Flickr(ApiKey.Text, SharedSecret.Text);
+                //Flickr flickr = new Flickr(ApiKey.Text, SharedSecret.Text);
 
-                Frob = flickr.AuthGetFrob();
+                //Frob = flickr.AuthGetFrob();
 
-                OutputTextbox.Text += "Frob = " + Frob + "\r\n";
+                //OutputTextbox.Text += "Frob = " + Frob + "\r\n";
 
-                string url = flickr.AuthCalcUrl(Frob, AuthLevel.Write);
+                //string url = flickr.AuthCalcUrl(Frob, AuthLevel.Write);
 
-                OutputTextbox.Text += "Url = " + url + "\r\n";
+                //OutputTextbox.Text += "Url = " + url + "\r\n";
 
-                System.Diagnostics.Process.Start(url);
+                //System.Diagnostics.Process.Start(url);
 
-                Step1Button.Enabled = false;
-                Step2Button.Enabled = true;
-                Step3Button.Enabled = true;
+                //Step1Button.Enabled = false;
+                //Step2Button.Enabled = true;
+                //Step3Button.Enabled = true;
             }
             catch (Exception exp)
             {
