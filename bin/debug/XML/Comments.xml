@@ -1,52 +1,64 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <Comments>
   <Comment>
-    <Value>Perfect composition and processing {0}.&lt;br&gt;Enjoy your time my friend!</Value>
+    <Value>&lt;br&gt;</Value>
   </Comment>
   <Comment>
-    <Value>Very cinepatographic look and feel&lt;br&gt;Enjoy your time my friend!</Value>
-  </Comment>
-    <Comment>
-    <Value>Stunning documentary {0}. &lt;br&gt;Hope you are doing great my friend!</Value>
-  </Comment>
-    <Comment>
-    <Value >Beautiful work {0}!&lt;br&gt;Hope you are doing great my friend!</Value>
+    <Value>Perfect image and presentation!&lt;br&gt;Hope you are doing great my friend {0}</Value>
   </Comment>
   <Comment>
-    <Value >Fine work {0}!&lt;br&gt;Hope you are doing great my friend!</Value>
+    <Value>Perfect composition and processing!&lt;br&gt;Hope you are doing great my friend {0}</Value>
   </Comment>
   <Comment>
-    <Value >Stunning work {0}!&lt;br&gt;Hope you are doing great my friend!</Value>
+    <Value>Stunning photography here!&lt;br&gt;Hope you are doing great my friend {0}</Value>
   </Comment>
   <Comment>
-    <Value >Real masterpiece {0}&lt;br&gt;Hope you are doing great my friend!</Value>
+    <Value>Very cinematographic look and feel&lt;br&gt;Enjoy your time my friend {0}</Value>
   </Comment>
   <Comment>
-    <Value >Superb work {0}!&lt;br&gt;Hope you are doing great my friend!</Value>
+    <Value>Stunning documentary!. &lt;br&gt;Hope you are doing great my friend {0}</Value>
   </Comment>
   <Comment>
-    <Value >Top class art work here!&lt;br&gt;Hope you are doing great my friend!</Value>
+    <Value >Beautiful work!!&lt;br&gt;Hope you are doing great my friend {0}</Value>
   </Comment>
   <Comment>
-    <Value >Absolutely gorgeous art work!</Value>
+    <Value >Fine work of art!&lt;br&gt;Hope you are doing great my friend {0}</Value>
   </Comment>
   <Comment>
-    <Value >Very lovely!&lt;br&gt;Enjoy your time my friend!</Value>
+    <Value >Stunning work of photography!&lt;br&gt;Hope you are doing great my friend {0}</Value>
   </Comment>
   <Comment>
-    <Value >I love this work of art!&lt;br&gt;Enjoy your time my friend!</Value>
+    <Value >Real masterpiece!&lt;br&gt;Hope you are doing great my friend {0}</Value>
   </Comment>
   <Comment>
-    <Value >Top league image quality!&lt;br&gt;Hope you are doing great my friend!</Value>
+    <Value >Superb work!&lt;br&gt;Hope you are doing great my friend {0}</Value>
   </Comment>
   <Comment>
-    <Value >Excellent work {0}!&lt;br&gt;Hope you are doing great my friend!</Value>
+    <Value >Top class art work here!&lt;br&gt;Hope you are doing great my friend {0}</Value>
   </Comment>
   <Comment>
-    <Value >Very creative!&lt;br&gt;Well done {0}!&lt;br&gt;Hope you are doing great my friend!</Value>
+    <Value >Absolutely gorgeous art work {0}</Value>
+  </Comment>
+  <Comment>
+    <Value >Very lovely!&lt;br&gt;Enjoy your time my friend {0}</Value>
+  </Comment>
+  <Comment>
+    <Value >I love this work of art!&lt;br&gt;Enjoy your time my friend {0}</Value>
+  </Comment>
+  <Comment>
+    <Value >Top league image quality!&lt;br&gt;Hope you are doing great my friend {0}</Value>
+  </Comment>
+  <Comment>
+    <Value >Excellent work {0}!&lt;br&gt;Hope you are doing great my friend {0}</Value>
+  </Comment>
+  <Comment>
+    <Value >Very creative!&lt;br&gt;Well done {0}!&lt;br&gt;Hope you are doing great my friend {0}</Value>
   </Comment>
   <Comment>
     <Value >Stunning work Bro][er!</Value>
+  </Comment>
+  <Comment>
+    <Value >Awesome work of art Bro][er!</Value>
   </Comment>
   <Comment>
     <Value >Stunning work bratello!</Value>
@@ -63,26 +75,35 @@
   <Comment>
     <Value >What an amazing catch!&lt;br&gt;Bravo {0}!&lt;br&gt;</Value>
   </Comment>
-  <Comment >
+  <Comment>
     <Value >Beautiful capture!&lt;br&gt;Bravo {0}!&lt;br&gt;</Value>
   </Comment>
   <Comment>
-    <Value >Просто великолепно!</Value>
+    <Value >Просто великолепно!&lt;br&gt;Наилучшие пожелания из Техаса! </Value>
   </Comment>
   <Comment>
-    <Value >Прекрасная работа! Высший класс!</Value>
+    <Value >Прекрасная работа!&lt;br&gt; Высший класс!</Value>
   </Comment>
   <Comment>
-    <Value >Отличная работа!</Value>
+    <Value >Отличная работа!&lt;br&gt;Наилучшие пожелания из Техаса!</Value>
+  </Comment>
+  <Comment>
+    <Value >Интересная фотография!&lt;br&gt;</Value>
+  </Comment>
+  <Comment>
+    <Value >Очень профессионально!&lt;br&gt;Наилучшие пожелания из Техаса!</Value>
+  </Comment>
+  <Comment>
+    <Value>Исключительно красиво!&lt;br&gt;Наилучшие пожелания из Техаса!</Value>
   </Comment>
     <Comment>
-    <Value >Интересная фотография!</Value>
-  </Comment>
-      <Comment>
-    <Value >Очень профессионально!</Value>
+    <Value>Красивый снимок!&lt;br&gt;Наилучшие пожелания из Техаса!</Value>
   </Comment>
   <Comment>
-    <Value>Исключительно красиво!</Value>
+    <Value>Очень мило!&lt;br&gt;Наилучшие пожелания из Техаса!</Value>
+  </Comment>
+  <Comment>
+    <Value>Очень душевно!&lt;br&gt;Наилучшие пожелания из Техаса!</Value>
   </Comment>
   <Comment>
     <Value >Beautiful shot!!! Well done!!!</Value>

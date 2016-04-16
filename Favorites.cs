@@ -6,18 +6,13 @@ using System.Windows.Forms;
 using FlickrNet;
 using System.Net;
 using System.IO;
-using System.Threading;
 using System.Text;
 using System.Media;
-using System.Data.SqlServerCe;
-using System.Configuration;
-using System.Threading;
-using SvetanFlickrApp.Model;
 using System.Xml;
 using System.Reflection;
 
 namespace SvetanFlickrApp
-{
+    {
     public partial class Favorites : Form
     {
 

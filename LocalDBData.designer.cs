@@ -36,6 +36,12 @@ namespace SvetanFlickrApp
     partial void InsertFavsToDelete(FavsToDelete instance);
     partial void UpdateFavsToDelete(FavsToDelete instance);
     partial void DeleteFavsToDelete(FavsToDelete instance);
+    partial void InsertGroup(Group instance);
+    partial void UpdateGroup(Group instance);
+    partial void DeleteGroup(Group instance);
+    partial void InsertMyContact(MyContact instance);
+    partial void UpdateMyContact(MyContact instance);
+    partial void DeleteMyContact(MyContact instance);
     partial void InsertMyPeople(MyPeople instance);
     partial void UpdateMyPeople(MyPeople instance);
     partial void DeleteMyPeople(MyPeople instance);
@@ -84,6 +90,22 @@ namespace SvetanFlickrApp
 			get
 			{
 				return this.GetTable<FavsToDelete>();
+			}
+		}
+		
+		public System.Data.Linq.Table<Group> Groups
+		{
+			get
+			{
+				return this.GetTable<Group>();
+			}
+		}
+		
+		public System.Data.Linq.Table<MyContact> MyContacts
+		{
+			get
+			{
+				return this.GetTable<MyContact>();
 			}
 		}
 		
@@ -219,6 +241,442 @@ namespace SvetanFlickrApp
 					this._DateAdded = value;
 					this.SendPropertyChanged("DateAdded");
 					this.OnDateAddedChanged();
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Groups")]
+	public partial class Group : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _Id;
+		
+		private string _Group1;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnIdChanging(int value);
+    partial void OnIdChanged();
+    partial void OnGroup1Changing(string value);
+    partial void OnGroup1Changed();
+    #endregion
+		
+		public Group()
+		{
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id", DbType="Int NOT NULL", IsPrimaryKey=true)]
+		public int Id
+		{
+			get
+			{
+				return this._Id;
+			}
+			set
+			{
+				if ((this._Id != value))
+				{
+					this.OnIdChanging(value);
+					this.SendPropertyChanging();
+					this._Id = value;
+					this.SendPropertyChanged("Id");
+					this.OnIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[Group]", Storage="_Group1", DbType="NVarChar(50) NOT NULL", CanBeNull=false)]
+		public string Group1
+		{
+			get
+			{
+				return this._Group1;
+			}
+			set
+			{
+				if ((this._Group1 != value))
+				{
+					this.OnGroup1Changing(value);
+					this.SendPropertyChanging();
+					this._Group1 = value;
+					this.SendPropertyChanged("Group1");
+					this.OnGroup1Changed();
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.MyContacts")]
+	public partial class MyContact : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private string _UserId;
+		
+		private string _UserName;
+		
+		private System.Nullable<bool> _IsFriend;
+		
+		private System.Nullable<bool> _IsFamily;
+		
+		private System.Nullable<bool> _IsContact;
+		
+		private System.Nullable<int> _GroupID;
+		
+		private string _BuddyIconUrl;
+		
+		private string _IconFarm;
+		
+		private string _IconServer;
+		
+		private string _PhotosUrl;
+		
+		private string _ProfileUrl;
+		
+		private System.Nullable<System.DateTime> _LastReacted;
+		
+		private System.Nullable<bool> _IsReadyToDelete;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnUserIdChanging(string value);
+    partial void OnUserIdChanged();
+    partial void OnUserNameChanging(string value);
+    partial void OnUserNameChanged();
+    partial void OnIsFriendChanging(System.Nullable<bool> value);
+    partial void OnIsFriendChanged();
+    partial void OnIsFamilyChanging(System.Nullable<bool> value);
+    partial void OnIsFamilyChanged();
+    partial void OnIsContactChanging(System.Nullable<bool> value);
+    partial void OnIsContactChanged();
+    partial void OnGroupIDChanging(System.Nullable<int> value);
+    partial void OnGroupIDChanged();
+    partial void OnBuddyIconUrlChanging(string value);
+    partial void OnBuddyIconUrlChanged();
+    partial void OnIconFarmChanging(string value);
+    partial void OnIconFarmChanged();
+    partial void OnIconServerChanging(string value);
+    partial void OnIconServerChanged();
+    partial void OnPhotosUrlChanging(string value);
+    partial void OnPhotosUrlChanged();
+    partial void OnProfileUrlChanging(string value);
+    partial void OnProfileUrlChanged();
+    partial void OnLastReactedChanging(System.Nullable<System.DateTime> value);
+    partial void OnLastReactedChanged();
+    partial void OnIsReadyToDeleteChanging(System.Nullable<bool> value);
+    partial void OnIsReadyToDeleteChanged();
+    #endregion
+		
+		public MyContact()
+		{
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_UserId", DbType="NVarChar(200) NOT NULL", CanBeNull=false, IsPrimaryKey=true)]
+		public string UserId
+		{
+			get
+			{
+				return this._UserId;
+			}
+			set
+			{
+				if ((this._UserId != value))
+				{
+					this.OnUserIdChanging(value);
+					this.SendPropertyChanging();
+					this._UserId = value;
+					this.SendPropertyChanged("UserId");
+					this.OnUserIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_UserName", DbType="NVarChar(200)")]
+		public string UserName
+		{
+			get
+			{
+				return this._UserName;
+			}
+			set
+			{
+				if ((this._UserName != value))
+				{
+					this.OnUserNameChanging(value);
+					this.SendPropertyChanging();
+					this._UserName = value;
+					this.SendPropertyChanged("UserName");
+					this.OnUserNameChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsFriend", DbType="Bit")]
+		public System.Nullable<bool> IsFriend
+		{
+			get
+			{
+				return this._IsFriend;
+			}
+			set
+			{
+				if ((this._IsFriend != value))
+				{
+					this.OnIsFriendChanging(value);
+					this.SendPropertyChanging();
+					this._IsFriend = value;
+					this.SendPropertyChanged("IsFriend");
+					this.OnIsFriendChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsFamily", DbType="Bit")]
+		public System.Nullable<bool> IsFamily
+		{
+			get
+			{
+				return this._IsFamily;
+			}
+			set
+			{
+				if ((this._IsFamily != value))
+				{
+					this.OnIsFamilyChanging(value);
+					this.SendPropertyChanging();
+					this._IsFamily = value;
+					this.SendPropertyChanged("IsFamily");
+					this.OnIsFamilyChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsContact", DbType="Bit")]
+		public System.Nullable<bool> IsContact
+		{
+			get
+			{
+				return this._IsContact;
+			}
+			set
+			{
+				if ((this._IsContact != value))
+				{
+					this.OnIsContactChanging(value);
+					this.SendPropertyChanging();
+					this._IsContact = value;
+					this.SendPropertyChanged("IsContact");
+					this.OnIsContactChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_GroupID", DbType="Int")]
+		public System.Nullable<int> GroupID
+		{
+			get
+			{
+				return this._GroupID;
+			}
+			set
+			{
+				if ((this._GroupID != value))
+				{
+					this.OnGroupIDChanging(value);
+					this.SendPropertyChanging();
+					this._GroupID = value;
+					this.SendPropertyChanged("GroupID");
+					this.OnGroupIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_BuddyIconUrl", DbType="NVarChar(500)")]
+		public string BuddyIconUrl
+		{
+			get
+			{
+				return this._BuddyIconUrl;
+			}
+			set
+			{
+				if ((this._BuddyIconUrl != value))
+				{
+					this.OnBuddyIconUrlChanging(value);
+					this.SendPropertyChanging();
+					this._BuddyIconUrl = value;
+					this.SendPropertyChanged("BuddyIconUrl");
+					this.OnBuddyIconUrlChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IconFarm", DbType="NVarChar(300)")]
+		public string IconFarm
+		{
+			get
+			{
+				return this._IconFarm;
+			}
+			set
+			{
+				if ((this._IconFarm != value))
+				{
+					this.OnIconFarmChanging(value);
+					this.SendPropertyChanging();
+					this._IconFarm = value;
+					this.SendPropertyChanged("IconFarm");
+					this.OnIconFarmChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IconServer", DbType="NVarChar(300)")]
+		public string IconServer
+		{
+			get
+			{
+				return this._IconServer;
+			}
+			set
+			{
+				if ((this._IconServer != value))
+				{
+					this.OnIconServerChanging(value);
+					this.SendPropertyChanging();
+					this._IconServer = value;
+					this.SendPropertyChanged("IconServer");
+					this.OnIconServerChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_PhotosUrl", DbType="NVarChar(500)")]
+		public string PhotosUrl
+		{
+			get
+			{
+				return this._PhotosUrl;
+			}
+			set
+			{
+				if ((this._PhotosUrl != value))
+				{
+					this.OnPhotosUrlChanging(value);
+					this.SendPropertyChanging();
+					this._PhotosUrl = value;
+					this.SendPropertyChanged("PhotosUrl");
+					this.OnPhotosUrlChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ProfileUrl", DbType="NVarChar(500)")]
+		public string ProfileUrl
+		{
+			get
+			{
+				return this._ProfileUrl;
+			}
+			set
+			{
+				if ((this._ProfileUrl != value))
+				{
+					this.OnProfileUrlChanging(value);
+					this.SendPropertyChanging();
+					this._ProfileUrl = value;
+					this.SendPropertyChanged("ProfileUrl");
+					this.OnProfileUrlChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_LastReacted", DbType="DateTime2")]
+		public System.Nullable<System.DateTime> LastReacted
+		{
+			get
+			{
+				return this._LastReacted;
+			}
+			set
+			{
+				if ((this._LastReacted != value))
+				{
+					this.OnLastReactedChanging(value);
+					this.SendPropertyChanging();
+					this._LastReacted = value;
+					this.SendPropertyChanged("LastReacted");
+					this.OnLastReactedChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsReadyToDelete", DbType="Bit")]
+		public System.Nullable<bool> IsReadyToDelete
+		{
+			get
+			{
+				return this._IsReadyToDelete;
+			}
+			set
+			{
+				if ((this._IsReadyToDelete != value))
+				{
+					this.OnIsReadyToDeleteChanging(value);
+					this.SendPropertyChanging();
+					this._IsReadyToDelete = value;
+					this.SendPropertyChanged("IsReadyToDelete");
+					this.OnIsReadyToDeleteChanged();
 				}
 			}
 		}

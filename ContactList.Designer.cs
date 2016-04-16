@@ -106,7 +106,8 @@
             // 
             // grdFavs
             // 
-            this.grdFavs.AllowUserToOrderColumns = true;
+            this.grdFavs.AllowUserToAddRows = false;
+            this.grdFavs.AllowUserToDeleteRows = false;
             this.grdFavs.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
             this.grdFavs.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
             this.grdFavs.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;

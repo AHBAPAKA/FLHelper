@@ -73,6 +73,7 @@
     <Reference Include="System.Data.Linq" />
     <Reference Include="System.Data.SqlServerCe, Version=4.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91" />
     <Reference Include="System.Deployment" />
+    <Reference Include="System.Design" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
@@ -117,7 +118,6 @@
     <Compile Include="Model\FlickrFavorite.cs" />
     <Compile Include="Model\MyFlickrPhoto.cs" />
     <Compile Include="Model\PhotoStat.cs" />
-    <Compile Include="Model\SilverFavoriteModel.cs" />
     <Compile Include="Settings.cs" />
     <Compile Include="UpdateForm.cs">
       <SubType>Form</SubType>
@@ -146,6 +146,8 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utilities\DataFuncs.cs" />
+    <Compile Include="Utilities\FlickrFuncs.cs" />
+    <Compile Include="Utilities\Shared.cs" />
     <Compile Include="WBForm.cs">
       <SubType>Form</SubType>
     </Compile>

@@ -75,7 +75,7 @@
   <Comment>
     <Value >What an amazing catch!&lt;br&gt;Bravo {0}!&lt;br&gt;</Value>
   </Comment>
-  <Comment >
+  <Comment>
     <Value >Beautiful capture!&lt;br&gt;Bravo {0}!&lt;br&gt;</Value>
   </Comment>
   <Comment>
@@ -95,6 +95,9 @@
   </Comment>
   <Comment>
     <Value>Исключительно красиво!&lt;br&gt;Наилучшие пожелания из Техаса!</Value>
+  </Comment>
+    <Comment>
+    <Value>Красивый снимок!&lt;br&gt;Наилучшие пожелания из Техаса!</Value>
   </Comment>
   <Comment>
     <Value>Очень мило!&lt;br&gt;Наилучшие пожелания из Техаса!</Value>

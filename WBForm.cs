@@ -31,5 +31,10 @@ namespace SvetanFlickrApp
         {
             System.Diagnostics.Process.Start(this.Tag.ToString());
         }
-    }
+
+        private void webBrowser1_DocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
+            {
+
+            }
+        }
 }

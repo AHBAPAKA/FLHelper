@@ -1,56 +1,52 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
+using System.Net;
+using System.Reflection;
 using System.Text;
+using System.Threading;
 using System.Windows.Forms;
+using System.Xml;
 using FlickrNet;
 using Microsoft.VisualBasic;
-using System.Drawing;
-using System.Web;
-using System.IO;
-using System.Net;
-using System.Data.SqlServerCe;
-using System.Configuration;
-using System.Threading;
-using SvetanFlickrApp.Model;
-using System.Xml;
-using System.Reflection;
-using System.Data.SqlClient;
 
 namespace SvetanFlickrApp
 {
     public partial class ContactList : Form
     {
-
         //FlickrFavorite cellfav = null;
-        Flickr flickr = null;
-        List<string> myFullFavoriteList = null;
-        List<ContactCollection> lcont = null;
-        ContactCollection contrecent = null;
-        ContactCollection LoopCol = null;
-        string s_userid = string.Empty;
-        string s_authtoken = string.Empty;
-        List<string> lastfavs = null;
-        PhotoFavoriteCollection FullFavCol = null;
-        PhotoCommentCollection FullComCol = null;
-        List<MyFlickrContact> mycontuploadlast = new  List<MyFlickrContact>();
-        MyFlickrContact updcontact = null;
-        Dictionary<string, string> CommentsCol = null;
-        List<string> BadUsersCollection = null;
-        List<string> FailedCollection = null;
-        List<string> MyLastfavs = new List<string>();
-        PhotoCollection CurUserPhotos = null;
-        string selectedphotoid = string.Empty;
+        private Flickr flickr = null;
+
+        private List<string> myFullFavoriteList = null;
+        private List<ContactCollection> lcont = null;
+        private ContactCollection contrecent = null;
+        private ContactCollection LoopCol = null;
+        private string s_userid = string.Empty;
+        private string s_authtoken = string.Empty;
+        private List<string> lastfavs = null;
+        private PhotoFavoriteCollection FullFavCol = null;
+        private PhotoCommentCollection FullComCol = null;
+        private List<MyFlickrContact> mycontuploadlast = new List<MyFlickrContact>();
+        private MyFlickrContact updcontact = null;
+        private Dictionary<string, string> CommentsCol = null;
+        private List<string> BadUsersCollection = null;
+        private List<string> FailedCollection = null;
+        private List<string> MyLastfavs = new List<string>();
+        private PhotoCollection CurUserPhotos = null;
+        private string selectedphotoid = string.Empty;
         private BindingSource grigbindingSource;
-        List<MyFlickrContact> PeopleCommentedMyLastPhotos = null;
-        List<MyFlickrContact> AllContactsPhotos = null;
+        private List<MyFlickrContact> PeopleCommentedMyLastPhotos = null;
+        private List<MyFlickrContact> AllContactsPhotos = null;
+
         //Saved Favs
-        List<string> MySavedFavesList = null; 
-        int num1;
-        int MAXGRIDITEMS = 60;
+        private List<string> MySavedFavesList = null;
+
+        private int num1;
+        private int MAXGRIDITEMS = 60;
+        private SortOrder _sortDirection;
 
         public ContactList()
         {
@@ -77,7 +73,6 @@ namespace SvetanFlickrApp
             DateTime enddt = DateTime.Now;
             System.TimeSpan diffResult = enddt.Subtract(startdt);
             lblRandomComment.Text = "Retrieval Process took " + diffResult.Minutes.ToString() + " minutes";
-
         }
 
         private void RetrieveContacts()
@@ -90,24 +85,8 @@ namespace SvetanFlickrApp
             num1 = 1;
 
             this.Text = "Working on initial collection...";
-            for (int i = 1; i < 10000; i++)
-            {
-                LoopCol = flickr.ContactsGetPublicList(s_userid, i, 100);
-                if (LoopCol.Count == 0)
-                {
-                    break;
-                }
-                else
-                {
-                    foreach (var item in LoopCol)
-                    {
-                        contrecent.Add(item);
-
-                    }
-                }
-            }
-
-
+            contrecent = FlickrFuncs.GetMyFlickrContacts(s_userid);
+            this.Text = "Retrived " + contrecent.Count.ToString() + " contacts";
 
             this.Text = "Processing collection...";
 
@@ -115,7 +94,6 @@ namespace SvetanFlickrApp
             progressBar1.Value = 0;
             progressBar1.Maximum = contrecent.Count;
             progressBar1.Step = 1;
-
 
             PopulateCustomContactCollection(contrecent);
 
@@ -130,7 +108,6 @@ namespace SvetanFlickrApp
             DataFuncs.BindGrid(sorted.ToList<MyFlickrContact>(), this.grdFavs);
             this.Text = grdFavs.Rows.Count.ToString() + " photos selected";
             AddComboColumn();
-
         }
 
         private ContactCollection GetMyContactsList()
@@ -151,7 +128,6 @@ namespace SvetanFlickrApp
                     foreach (var item in LoopCol)
                     {
                         retval.Add(item);
-
                     }
                 }
             }
@@ -195,7 +171,6 @@ namespace SvetanFlickrApp
             grigbindingSource.DataSource = GetEnnumeration(griddata);
             this.grdFavs.DataSource = grigbindingSource;
             grdFavs.Visible = true;
-
         }
 
         private void AddComboColumn()
@@ -212,12 +187,10 @@ namespace SvetanFlickrApp
         private MyFlickrContact LoadedContact(string UserId, string UserName, string RealName,
             bool? IsFamily, bool? IsFriend, string BuddyIconUrl)
         {
-
             MyFlickrContact mycontact = new MyFlickrContact();
 
             try
             {
-
                 this.Text = "Inside Loaded Contact for " + UserName + " #" + num1.ToString();
 
                 mycontact.ItemNum = num1;
@@ -231,7 +204,6 @@ namespace SvetanFlickrApp
                     mycontact.FirstName = fname;
                 }
 
-
                 mycontact.Family = IsFamily;
                 mycontact.Friend = IsFriend;
 
@@ -243,13 +215,9 @@ namespace SvetanFlickrApp
                 PhotoCollection col = flickr.PeopleGetPublicPhotos(mycontact.UserID);
                 if (col.Count > 0)
                 {
-
-
                     if (!BadUser().Contains(UserId))
                     {
-
                         mycontact.LastPhotoID = col[0].PhotoId;
-
 
                         PhotoInfo curphoto = null;
 
@@ -257,7 +225,6 @@ namespace SvetanFlickrApp
                         {
                             curphoto = flickr.PhotosGetInfo(col[0].PhotoId);
                         }
-
 
                         if (curphoto != null)
                         {
@@ -270,20 +237,14 @@ namespace SvetanFlickrApp
                             mycontact.Location = curphoto.WebUrl;
                             mycontact.UploadDT = curphoto.DateUploaded;
                         }
-
-
-
-
                     }
                     else
                     {
-                    BADUSER_EXIT:
+BADUSER_EXIT:
                         this.Text = "Skipped " + UserName;
                     }
 
                     mycontact.LastPhoto = LoadPicture(col[0].SmallUrl);
-
-
 
                     mycontact.Icon = LoadPicture(BuddyIconUrl);
                 }
@@ -293,15 +254,12 @@ namespace SvetanFlickrApp
                 this.Text = exp.Message;
             }
 
-
-
             return mycontact;
         }
 
         public List<string> BadUser()
         {
             return BadUsersCollection;
-
         }
 
         private void PopulateCustomContactCollection(ContactCollection row_con)
@@ -341,29 +299,18 @@ namespace SvetanFlickrApp
                                 mycontuploadlast.Add(mycontact);
                                 num1++;
 
-
                                 ///TEST
                                 //if (num1 > 3)
                                 //    break;
-
                             }
                         }
-
-
                     }
-
-
-
                 }
-
                 catch (Exception exp)
                 {
                     this.Text = exp.Message;
                 }
-
             }
-
-
         }
 
         private Bitmap LoadPicture(string url)
@@ -400,7 +347,6 @@ namespace SvetanFlickrApp
 
         private void btnProceed_Click(object sender, EventArgs e)
         {
-
             DateTime startdt = DateTime.Now;
             lblRandomComment.Text = "";
 
@@ -432,7 +378,6 @@ namespace SvetanFlickrApp
                             goterr = AddFav(updcontact.LastPhotoID);
                             //Highlite row
                             row.DefaultCellStyle.BackColor = Color.Yellow;
-
                         }
                         catch (Exception exp)
                         {
@@ -443,20 +388,15 @@ namespace SvetanFlickrApp
 
                         if (!goterr)
                         {
-
                             AddComment(updcontact);
-
-
                         }
-
-
                     }
 
                     updcontact.ProcessDT = DateAndTime.Now;
 
                     iloop++;
 
-                    if(AllContactsPhotos !=null)
+                    if (AllContactsPhotos != null)
                     {
                         AllContactsPhotos.Remove(updcontact);
                     }
@@ -467,7 +407,7 @@ namespace SvetanFlickrApp
                 }
             }
 
-            if(AllContactsPhotos !=null)
+            if (AllContactsPhotos != null)
             {
                 if (AllContactsPhotos.Count > 0)
                 {
@@ -495,11 +435,7 @@ namespace SvetanFlickrApp
             else
             {
                 grdFavs.Visible = false;
-
-
             }
-
-
         }
 
         private string ProcessComment(MyFlickrContact updcontact)
@@ -517,15 +453,14 @@ namespace SvetanFlickrApp
             {
                 fname = string.Empty;
             }
-            else 
-            { 
+            else
+            {
                 //Capitalize first letter of first name
                 fname = System.Globalization.CultureInfo.CurrentCulture.TextInfo.ToTitleCase(fname.ToLower());
             }
 
             retval = String.Format(updcontact.Comment, fname);
             retval = retval.Replace("<br>", System.Environment.NewLine);
-
 
             return retval;
         }
@@ -534,16 +469,13 @@ namespace SvetanFlickrApp
         {
             try
             {
-
                 string comment = ProcessComment(updcontact);
                 flickr.PhotosCommentsAddComment(updcontact.LastPhotoID, comment);
             }
             catch (Exception exp)
             {
-                
                 //throw;
             }
-
         }
 
         private bool AddFav(string photoid)
@@ -564,7 +496,6 @@ namespace SvetanFlickrApp
 
         private void tblMain_Paint(object sender, PaintEventArgs e)
         {
-
         }
 
         private void btnFavAll_Click(object sender, EventArgs e)
@@ -573,17 +504,13 @@ namespace SvetanFlickrApp
             grdFavs.Enabled = false;
             grdFavs.Refresh();
 
-
             foreach (DataGridViewRow row in this.grdFavs.Rows)
             {
-
                 if (row.DataBoundItem != null)
                 {
                     MyFlickrContact updcontact = row.DataBoundItem as MyFlickrContact;
                     updcontact.IsFav = isfav;
                 }
-
-
             }
             grdFavs.Enabled = true;
             grdFavs.Refresh();
@@ -596,7 +523,6 @@ namespace SvetanFlickrApp
             {
                 btnFavAll.Text = "Fav All";
             }
-
         }
 
         private void btnPopulateDefComments_Click(object sender, EventArgs e)
@@ -606,30 +532,27 @@ namespace SvetanFlickrApp
             MyPeople PersonActive = null;
             List<MyPeople> mypeople = GeAlltMyActivePeopleFromDB();
             try
-                {
+            {
                 foreach (Contact contact in mycontacts)
-                    {
+                {
                     PersonActive = mypeople.Where(m => m.UserId == contact.UserId).FirstOrDefault<MyPeople>();
                     if (PersonActive == null)
-                        {
+                    {
                         contact.IsFamily = false;
                         contact.IsFriend = false;
                         deadcontacts.Add(contact.UserName);
-                        }
                     }
                 }
+            }
             catch (Exception exp)
-                {
-
+            {
                 //throw;
-                }
+            }
             GetFriendsStats(20);
-
         }
 
         private void PlaceDefaultComments()
         {
-
         }
 
         public string Capitalize(string value)
@@ -646,18 +569,16 @@ namespace SvetanFlickrApp
         {
             if (direction == SortDirection.Ascending)
             {
-                //list = list.OrderBy(sorter); 
+                //list = list.OrderBy(sorter);
             }
             else
             {
-                //list = list.OrderByDescending(sorter); 
+                //list = list.OrderByDescending(sorter);
             }
         }
 
         private List<string> MyLast500Favs()
         {
-
-
             PhotoCollection favs = null;
             List<string> retlist = new List<string>();
 
@@ -665,7 +586,6 @@ namespace SvetanFlickrApp
 
             for (int i = 1; i < 1000; i++)
             {
-
                 favs = flickr.FavoritesGetList(s_userid, i, 500);
 
                 if (favs != null)
@@ -682,16 +602,11 @@ namespace SvetanFlickrApp
                         retlist.Add(f.PhotoId.ToString());
                     }
 
-
                     this.Text = "Favorite Trip #" + i.ToString() + " delivered " + favs.Count.ToString() + " favs; Total:" + retlist.Count.ToString();
                 }
-
             }
 
-
             return retlist;
-
-
         }
 
         private List<string> GetMySavedFavs(bool bload = false)
@@ -700,10 +615,8 @@ namespace SvetanFlickrApp
 
             if (this.chkUseLocalFavs.Checked || bload)
             {
-
                 try
                 {
-
                     using (DataClasses1DataContext db = new DataClasses1DataContext())
                     {
                         retlist = (from f in db.Favs
@@ -712,7 +625,6 @@ namespace SvetanFlickrApp
                 }
                 catch (Exception)
                 {
-
                     throw;
                 }
             }
@@ -722,8 +634,6 @@ namespace SvetanFlickrApp
             }
 
             return retlist;
-
-
         }
 
         private void LoadMyFavsToDB(List<string> favslist)
@@ -750,66 +660,53 @@ namespace SvetanFlickrApp
 
                     DataFuncs.BulkInsert(db.Connection.ConnectionString, "Favs", favstoinsert);
                     this.Text = "Saved " + favstoinsert.Count.ToString() + " favs to local DB";
-
                 }
             }
             catch (Exception exp)
             {
-
                 //throw;
             }
-
-
-
         }
+
         private void AddFavToDB(string photoid)
         {
             try
             {
                 using (DataClasses1DataContext db = new DataClasses1DataContext())
                 {
-                        Fav fav = new Fav();
-                        fav.photoid = photoid;
-                        db.Favs.InsertOnSubmit(fav);
-                        db.SubmitChanges();
+                    Fav fav = new Fav();
+                    fav.photoid = photoid;
+                    db.Favs.InsertOnSubmit(fav);
+                    db.SubmitChanges();
                 }
             }
             catch (Exception exp)
             {
-
                 //throw;
             }
-
-
-
         }
-
 
         private void SetUser()
         {
             string seltext = cmbUsers.Text;
 
+            FlickrFuncs.SetFlickr(seltext);
+
             if (seltext.Equals("Sveta"))
             {
                 s_userid = Properties.Settings.Default.SvetaUserID;
-                s_authtoken = Properties.Settings.Default.SvetaAuthToken;
-                //lblUser.Text = "User " + "Marquisa" + " " + s_userid;
                 this.Text = "Marquisa Contacts";
             }
 
             if (seltext.Equals("Anvar"))
             {
                 s_userid = Properties.Settings.Default.AnvarUserID;
-                s_authtoken = Properties.Settings.Default.AnvarAuthToken;
-                //lblUser.Text = "User " + "Russiantexan" + " " + s_userid;
                 this.Text = "RussianTexan Contacts";
             }
 
-            string api = Properties.Settings.Default.ApiKey;
-            string secret = Properties.Settings.Default.SharedSecret;
-
-            //Initialise Flickr
-            flickr = GetFlickr(api, secret, s_authtoken);
+            Shared.CurUserID = s_userid;
+            Shared.CurUserName = seltext;
+            flickr = Shared.flickr;
         }
 
         private void ContactList_Load(object sender, EventArgs e)
@@ -833,19 +730,15 @@ namespace SvetanFlickrApp
 
         private void PopulateCommentsCombo()
         {
-
             try
             {
                 cmbComments.DataSource = new BindingSource(CommentsCol, null);
                 cmbComments.DisplayMember = "Value";
                 cmbComments.ValueMember = "Key";
-
             }
             catch (Exception exp)
             {
             }
-
-
         }
 
         private int RandomNumber(int min, int max)
@@ -868,17 +761,19 @@ namespace SvetanFlickrApp
                 switch (reader.NodeType)
                 {
                     case XmlNodeType.Element: // The node is an element.
-                        Console.Write("<" + reader.Name);
-                        Console.WriteLine(">");
-                        break;
+                    Console.Write("<" + reader.Name);
+                    Console.WriteLine(">");
+                    break;
+
                     case XmlNodeType.Text: //Display the text in each element.
-                        retdic.Add(iloop.ToString(), reader.Value);
-                        iloop++;
-                        break;
+                    retdic.Add(iloop.ToString(), reader.Value);
+                    iloop++;
+                    break;
+
                     case XmlNodeType.EndElement: //Display the end of the element.
-                        Console.Write("</" + reader.Name);
-                        Console.WriteLine(">");
-                        break;
+                    Console.Write("</" + reader.Name);
+                    Console.WriteLine(">");
+                    break;
                 }
             }
 
@@ -896,7 +791,6 @@ namespace SvetanFlickrApp
             //          where (entry.Value.ToString().Contains(r.ToString()))
             //          select entry.Key;
 
-
             foreach (KeyValuePair<string, string> item in dict)
             {
                 if (item.Key.Contains(r.ToString()))
@@ -906,13 +800,11 @@ namespace SvetanFlickrApp
                 }
             }
 
-
             return retval;
         }
 
         private Flickr GetFlickr(string api, string secret, string token)
         {
-
             return new Flickr(api, secret, token);
         }
 
@@ -930,13 +822,14 @@ namespace SvetanFlickrApp
             btnLastPhotofavs.Enabled = true;
             grdFavs.Visible = true;
         }
+
         private void ProcessMyPhotoFavs(string photoid)
         {
             FullFavCol = new PhotoFavoriteCollection();
             mycontuploadlast = new List<MyFlickrContact>();
             string myLastPhotoId = string.Empty;
 
-           // myLastPhotoId = GetLastPhotoID(s_userid);
+            // myLastPhotoId = GetLastPhotoID(s_userid);
             myLastPhotoId = photoid;
 
             if (myLastPhotoId.Length == 0) return;
@@ -949,7 +842,6 @@ namespace SvetanFlickrApp
             this.Text = grdFavs.Rows.Count.ToString() + " photos selected";
 
             //this.grdFavs.DataSource = WhoFavedMyPhoto(myLastPhotoId);
-
         }
 
         private PhotoCollection GetPhotoColForUser(string userid = "", int selectlastonly = 0)
@@ -975,6 +867,7 @@ namespace SvetanFlickrApp
 
             this.grdFavs.DataSource = WhoFavedMyPhoto(myLastPhotoId);
         }
+
         private string GetLastPhotoID(string user_id)
         {
             string retval = string.Empty;
@@ -996,29 +889,32 @@ namespace SvetanFlickrApp
         {
             List<PhotoFavorite> retval = new List<PhotoFavorite>();
             PhotoFavoriteCollection favcol = null;
-
+            int i;
             try
             {
-                for (int i = 1; i < 15; i++)
+                for (i = 1; i < 15; i++)
                 {
                     favcol = flickr.PhotosGetFavorites(phid, 500, i);
                     if (favcol != null)
                     {
+                        if (favcol.Count == 0)
+                        {
+                            break;
+                        }
+
                         foreach (var item in favcol)
                         {
                             if (!retval.Contains(item))
                             {
                                 retval.Add(item);
                             }
-
                         }
                     }
                 }
             }
             catch (Exception exp)
             {
-
-                throw;
+                throw exp;
             }
 
             return retval;
@@ -1041,28 +937,26 @@ namespace SvetanFlickrApp
                         {
                             retval.Add(item);
                         }
-
                     }
                 }
             }
-
             catch (Exception exp)
             {
-
                 throw;
             }
 
             return retval;
         }
+
         private void grdFavs_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
+            if (e.RowIndex < 0) return;
+            string sURL = ((SvetanFlickrApp.MyFlickrContact)(grdFavs.Rows[e.RowIndex].DataBoundItem)).Location;
 
-                string sURL = ((SvetanFlickrApp.MyFlickrContact)(grdFavs.Rows[e.RowIndex].DataBoundItem)).Location;
-
-                //System.Diagnostics.Process.Start(sURL);
-                System.Diagnostics.Process.Start("firefox.exe", sURL);
-
+            //System.Diagnostics.Process.Start(sURL);
+            System.Diagnostics.Process.Start("firefox.exe", sURL);
         }
+
         private bool IsANonHeaderLinkCell(DataGridViewCellEventArgs cellEvent)
         {
             if (grdFavs.Columns[cellEvent.ColumnIndex] is
@@ -1071,6 +965,7 @@ namespace SvetanFlickrApp
             { return true; }
             else { return false; }
         }
+
         private bool IsANonHeaderButtonCell(DataGridViewCellEventArgs cellEvent)
         {
             if (grdFavs.Columns[cellEvent.ColumnIndex] is
@@ -1079,19 +974,21 @@ namespace SvetanFlickrApp
             { return true; }
             else { return (false); }
         }
+
         private void grdFavs_EditingControlShowing(object sender, DataGridViewEditingControlShowingEventArgs e)
         {
             ComboBox cmbBox;
             string comment = (((System.Windows.Forms.DataGridView)(sender)).CurrentCell).EditedFormattedValue.ToString();
-            //if (grdFavs.CurrentCell.ColumnIndex == 15) 
-            //{ 
+            //if (grdFavs.CurrentCell.ColumnIndex == 15)
+            //{
             cmbBox = e.Control as ComboBox;
             if (cmbBox == null)
                 return;
             cmbBox.SelectedIndexChanged += cmbBox_SelectedIndexChanged;
             //}
         }
-        void cmbBox_SelectedIndexChanged(object sender, EventArgs e)
+
+        private void cmbBox_SelectedIndexChanged(object sender, EventArgs e)
         {
             ComboBox cmbBox = (ComboBox)sender;
 
@@ -1102,12 +999,10 @@ namespace SvetanFlickrApp
                 //string com = grdFavs.SelectedCells[0].Value.ToString();
                 grdFavs.CurrentRow.Cells[16].Value = cmbBox.Text;
             }
-
         }
 
         private void grdFavs_CellValueChanged(object sender, DataGridViewCellEventArgs e)
         {
-
         }
 
         private void cmbUsers_SelectedIndexChanged(object sender, EventArgs e)
@@ -1128,12 +1023,14 @@ namespace SvetanFlickrApp
                 switch (reader.NodeType)
                 {
                     case XmlNodeType.Element: // The node is an element.;
-                        break;
+                    break;
+
                     case XmlNodeType.Text: //Display the text in each element.
-                        BadUsersCollection.Add(reader.Value);
-                        break;
+                    BadUsersCollection.Add(reader.Value);
+                    break;
+
                     case XmlNodeType.EndElement: //Display the end of the element.
-                        break;
+                    break;
                 }
             }
             StringBuilder s = new StringBuilder();
@@ -1161,8 +1058,6 @@ namespace SvetanFlickrApp
             progressBar1.Visible = false;
             lblCount.Text = "";
             lblCount.Visible = false;
-
-
         }
 
         private string GetAppFolder()
@@ -1172,17 +1067,12 @@ namespace SvetanFlickrApp
 
         private void cmdHideColums_Click(object sender, EventArgs e)
         {
-
             grdFavs = ExtensionGridView.RemoveEmptyColumns(grdFavs);
-
-
         }
 
         private List<MyFlickrContact> WhoCommentedMyPhoto(string myphotoid)
         {
             List<MyFlickrContact> retval = new List<MyFlickrContact>();
-
-
 
             return retval;
         }
@@ -1202,7 +1092,7 @@ namespace SvetanFlickrApp
                     }
                     string friendLastPhotoId = GetLastPhotoID(photofav.UserId);
                     this.Text = "Processing last photo of " + photofav.UserName + ". Preselected " + mycontuploadlast.Count.ToString() + " photos for processing";
-                    
+
                     bool favexists = MyLastfavs.Contains(friendLastPhotoId);
 
                     if (!favexists)
@@ -1220,7 +1110,6 @@ namespace SvetanFlickrApp
 
                         if (curphoto != null)
                         {
-
                             if (!String.IsNullOrEmpty(curphoto.OwnerRealName))
                             {
                                 mycontact.RealName = curphoto.OwnerRealName;
@@ -1244,16 +1133,13 @@ namespace SvetanFlickrApp
                         {
                             mycontuploadlast.Add(mycontact);
                         }
-
                     }
-
                 }
 
                 retval = mycontuploadlast;
             }
             catch (Exception exp)
             {
-
                 //throw;
             }
             this.Text = "Preselected " + retval.Count.ToString() + " photos of those who faved my photo " + cmdMyPhotos.Text;
@@ -1270,31 +1156,26 @@ namespace SvetanFlickrApp
                 int num = 0;
                 foreach (var photofav in mylastphotofavs)
                 {
-
-                        Person person = flickr.PeopleGetInfo(photofav.UserId);
-                        if (person.UserId != s_userid)
-                        {
-                            retval.Add(person);
-                        }
-
+                    Person person = flickr.PeopleGetInfo(photofav.UserId);
+                    if (person.UserId != s_userid)
+                    {
+                        retval.Add(person);
+                    }
                 }
-
-               
             }
             catch (Exception exp)
             {
-
                 //throw;
             }
 
             return retval;
         }
+
         private List<FlickFriendStat> MyFriendsStasList(List<string> myphotos)
         {
             List<FlickFriendStat> retval = new List<FlickFriendStat>();
             try
             {
-
                 foreach (var photoid in myphotos)
                 {
                     int num = 1;
@@ -1316,18 +1197,13 @@ namespace SvetanFlickrApp
                         //    retval.Add(person);
                         //}
                         //progress++; ;
-
                     }
-
 
                     num++;
                 }
-
-
             }
             catch (Exception exp)
             {
-
                 //throw;
             }
 
@@ -1335,17 +1211,16 @@ namespace SvetanFlickrApp
 
             return retval;
         }
+
         private List<Person> PeopleWhoFavedMyPhotos(List<string> myphotos)
         {
             myphotos.Sort();
             List<Person> retval = new List<Person>();
             int num = 1;
             try
-                {
-
+            {
                 foreach (var photoid in myphotos)
-                    {
-
+                {
                     this.lblCount.Visible = true;
                     lblCount.Text = "Processing data for photo #" + num.ToString();
                     this.progressBar1.Visible = true;
@@ -1357,19 +1232,18 @@ namespace SvetanFlickrApp
                     progressBar1.Step = 1;
                     int progress = 1;
                     foreach (var photofav in mylastphotofavs)
-                        {
+                    {
                         progressBar1.PerformStep();
                         Person person = flickr.PeopleGetInfo(photofav.UserId);
                         //Save data to DB
                         if (person != null)
-                            {
+                        {
                             using (DataClasses1DataContext db = new DataClasses1DataContext())
-                                {
+                            {
                                 //Check id user already exists in DB
                                 MyPeople ps = db.MyPeoples.Where(p => p.UserId.Trim() == person.UserId.Trim()).FirstOrDefault<MyPeople>();
                                 if (ps != null)
-                                    {
-
+                                {
                                     ps.UserName = person.UserName;
                                     ps.RealName = person.RealName;
                                     ps.Location = person.Location;
@@ -1385,19 +1259,19 @@ namespace SvetanFlickrApp
                                     ps.ProfileUrl = person.ProfileUrl;
 
                                     if (ps.LastFavedMe != null)
-                                        {
+                                    {
                                         if (ps.LastFavedMe < photofav.FavoriteDate)
-                                            {
+                                        {
                                             ps.LastFavedMe = photofav.FavoriteDate;
                                             ps.LastReacted = photofav.FavoriteDate;
-                                            }
                                         }
+                                    }
 
                                     //Found Person --update data
                                     db.SubmitChanges();
-                                    }
+                                }
                                 else
-                                    {
+                                {
                                     MyPeople newps = new MyPeople();
                                     newps.UserId = person.UserId;
                                     newps.UserName = person.UserName;
@@ -1418,33 +1292,29 @@ namespace SvetanFlickrApp
 
                                     db.MyPeoples.InsertOnSubmit(newps);
                                     db.SubmitChanges();
-                                    }
                                 }
-                            if (!retval.Contains(person))
-                                {
-                                retval.Add(person);
-                                }
-                            progress++; ;
-
                             }
-
+                            if (!retval.Contains(person))
+                            {
+                                retval.Add(person);
+                            }
+                            progress++; ;
+                        }
 
                         num++;
-                        } // end of foreach loop
-
-
-                    }
+                    } // end of foreach loop
                 }
+            }
             catch (Exception exp)
-                {
-
+            {
                 //throw;
-                }
+            }
 
             retval = retval.GroupBy(x => x.UserId).Select(y => y.First()).ToList<Person>();
 
             return retval;
         }
+
         private List<Person> PeopleWhoCommentedMyPhotos(List<string> myphotos)
         {
             myphotos.Sort();
@@ -1474,14 +1344,13 @@ namespace SvetanFlickrApp
 
                         //Save data to DB
                         if (person != null)
-                            {
+                        {
                             using (DataClasses1DataContext db = new DataClasses1DataContext())
-                                {
+                            {
                                 //Check id user already exists in DB
                                 MyPeople ps = db.MyPeoples.Where(p => p.UserId.Trim() == person.UserId.Trim()).FirstOrDefault<MyPeople>();
                                 if (ps != null)
-                                    {
-
+                                {
                                     ps.UserName = person.UserName;
                                     ps.RealName = person.RealName;
                                     ps.Location = person.Location;
@@ -1496,19 +1365,19 @@ namespace SvetanFlickrApp
                                     ps.ProfileUrl = person.ProfileUrl;
 
                                     if (ps.LastFavedMe != null)
-                                        {
+                                    {
                                         if (ps.LastCommentedMe < photocom.DateCreated)
-                                            {
+                                        {
                                             ps.LastCommentedMe = photocom.DateCreated;
                                             ps.LastReacted = photocom.DateCreated;
-                                            }
                                         }
+                                    }
 
                                     //Found Person --update data
                                     db.SubmitChanges();
-                                    }
+                                }
                                 else
-                                    {
+                                {
                                     MyPeople newps = new MyPeople();
                                     newps.UserId = person.UserId;
                                     newps.UserName = person.UserName;
@@ -1529,13 +1398,11 @@ namespace SvetanFlickrApp
 
                                     db.MyPeoples.InsertOnSubmit(newps);
                                     db.SubmitChanges();
-                                    }
-
                                 }
+                            }
+                        }//if Person !=null
 
-                            }//if Person !=null
-
-                            if (!retval.Contains(person))
+                        if (!retval.Contains(person))
                         {
                             if (person.UserId != s_userid)
                             {
@@ -1546,12 +1413,9 @@ namespace SvetanFlickrApp
                     }
                     num++;
                 }
-
-
             }
             catch (Exception exp)
             {
-
                 //throw;
             }
 
@@ -1561,16 +1425,15 @@ namespace SvetanFlickrApp
         }
 
         private void UpdateDBWhoCommentedMyPhotos(List<string> myphotos)
-            {
-
+        {
             myphotos.Sort();
 
             try
-                {
+            {
                 int num = 1;
 
                 foreach (var photoid in myphotos)
-                    {
+                {
                     this.lblCount.Visible = true;
                     lblCount.Text = "Processing data for photo #" + num.ToString();
                     this.progressBar1.Visible = true;
@@ -1583,29 +1446,27 @@ namespace SvetanFlickrApp
                     progressBar1.Maximum = mylastphotocoms.Count + 1;
                     int progress = 1;
                     foreach (var photocom in mylastphotocoms)
-                        {
+                    {
                         progressBar1.Value = progress;
                         Person person = null;
 
                         try
-                            {
-                                person = flickr.PeopleGetInfo(photocom.AuthorUserId);
-                            }
+                        {
+                            person = flickr.PeopleGetInfo(photocom.AuthorUserId);
+                        }
                         catch (Exception exp)
-                            {
-
-                            }
+                        {
+                        }
 
                         //Save data to DB
                         if (person != null)
-                            {
+                        {
                             using (DataClasses1DataContext db = new DataClasses1DataContext())
-                                {
+                            {
                                 //Check id user already exists in DB
                                 MyPeople ps = db.MyPeoples.Where(p => p.UserId.Trim() == person.UserId.Trim()).FirstOrDefault<MyPeople>();
                                 if (ps != null)
-                                    {
-
+                                {
                                     ps.UserName = person.UserName;
                                     ps.RealName = person.RealName;
                                     ps.Location = person.Location;
@@ -1620,30 +1481,30 @@ namespace SvetanFlickrApp
                                     ps.ProfileUrl = person.ProfileUrl;
 
                                     if (ps.LastCommentedMe != null)
-                                        {
+                                    {
                                         if (ps.LastCommentedMe < photocom.DateCreated)
-                                            {
+                                        {
                                             ps.LastCommentedMe = photocom.DateCreated;
                                             ps.LastReacted = photocom.DateCreated;
-                                            }
                                         }
+                                    }
                                     else
+                                    {
+                                        ps.LastCommentedMe = photocom.DateCreated;
+                                        if (ps.LastReacted != null)
                                         {
-                                            ps.LastCommentedMe = photocom.DateCreated;
-                                        if(ps.LastReacted != null)
-                                            {
                                             if (ps.LastReacted < photocom.DateCreated)
-                                                {
-                                                    ps.LastReacted = photocom.DateCreated;
-                                                }
+                                            {
+                                                ps.LastReacted = photocom.DateCreated;
                                             }
                                         }
-
+                                    }
+                                    ps.LastPostedImage = FlickrFuncs.GetLastUploadedPhotoDT(person.UserId, Shared.flickr);
                                     //Found Person --update data
                                     db.SubmitChanges();
-                                    }
+                                }
                                 else
-                                    {
+                                {
                                     MyPeople newps = new MyPeople();
                                     newps.UserId = person.UserId;
                                     newps.UserName = person.UserName;
@@ -1664,36 +1525,29 @@ namespace SvetanFlickrApp
 
                                     db.MyPeoples.InsertOnSubmit(newps);
                                     db.SubmitChanges();
-                                    }
-
                                 }
-
-                            }//if Person !=null
+                            }
+                        }//if Person !=null
 
                         progress++;
-                        }
-                    num++;
                     }
-
-
-                }
-            catch (Exception exp)
-                {
-
-                //throw;
+                    num++;
                 }
             }
+            catch (Exception exp)
+            {
+                //throw;
+            }
+        }
 
         private void UpdateDBWhoFavedMyPhotos(List<string> myphotos)
-            {
+        {
             myphotos.Sort();
             int num = 1;
             try
-                {
-
+            {
                 foreach (var photoid in myphotos)
-                    {
-
+                {
                     this.lblCount.Visible = true;
                     lblCount.Text = "Processing data for photo #" + num.ToString();
                     this.progressBar1.Visible = true;
@@ -1705,29 +1559,26 @@ namespace SvetanFlickrApp
                     progressBar1.Step = 1;
                     int progress = 1;
                     foreach (var photofav in mylastphotofavs)
-                        {
+                    {
                         progressBar1.PerformStep();
                         Person person = null;
 
                         try
-                            {
+                        {
                             person = flickr.PeopleGetInfo(photofav.UserId);
-                            }
+                        }
                         catch (Exception exp)
-                            {
-
-                           
-                            }
+                        {
+                        }
                         //Save data to DB
                         if (person != null)
-                            {
+                        {
                             using (DataClasses1DataContext db = new DataClasses1DataContext())
-                                {
+                            {
                                 //Check id user already exists in DB
                                 MyPeople ps = db.MyPeoples.Where(p => p.UserId.Trim() == person.UserId.Trim()).FirstOrDefault<MyPeople>();
                                 if (ps != null)
-                                    {
-
+                                {
                                     ps.UserName = person.UserName;
                                     ps.RealName = person.RealName;
                                     ps.Location = person.Location;
@@ -1743,19 +1594,19 @@ namespace SvetanFlickrApp
                                     ps.ProfileUrl = person.ProfileUrl;
 
                                     if (ps.LastFavedMe != null)
-                                        {
+                                    {
                                         if (ps.LastFavedMe < photofav.FavoriteDate)
-                                            {
+                                        {
                                             ps.LastFavedMe = photofav.FavoriteDate;
                                             ps.LastReacted = photofav.FavoriteDate;
-                                            }
                                         }
-
+                                    }
+                                    ps.LastPostedImage = FlickrFuncs.GetLastUploadedPhotoDT(person.UserId, Shared.flickr);
                                     //Found Person --update data
                                     db.SubmitChanges();
-                                    }
+                                }
                                 else
-                                    {
+                                {
                                     MyPeople newps = new MyPeople();
                                     newps.UserId = person.UserId;
                                     newps.UserName = person.UserName;
@@ -1776,41 +1627,32 @@ namespace SvetanFlickrApp
 
                                     db.MyPeoples.InsertOnSubmit(newps);
                                     db.SubmitChanges();
-                                    }
                                 }
+                            }
 
                             progress++; ;
                             person = null;
-
-                            }
-
+                        }
 
                         num++;
-                        } // end of foreach loop
-
-
-                    }
+                    } // end of foreach loop
                 }
-            catch (Exception exp)
-                {
-
-                //throw;
-                }
-
             }
+            catch (Exception exp)
+            {
+                //throw;
+            }
+        }
 
         private List<PhotoFavorite> WhoFavedPhoto(string myphotoid)
         {
             List<PhotoFavorite> retval = new List<PhotoFavorite>();
             List<PhotoFavorite> mylastphotofavs = GetMyLastPhotoFavs(myphotoid);
             return retval;
-
         }
 
         private void btnLastPhotoComments_Click(object sender, EventArgs e)
         {
-
-
             FullComCol = new PhotoCommentCollection();
             mycontuploadlast = new List<MyFlickrContact>();
             Cache.Responses.Flush();
@@ -1836,7 +1678,7 @@ namespace SvetanFlickrApp
                 int num = 0;
                 foreach (var photocom in mylastphotocoms)
                 {
-                    if(photocom.AuthorUserId == s_userid)
+                    if (photocom.AuthorUserId == s_userid)
                     {
                         continue;
                     }
@@ -1858,7 +1700,6 @@ namespace SvetanFlickrApp
 
                         if (curphoto != null)
                         {
-
                             if (!String.IsNullOrEmpty(curphoto.OwnerRealName))
                             {
                                 mycontact.RealName = curphoto.OwnerRealName;
@@ -1882,18 +1723,13 @@ namespace SvetanFlickrApp
                         {
                             mycontuploadlast.Add(mycontact);
                         }
-
                     }
-
                 }
-
             }
             catch (Exception exp)
             {
-
                 throw;
             }
-
 
             //BindGrid(mycontuploadlast);
             DataFuncs.BindGrid(mycontuploadlast, this.grdFavs);
@@ -1911,13 +1747,10 @@ namespace SvetanFlickrApp
             grdFavs.Visible = true;
 
             this.Text = grdFavs.Rows.Count.ToString() + " photos selected";
-
-
         }
 
         private bool IsValid(string suserid)
         {
-
             List<string> novalidlst = new List<string>();
             novalidlst.Add("33669907@N08");
 
@@ -1926,17 +1759,16 @@ namespace SvetanFlickrApp
             //    retval = false;
             //}
 
-
             return (!novalidlst.Contains(suserid));
-
         }
-        private void PopulateMyPhotosCombo(int limit=5, int favsforonly = 0)
+
+        private void PopulateMyPhotosCombo(int limit = 5, int favsforonly = 0)
         {
             if (CurUserPhotos.Count == 0) return;
-            Dictionary<string,string> dic = new Dictionary<string,string>();
+            Dictionary<string, string> dic = new Dictionary<string, string>();
             string sTitle = string.Empty;
-            int count = 0; 
-            foreach(var item in CurUserPhotos)
+            int count = 0;
+            foreach (var item in CurUserPhotos)
             {
                 if (count <= 0)
                 {
@@ -1958,7 +1790,6 @@ namespace SvetanFlickrApp
                 {
                     break;
                 }
-
             }
             cmdMyPhotos.DataSource = new BindingSource(dic, null);
             cmdMyPhotos.DisplayMember = "Value";
@@ -1992,26 +1823,25 @@ namespace SvetanFlickrApp
             FullMyFlickrContacts = FullMyFlickrContacts.Where(c => !c.UserID.Equals(s_userid)).ToList<MyFlickrContact>();
             DataFuncs.BindGrid(FullMyFlickrContacts, grdFavs);
             this.Text = grdFavs.Rows.Count.ToString() + " photos selected";
-
         }
+
         private void GetFriendsStats(int limit = 20)
         {
             List<string> myphotoids = new List<string>();
 
             for (int i = 0; i < limit; i++)
-                {
+            {
                 myphotoids.Add(CurUserPhotos[i].PhotoId);
-                }
+            }
 
             PopulateActiveContactsReaction(myphotoids);
-
         }
 
         private void CleanUpNonCommunicatingContacts()
         {
-
         }
-        private void LoadMyLastPhotosFavs(int limit=5)
+
+        private void LoadMyLastPhotosFavs(int limit = 5)
         {
             if (CurUserPhotos.Count == 0) return;
             //LoadCollection of my favorites
@@ -2038,20 +1868,18 @@ namespace SvetanFlickrApp
             FullMyFlickrContacts = FullMyFlickrContacts.Where(c => !c.UserID.Equals(s_userid)).ToList<MyFlickrContact>();
             DataFuncs.BindGrid(FullMyFlickrContacts, grdFavs);
             this.Text = grdFavs.Rows.Count.ToString() + " photos selected";
-
         }
 
         private void PopulateActiveContactsReaction(List<string> myphotoids)
-            {
+        {
             //Update DB with active contacts base on favs and comments
             //of my last photos
             UpdateDBWhoFavedMyPhotos(myphotoids);
             UpdateDBWhoCommentedMyPhotos(myphotoids);
+        }
 
-
-            }
         private List<MyFlickrContact> activefriendsphotos(List<MyPeople> activefriends)
-            {
+        {
             List<MyFlickrContact> retval = new List<MyFlickrContact>();
             int num = 0;
             progressBar1.Visible = true;
@@ -2061,31 +1889,30 @@ namespace SvetanFlickrApp
             lblCount.Visible = true;
 
             try
-                {
+            {
                 foreach (var friend in activefriends)
-                    {
+                {
                     progressBar1.Value = num;
                     lblCount.Text = "Checking last photo of " + friend.RealName + ";" + num.ToString() + " from " + activefriends.Count.ToString() + ", added photos:" + retval.Count.ToString();
                     Application.DoEvents();
                     string friendLastPhotoId = string.Empty;
                     try
-                        {
-
-                            friendLastPhotoId = GetLastPhotoID(friend.UserId);
-                        }
+                    {
+                        friendLastPhotoId = GetLastPhotoID(friend.UserId);
+                    }
                     catch (Exception exp)
-                        {
-                            continue;
+                    {
+                        continue;
                         //throw;
-                        }
+                    }
 
                     if (friendLastPhotoId.Length == 0)
-                        {
-                            continue;
-                        }
+                    {
+                        continue;
+                    }
 
                     if (!MyLastfavs.Contains(friendLastPhotoId))
-                        {
+                    {
                         MyPeople person = friend;
                         PhotoInfo curphoto = flickr.PhotosGetInfo(friendLastPhotoId);
 
@@ -2100,17 +1927,16 @@ namespace SvetanFlickrApp
                         string fname, mname, lname;
 
                         if (curphoto != null)
-                            {
-
+                        {
                             if (!String.IsNullOrEmpty(curphoto.OwnerRealName))
-                                {
+                            {
                                 mycontact.RealName = curphoto.OwnerRealName;
                                 mycontact.ParseFullName(curphoto.OwnerRealName, out fname, out mname, out lname);
                                 mycontact.FirstName = fname;
-                                }
+                            }
                             mycontact.Location = curphoto.WebUrl;
                             mycontact.UploadDT = curphoto.DateUploaded;
-                            }
+                        }
 
                         mycontact.Family = person.IsFamily;
                         mycontact.Friend = person.IsFriend;
@@ -2123,27 +1949,24 @@ namespace SvetanFlickrApp
                         //exclude old photos, older then 90 days
                         DateTime oldestdt = DateTime.Now.AddDays(-90);
                         if (curphoto.DatePosted > oldestdt)
-                            {
+                        {
                             retval.Add(mycontact);
                             this.Text = "Collected so far  " + retval.Count.ToString() + " photos...";
                             Application.DoEvents();
-                            }
-                        else
-                            {
-
-                            }
                         }
-
+                        else
+                        {
+                        }
                     }
                 }
+            }
             catch (Exception exp)
-                {
-
+            {
                 //throw;
-                }
+            }
 
             return retval;
-            }
+        }
 
         private List<MyFlickrContact> activefriendsphotos(List<Person> activefriends)
         {
@@ -2153,7 +1976,7 @@ namespace SvetanFlickrApp
             progressBar1.Maximum = activefriends.Count;
             progressBar1.Minimum = 0;
             progressBar1.Value = 0;
-            lblCount.Visible = true; 
+            lblCount.Visible = true;
 
             foreach (var friend in activefriends)
             {
@@ -2181,7 +2004,6 @@ namespace SvetanFlickrApp
 
                     if (curphoto != null)
                     {
-
                         if (!String.IsNullOrEmpty(curphoto.OwnerRealName))
                         {
                             mycontact.RealName = curphoto.OwnerRealName;
@@ -2200,7 +2022,7 @@ namespace SvetanFlickrApp
                     mycontact.Icon = LoadPicture(person.BuddyIconUrl);
                     mycontact.UploadDT = curphoto.DateUploaded;
 
-                                        //exclude old photos, older then 90 days
+                    //exclude old photos, older then 90 days
                     DateTime oldestdt = DateTime.Now.AddDays(-90);
                     if (curphoto.DatePosted > oldestdt)
                     {
@@ -2210,14 +2032,13 @@ namespace SvetanFlickrApp
                     }
                     else
                     {
-
                     }
                 }
-
             }
 
             return retval;
         }
+
         private void btnFavSelected_Click(object sender, EventArgs e)
         {
             foreach (DataGridViewRow row in grdFavs.SelectedRows)
@@ -2232,8 +2053,6 @@ namespace SvetanFlickrApp
 
             grdFavs.Enabled = true;
             grdFavs.Refresh();
-
-
         }
 
         private void cmdDeleteRows_Click(object sender, EventArgs e)
@@ -2242,12 +2061,10 @@ namespace SvetanFlickrApp
             this.Text = "Number of selected images:" + grdFavs.Rows.Count.ToString();
         }
 
-
         private void DeteteRows()
         {
             foreach (DataGridViewRow row in grdFavs.SelectedRows)
             {
-
                 updcontact = row.DataBoundItem as MyFlickrContact;
                 //Remove photo from cached collection
                 if (AllContactsPhotos != null)
@@ -2257,7 +2074,6 @@ namespace SvetanFlickrApp
 
                 grdFavs.Rows.Remove(row);
                 grdFavs.Invalidate();
-
             }
         }
 
@@ -2267,7 +2083,6 @@ namespace SvetanFlickrApp
             this.Text = "Saving favs to DB...";
             LoadMyFavsToDB(MySavedFavesList);
         }
-
 
         private void cmdSearch_Click(object sender, EventArgs e)
         {
@@ -2283,7 +2098,6 @@ namespace SvetanFlickrApp
             grdFavs.AutoResizeColumns();
         }
 
-
         private void GetMyFavs()
         {
             MyLastfavs = GetMySavedFavs();
@@ -2296,7 +2110,6 @@ namespace SvetanFlickrApp
 
         private void tableLayoutPanel1_Paint(object sender, PaintEventArgs e)
         {
-
         }
 
         private void cmdFavsToDelete_Click(object sender, EventArgs e)
@@ -2333,9 +2146,7 @@ namespace SvetanFlickrApp
                         {
                         }
                     }
-
                 }
-
             }
 
             DataFuncs.LoadDBFavsToDelete();
@@ -2344,13 +2155,12 @@ namespace SvetanFlickrApp
 
         private void cmdDeleteFavs_Click(object sender, EventArgs e)
         {
-
             DateTime maxtime = this.dtDeleteMaxDate.Value;
             List<FavsToDelete> delproclist = DataFuncs.GetSavedFavsToDEleteList();
 
             List<FavsToDelete> photostodeletelist = (from f in delproclist
-                                               where f.DateAdded < maxtime
-                                               orderby f.DateAdded descending
+                                                     where f.DateAdded < maxtime
+                                                     orderby f.DateAdded descending
                                                      select f).ToList<FavsToDelete>();
 
             if (photostodeletelist.Count == 0)
@@ -2372,7 +2182,6 @@ namespace SvetanFlickrApp
                 }
                 catch (Exception)
                 {
-                    
                     //throw;
                 }
                 counter++;
@@ -2385,14 +2194,12 @@ namespace SvetanFlickrApp
 
             progressBar1.Visible = false;
             progressBar1.Value = 0;
-
-
         }
 
         private void radioComments_CheckedChanged(object sender, EventArgs e)
         {
             RadioButton radio = sender as RadioButton;
-            if(radio.Checked)
+            if (radio.Checked)
             {
                 cmd10PhotoFavs.Text = "20 photo comments";
             }
@@ -2407,125 +2214,138 @@ namespace SvetanFlickrApp
             List<string> myphotoids = new List<string>();
 
             for (int i = 0; i < 20; i++)
-                {
+            {
                 myphotoids.Add(CurUserPhotos[i].PhotoId);
-                }
-                if (!chkUsersFromDB.Checked)
-                {
+            }
+            if (!chkUsersFromDB.Checked)
+            {
                 PopulateActiveContactsReaction(myphotoids);
-                }
+            }
 
-                GetMyFavs();
-                List<MyFlickrContact> FullMyFlickrContacts = new List<MyFlickrContact>();
-                List<MyPeople> activefriends = GetMyActivePeopleFromDB();
-                if (activefriends.Count == 0)
-                    {
+            GetMyFavs();
+            List<MyFlickrContact> FullMyFlickrContacts = new List<MyFlickrContact>();
+            List<MyPeople> activefriends = GetMyActivePeopleFromDB();
+            if (activefriends.Count == 0)
+            {
                 this.Text = "No data";
                 return;
-                    }
-                FullMyFlickrContacts = activefriendsphotos(activefriends);
-
-                //get rid of duplicates
-                FullMyFlickrContacts = FullMyFlickrContacts.GroupBy(x => x.LastPhotoID).Select(y => y.First()).ToList<MyFlickrContact>();
-
-                //populate global collection
-                //PeopleCommentedMyLastPhotos = FullMyFlickrContacts;
-                //Make sure my photos are excluded
-                FullMyFlickrContacts = FullMyFlickrContacts.Where(c => !c.UserID.Equals(s_userid)).ToList<MyFlickrContact>();
-                DataFuncs.BindGrid(FullMyFlickrContacts, grdFavs);
-                this.Text = grdFavs.Rows.Count.ToString() + " photos selected";
-
             }
+            FullMyFlickrContacts = activefriendsphotos(activefriends);
+
+            //get rid of duplicates
+            FullMyFlickrContacts = FullMyFlickrContacts.GroupBy(x => x.LastPhotoID).Select(y => y.First()).ToList<MyFlickrContact>();
+
+            //populate global collection
+            //PeopleCommentedMyLastPhotos = FullMyFlickrContacts;
+            //Make sure my photos are excluded
+            FullMyFlickrContacts = FullMyFlickrContacts.Where(c => !c.UserID.Equals(s_userid)).ToList<MyFlickrContact>();
+            DataFuncs.BindGrid(FullMyFlickrContacts, grdFavs);
+            this.Text = grdFavs.Rows.Count.ToString() + " photos selected";
+        }
 
         private List<MyPeople> GetMyActivePeopleFromDB()
-            {
+        {
             List<MyPeople> retval = new List<MyPeople>();
 
             try
-                {
+            {
                 using (DataClasses1DataContext db = new DataClasses1DataContext())
-                    {
+                {
                     //select those who reacted to my photo staring from 2 month ago till now
                     retval = db.MyPeoples.Where(p => p.LastReacted > DateTime.Now.AddMonths(-2)).ToList<MyPeople>();
-
-                    }
                 }
+            }
             catch (Exception)
-                {
-
-                    throw;
-                }
-
-
-                return retval;
-
+            {
+                throw;
             }
 
+            return retval;
+        }
+
         private List<MyPeople> GeAlltMyActivePeopleFromDB()
-            {
+        {
             List<MyPeople> retval = new List<MyPeople>();
 
             try
-                {
+            {
                 using (DataClasses1DataContext db = new DataClasses1DataContext())
-                    {
+                {
                     //select those who reacted to my photo staring from 2 month ago till now
                     retval = db.MyPeoples.OrderBy(m => m.LastReacted).ToList<MyPeople>();
-                    }
                 }
+            }
             catch (Exception)
-                {
-
+            {
                 throw;
-                }
-
-
-            return retval;
-
             }
 
+            return retval;
+        }
+
         private void ContactList_Shown(object sender, EventArgs e)
-            {
+        {
             this.CommentsCol = GetComments();
             PopulateCommentsCombo();
             PopulateBadUsers();
             CurUserPhotos = GetPhotoColForUser();
-            }
+        }
 
         private void cmdShowUserStas_Click(object sender, EventArgs e)
-            {
-                List <MyPeople> mypeople  = GeAlltMyActivePeopleFromDB();
-                DataFuncs.BindGrid<MyPeople>(mypeople, grdFavs);
-                List<string> gavnocols = new List<string>();
+        {
+            List<MyPeople> mypeople = GeAlltMyActivePeopleFromDB();
+            DataFuncs.BindGrid<MyPeople>(mypeople, grdFavs);
+            List<string> gavnocols = new List<string>();
             gavnocols.Add("IconFarm");
             gavnocols.Add("IconServer");
             grdFavs = ExtensionGridView.HideListedGavnoColumns(gavnocols, grdFavs);
-                grdFavs.Visible = true;
-            }
+            grdFavs.Visible = true;
+        }
 
         private void grdFavs_ColumnHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            string colname = grdFavs.Columns[e.ColumnIndex].Name;
+            if (e.RowIndex == -1)
             {
-                if (grdFavs.SortOrder.ToString() == "Ascending") // Check if sorting is Ascending
-                    {
-                grdFavs.Sort(grdFavs.Columns[grdFavs.SortedColumn.Name], ListSortDirection.Descending);
-                    }
-                else
-                    {
-                grdFavs.Sort(grdFavs.Columns[grdFavs.SortedColumn.Name], ListSortDirection.Ascending);
-                    }
-            }
+                string sort = string.Empty;
+                switch (_sortDirection)
+                {
+                    case SortOrder.None:
+                    _sortDirection = SortOrder.Ascending;
+                    sort = "desc";
+                    break;
 
-        private void chkUseLocalFavs_CheckedChanged(object sender, EventArgs e)
-            {
+                    case SortOrder.Ascending:
+                    _sortDirection = SortOrder.Descending;
+                    sort = "asc";
+                    break;
 
+                    case SortOrder.Descending:
+                    _sortDirection = SortOrder.Ascending;
+                    sort = "desc";
+                    break;
+                }
+
+                grdFavs.Columns[e.ColumnIndex].HeaderCell.SortGlyphDirection = _sortDirection;
+                BindingSource bsrc = grdFavs.DataSource as BindingSource;
+                if (!string.IsNullOrEmpty(sort))
+                {
+                    bsrc.Sort = colname + " " + sort;
+                }
+                else {
+                    bsrc.RemoveSort();
+                }
+                grdFavs.DataSource = bsrc;
             }
         }
 
-
+        private void chkUseLocalFavs_CheckedChanged(object sender, EventArgs e)
+        {
+        }
+    }
 
     public static class ExtensionGridView
     {
-
         public static DataGridView HideGavnoColumns(DataGridView grdView)
         {
             List<string> MiscCols = new List<string>();
@@ -2540,7 +2360,6 @@ namespace SvetanFlickrApp
 
             foreach (DataGridViewColumn clm in grdView.Columns)
             {
-
                 if (MiscCols.Contains(clm.Name))
                 {
                     grdView.Columns[clm.Index].Visible = false;
@@ -2549,23 +2368,22 @@ namespace SvetanFlickrApp
 
             return grdView;
         }
+
         public static DataGridView HideListedGavnoColumns(List<string> MiscCols, DataGridView grdView)
-            {
-
+        {
             foreach (DataGridViewColumn clm in grdView.Columns)
-                {
-
+            {
                 if (MiscCols.Contains(clm.Name))
-                    {
+                {
                     grdView.Columns[clm.Index].Visible = false;
-                    }
                 }
+            }
 
             return grdView;
-            }
+        }
+
         public static DataGridView RemoveEmptyColumns(DataGridView grdView)
         {
-
             foreach (DataGridViewColumn clm in grdView.Columns)
             {
                 bool notAvailable = true;
@@ -2577,7 +2395,6 @@ namespace SvetanFlickrApp
                         notAvailable = false;
                         break;
                     }
-
                 }
                 if (notAvailable)
                 {
@@ -2590,14 +2407,10 @@ namespace SvetanFlickrApp
 
         public static DataGridView SeachResultInRaws(DataGridView grdView, string svalue)
         {
-
-
             for (int r = 0; r < grdView.Rows.Count; r++)
             {
-
                 for (int col = 0; col < grdView.Columns.Count; col++)
                 {
-
                     if (grdView[col, r].Value != null)
                     {
                         if (grdView[col, r].Value.ToString().ToUpper().Contains(svalue.ToUpper()))
@@ -2607,14 +2420,10 @@ namespace SvetanFlickrApp
                             goto EXIT;
                         }
                     }
-
                 }
-
             }
 
-
-
-        EXIT:
+EXIT:
             return grdView;
         }
     }
