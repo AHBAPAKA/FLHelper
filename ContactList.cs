@@ -1461,70 +1461,73 @@ BADUSER_EXIT:
                         //Save data to DB
                         if (person != null)
                         {
-                            using (DataClasses1DataContext db = new DataClasses1DataContext())
+                            if (!BadUsersCollection.Contains(person.UserId))
                             {
-                                //Check id user already exists in DB
-                                MyPeople ps = db.MyPeoples.Where(p => p.UserId.Trim() == person.UserId.Trim()).FirstOrDefault<MyPeople>();
-                                if (ps != null)
+                                using (DataClasses1DataContext db = new DataClasses1DataContext())
                                 {
-                                    ps.UserName = person.UserName;
-                                    ps.RealName = person.RealName;
-                                    ps.Location = person.Location;
-                                    ps.IsFriend = person.IsFriend;
-                                    ps.IsFamily = person.IsFamily;
-                                    ps.IsContact = person.IsContact;
-                                    ps.IsPro = person.IsPro;
-                                    ps.BuddyIconUrl = person.BuddyIconUrl;
-                                    ps.IconFarm = person.IconFarm;
-                                    ps.IconServer = person.IconServer;
-                                    ps.PhotosUrl = person.PhotosUrl;
-                                    ps.ProfileUrl = person.ProfileUrl;
+                                    //Check id user already exists in DB
+                                    MyPeople ps = db.MyPeoples.Where(p => p.UserId.Trim() == person.UserId.Trim()).FirstOrDefault<MyPeople>();
+                                    if (ps != null)
+                                    {
+                                        ps.UserName = person.UserName;
+                                        ps.RealName = person.RealName;
+                                        ps.Location = person.Location;
+                                        ps.IsFriend = person.IsFriend;
+                                        ps.IsFamily = person.IsFamily;
+                                        ps.IsContact = person.IsContact;
+                                        ps.IsPro = person.IsPro;
+                                        ps.BuddyIconUrl = person.BuddyIconUrl;
+                                        ps.IconFarm = person.IconFarm;
+                                        ps.IconServer = person.IconServer;
+                                        ps.PhotosUrl = person.PhotosUrl;
+                                        ps.ProfileUrl = person.ProfileUrl;
 
-                                    if (ps.LastCommentedMe != null)
-                                    {
-                                        if (ps.LastCommentedMe < photocom.DateCreated)
+                                        if (ps.LastCommentedMe != null)
                                         {
-                                            ps.LastCommentedMe = photocom.DateCreated;
-                                            ps.LastReacted = photocom.DateCreated;
-                                        }
-                                    }
-                                    else
-                                    {
-                                        ps.LastCommentedMe = photocom.DateCreated;
-                                        if (ps.LastReacted != null)
-                                        {
-                                            if (ps.LastReacted < photocom.DateCreated)
+                                            if (ps.LastCommentedMe < photocom.DateCreated)
                                             {
+                                                ps.LastCommentedMe = photocom.DateCreated;
                                                 ps.LastReacted = photocom.DateCreated;
                                             }
                                         }
+                                        else
+                                        {
+                                            ps.LastCommentedMe = photocom.DateCreated;
+                                            if (ps.LastReacted != null)
+                                            {
+                                                if (ps.LastReacted < photocom.DateCreated)
+                                                {
+                                                    ps.LastReacted = photocom.DateCreated;
+                                                }
+                                            }
+                                        }
+                                        ps.LastPostedImage = FlickrFuncs.GetLastUploadedPhotoDT(person.UserId, Shared.flickr);
+                                        //Found Person --update data
+                                        db.SubmitChanges();
                                     }
-                                    ps.LastPostedImage = FlickrFuncs.GetLastUploadedPhotoDT(person.UserId, Shared.flickr);
-                                    //Found Person --update data
-                                    db.SubmitChanges();
-                                }
-                                else
-                                {
-                                    MyPeople newps = new MyPeople();
-                                    newps.UserId = person.UserId;
-                                    newps.UserName = person.UserName;
-                                    newps.RealName = person.RealName;
-                                    newps.Location = person.Location;
-                                    newps.IsFriend = person.IsFriend;
-                                    newps.IsFamily = person.IsFamily;
-                                    newps.IsContact = person.IsContact;
-                                    newps.IsPro = person.IsPro;
-                                    //newps.LastPostedImage = person.LastPostedImage;
-                                    newps.LastCommentedMe = photocom.DateCreated;
-                                    newps.LastReacted = photocom.DateCreated;
-                                    newps.BuddyIconUrl = person.BuddyIconUrl;
-                                    newps.IconFarm = person.IconFarm;
-                                    newps.IconServer = person.IconServer;
-                                    newps.PhotosUrl = person.PhotosUrl;
-                                    newps.ProfileUrl = person.ProfileUrl;
+                                    else
+                                    {
+                                        MyPeople newps = new MyPeople();
+                                        newps.UserId = person.UserId;
+                                        newps.UserName = person.UserName;
+                                        newps.RealName = person.RealName;
+                                        newps.Location = person.Location;
+                                        newps.IsFriend = person.IsFriend;
+                                        newps.IsFamily = person.IsFamily;
+                                        newps.IsContact = person.IsContact;
+                                        newps.IsPro = person.IsPro;
+                                        //newps.LastPostedImage = person.LastPostedImage;
+                                        newps.LastCommentedMe = photocom.DateCreated;
+                                        newps.LastReacted = photocom.DateCreated;
+                                        newps.BuddyIconUrl = person.BuddyIconUrl;
+                                        newps.IconFarm = person.IconFarm;
+                                        newps.IconServer = person.IconServer;
+                                        newps.PhotosUrl = person.PhotosUrl;
+                                        newps.ProfileUrl = person.ProfileUrl;
 
-                                    db.MyPeoples.InsertOnSubmit(newps);
-                                    db.SubmitChanges();
+                                        db.MyPeoples.InsertOnSubmit(newps);
+                                        db.SubmitChanges();
+                                    }
                                 }
                             }
                         }//if Person !=null
@@ -1573,60 +1576,63 @@ BADUSER_EXIT:
                         //Save data to DB
                         if (person != null)
                         {
-                            using (DataClasses1DataContext db = new DataClasses1DataContext())
+                            if (!BadUsersCollection.Contains(person.UserId))
                             {
-                                //Check id user already exists in DB
-                                MyPeople ps = db.MyPeoples.Where(p => p.UserId.Trim() == person.UserId.Trim()).FirstOrDefault<MyPeople>();
-                                if (ps != null)
+                                using (DataClasses1DataContext db = new DataClasses1DataContext())
                                 {
-                                    ps.UserName = person.UserName;
-                                    ps.RealName = person.RealName;
-                                    ps.Location = person.Location;
-                                    ps.IsFriend = person.IsFriend;
-                                    ps.IsFamily = person.IsFamily;
-                                    ps.IsContact = person.IsContact;
-                                    ps.IsPro = person.IsPro;
-                                    //newps.LastPostedImage = person.LastPostedImage;
-                                    ps.BuddyIconUrl = person.BuddyIconUrl;
-                                    ps.IconFarm = person.IconFarm;
-                                    ps.IconServer = person.IconServer;
-                                    ps.PhotosUrl = person.PhotosUrl;
-                                    ps.ProfileUrl = person.ProfileUrl;
-
-                                    if (ps.LastFavedMe != null)
+                                    //Check id user already exists in DB
+                                    MyPeople ps = db.MyPeoples.Where(p => p.UserId.Trim() == person.UserId.Trim()).FirstOrDefault<MyPeople>();
+                                    if (ps != null)
                                     {
-                                        if (ps.LastFavedMe < photofav.FavoriteDate)
-                                        {
-                                            ps.LastFavedMe = photofav.FavoriteDate;
-                                            ps.LastReacted = photofav.FavoriteDate;
-                                        }
-                                    }
-                                    ps.LastPostedImage = FlickrFuncs.GetLastUploadedPhotoDT(person.UserId, Shared.flickr);
-                                    //Found Person --update data
-                                    db.SubmitChanges();
-                                }
-                                else
-                                {
-                                    MyPeople newps = new MyPeople();
-                                    newps.UserId = person.UserId;
-                                    newps.UserName = person.UserName;
-                                    newps.RealName = person.RealName;
-                                    newps.Location = person.Location;
-                                    newps.IsFriend = person.IsFriend;
-                                    newps.IsFamily = person.IsFamily;
-                                    newps.IsContact = person.IsContact;
-                                    newps.IsPro = person.IsPro;
-                                    //newps.LastPostedImage = person.LastPostedImage;
-                                    newps.LastFavedMe = photofav.FavoriteDate;
-                                    newps.LastReacted = photofav.FavoriteDate;
-                                    newps.BuddyIconUrl = person.BuddyIconUrl;
-                                    newps.IconFarm = person.IconFarm;
-                                    newps.IconServer = person.IconServer;
-                                    newps.PhotosUrl = person.PhotosUrl;
-                                    newps.ProfileUrl = person.ProfileUrl;
+                                        ps.UserName = person.UserName;
+                                        ps.RealName = person.RealName;
+                                        ps.Location = person.Location;
+                                        ps.IsFriend = person.IsFriend;
+                                        ps.IsFamily = person.IsFamily;
+                                        ps.IsContact = person.IsContact;
+                                        ps.IsPro = person.IsPro;
+                                        //newps.LastPostedImage = person.LastPostedImage;
+                                        ps.BuddyIconUrl = person.BuddyIconUrl;
+                                        ps.IconFarm = person.IconFarm;
+                                        ps.IconServer = person.IconServer;
+                                        ps.PhotosUrl = person.PhotosUrl;
+                                        ps.ProfileUrl = person.ProfileUrl;
 
-                                    db.MyPeoples.InsertOnSubmit(newps);
-                                    db.SubmitChanges();
+                                        if (ps.LastFavedMe != null)
+                                        {
+                                            if (ps.LastFavedMe < photofav.FavoriteDate)
+                                            {
+                                                ps.LastFavedMe = photofav.FavoriteDate;
+                                                ps.LastReacted = photofav.FavoriteDate;
+                                            }
+                                        }
+                                        ps.LastPostedImage = FlickrFuncs.GetLastUploadedPhotoDT(person.UserId, Shared.flickr);
+                                        //Found Person --update data
+                                        db.SubmitChanges();
+                                    }
+                                    else
+                                    {
+                                        MyPeople newps = new MyPeople();
+                                        newps.UserId = person.UserId;
+                                        newps.UserName = person.UserName;
+                                        newps.RealName = person.RealName;
+                                        newps.Location = person.Location;
+                                        newps.IsFriend = person.IsFriend;
+                                        newps.IsFamily = person.IsFamily;
+                                        newps.IsContact = person.IsContact;
+                                        newps.IsPro = person.IsPro;
+                                        //newps.LastPostedImage = person.LastPostedImage;
+                                        newps.LastFavedMe = photofav.FavoriteDate;
+                                        newps.LastReacted = photofav.FavoriteDate;
+                                        newps.BuddyIconUrl = person.BuddyIconUrl;
+                                        newps.IconFarm = person.IconFarm;
+                                        newps.IconServer = person.IconServer;
+                                        newps.PhotosUrl = person.PhotosUrl;
+                                        newps.ProfileUrl = person.ProfileUrl;
+
+                                        db.MyPeoples.InsertOnSubmit(newps);
+                                        db.SubmitChanges();
+                                    }
                                 }
                             }
 
@@ -2253,6 +2259,7 @@ BADUSER_EXIT:
                 {
                     //select those who reacted to my photo staring from 2 month ago till now
                     retval = db.MyPeoples.Where(p => p.LastReacted > DateTime.Now.AddMonths(-2)).ToList<MyPeople>();
+                    retval = retval.Where(p => !BadUsersCollection.Contains(p.UserId)).ToList<MyPeople>();
                 }
             }
             catch (Exception)
@@ -2273,6 +2280,8 @@ BADUSER_EXIT:
                 {
                     //select those who reacted to my photo staring from 2 month ago till now
                     retval = db.MyPeoples.OrderBy(m => m.LastReacted).ToList<MyPeople>();
+                    retval = retval.Where(p => !BadUsersCollection.Contains(p.UserId)).ToList<MyPeople>();
+
                 }
             }
             catch (Exception)
@@ -2341,6 +2350,32 @@ BADUSER_EXIT:
 
         private void chkUseLocalFavs_CheckedChanged(object sender, EventArgs e)
         {
+        }
+
+        private void cmdCleanActiveContacts_Click(object sender, EventArgs e)
+        {
+            using (DataClasses1DataContext db = new DataClasses1DataContext())
+            {
+                var badUsers =
+                    from p in db.MyPeoples
+                    where BadUsersCollection.Contains(p.UserId)
+                    select p;
+
+                foreach (var todelete in badUsers)
+                {
+                    db.MyPeoples.DeleteOnSubmit(todelete);
+                }
+
+                try
+                {
+                    db.SubmitChanges();
+                }
+                catch (Exception exp)
+                {
+                    Console.WriteLine(exp);
+                    // Provide for exceptions.
+                }
+            }
         }
     }
 

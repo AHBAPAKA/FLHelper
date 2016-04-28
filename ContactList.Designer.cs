@@ -42,7 +42,7 @@
             this.gbox1 = new System.Windows.Forms.GroupBox();
             this.radioComments = new System.Windows.Forms.RadioButton();
             this.radioFavs = new System.Windows.Forms.RadioButton();
-            this.cmdProcessActiveContacts = new System.Windows.Forms.Button();
+            this.cmdCleanActiveContacts = new System.Windows.Forms.Button();
             this.cmd10PhotoFavs = new System.Windows.Forms.Button();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.cmdUpdateFavDB = new System.Windows.Forms.Button();
@@ -68,6 +68,7 @@
             this.lblRandomComment = new System.Windows.Forms.Label();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.itemDelete = new System.Windows.Forms.ToolStripMenuItem();
+            this.button2 = new System.Windows.Forms.Button();
             this.tblMain.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.grdFavs)).BeginInit();
             this.tableLayoutPanel1.SuspendLayout();
@@ -128,6 +129,7 @@
             this.tableLayoutPanel1.ColumnCount = 2;
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 57.14286F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 42.85714F));
+            this.tableLayoutPanel1.Controls.Add(this.button2, 0, 5);
             this.tableLayoutPanel1.Controls.Add(this.btnLastPhotofavs, 0, 3);
             this.tableLayoutPanel1.Controls.Add(this.cmdMyPhotos, 0, 2);
             this.tableLayoutPanel1.Controls.Add(this.btnLastPhotoComments, 0, 4);
@@ -135,7 +137,7 @@
             this.tableLayoutPanel1.Controls.Add(this.btnFavAll, 1, 3);
             this.tableLayoutPanel1.Controls.Add(this.btnPopulateDefComments, 1, 2);
             this.tableLayoutPanel1.Controls.Add(this.gbox1, 1, 1);
-            this.tableLayoutPanel1.Controls.Add(this.cmdProcessActiveContacts, 0, 5);
+            this.tableLayoutPanel1.Controls.Add(this.cmdCleanActiveContacts, 0, 5);
             this.tableLayoutPanel1.Controls.Add(this.cmd10PhotoFavs, 0, 1);
             this.tableLayoutPanel1.Location = new System.Drawing.Point(3, 3);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
@@ -249,15 +251,15 @@
             this.radioFavs.Text = "Favs";
             this.radioFavs.UseVisualStyleBackColor = true;
             // 
-            // cmdProcessActiveContacts
+            // cmdCleanActiveContacts
             // 
-            this.cmdProcessActiveContacts.Location = new System.Drawing.Point(3, 159);
-            this.cmdProcessActiveContacts.Name = "cmdProcessActiveContacts";
-            this.cmdProcessActiveContacts.Size = new System.Drawing.Size(181, 20);
-            this.cmdProcessActiveContacts.TabIndex = 7;
-            this.cmdProcessActiveContacts.Text = "Process Active Contacts";
-            this.cmdProcessActiveContacts.UseVisualStyleBackColor = true;
-            this.cmdProcessActiveContacts.Click += new System.EventHandler(this.button2_Click);
+            this.cmdCleanActiveContacts.Location = new System.Drawing.Point(191, 159);
+            this.cmdCleanActiveContacts.Name = "cmdCleanActiveContacts";
+            this.cmdCleanActiveContacts.Size = new System.Drawing.Size(135, 20);
+            this.cmdCleanActiveContacts.TabIndex = 7;
+            this.cmdCleanActiveContacts.Text = "Clean Active Contacts";
+            this.cmdCleanActiveContacts.UseVisualStyleBackColor = true;
+            this.cmdCleanActiveContacts.Click += new System.EventHandler(this.cmdCleanActiveContacts_Click);
             // 
             // cmd10PhotoFavs
             // 
@@ -523,6 +525,15 @@
             this.itemDelete.Size = new System.Drawing.Size(133, 22);
             this.itemDelete.Text = "Delete Row";
             // 
+            // button2
+            // 
+            this.button2.Location = new System.Drawing.Point(3, 159);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(181, 20);
+            this.button2.TabIndex = 8;
+            this.button2.Text = "Process Active Contacts";
+            this.button2.UseVisualStyleBackColor = true;
+            // 
             // ContactList
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -586,8 +597,9 @@
         private System.Windows.Forms.RadioButton radioFavs;
         public System.Windows.Forms.Label lblCount;
         public System.Windows.Forms.ProgressBar progressBar1;
-        private System.Windows.Forms.Button cmdProcessActiveContacts;
+        private System.Windows.Forms.Button cmdCleanActiveContacts;
         private System.Windows.Forms.Button cmdShowUserStas;
         private System.Windows.Forms.CheckBox chkUsersFromDB;
-        }
+        private System.Windows.Forms.Button button2;
+    }
 }

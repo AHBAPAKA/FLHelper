@@ -3,6 +3,9 @@
   <Comment>
     <Value>&lt;br&gt;</Value>
   </Comment>
+    <Comment>
+    <Value>Top class SL ART here!&lt;br&gt;Hope you are doing great my friend {0}</Value>
+  </Comment>
   <Comment>
     <Value>Perfect image and presentation!&lt;br&gt;Hope you are doing great my friend {0}</Value>
   </Comment>
@@ -75,7 +78,7 @@
   <Comment>
     <Value >What an amazing catch!&lt;br&gt;Bravo {0}!&lt;br&gt;</Value>
   </Comment>
-  <Comment>
+  <Comment >
     <Value >Beautiful capture!&lt;br&gt;Bravo {0}!&lt;br&gt;</Value>
   </Comment>
   <Comment>
@@ -88,6 +91,12 @@
     <Value >Отличная работа!&lt;br&gt;Наилучшие пожелания из Техаса!</Value>
   </Comment>
   <Comment>
+    <Value >Изумительная фотография!&lt;br&gt;Наилучшие пожелания из Техаса!</Value>
+  </Comment>
+   <Comment>
+    <Value >Настоящий щедевр!&lt;br&gt;Наилучшие пожелания из Техаса!</Value>
+  </Comment>
+  <Comment>
     <Value >Интересная фотография!&lt;br&gt;</Value>
   </Comment>
   <Comment>
@@ -95,9 +104,6 @@
   </Comment>
   <Comment>
     <Value>Исключительно красиво!&lt;br&gt;Наилучшие пожелания из Техаса!</Value>
-  </Comment>
-    <Comment>
-    <Value>Красивый снимок!&lt;br&gt;Наилучшие пожелания из Техаса!</Value>
   </Comment>
   <Comment>
     <Value>Очень мило!&lt;br&gt;Наилучшие пожелания из Техаса!</Value>
