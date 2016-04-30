@@ -33,6 +33,7 @@
             this.tblMain = new System.Windows.Forms.TableLayoutPanel();
             this.grdFavs = new System.Windows.Forms.DataGridView();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.cmdProcessActiveContacts = new System.Windows.Forms.Button();
             this.btnLastPhotofavs = new System.Windows.Forms.Button();
             this.cmdMyPhotos = new System.Windows.Forms.ComboBox();
             this.btnLastPhotoComments = new System.Windows.Forms.Button();
@@ -55,6 +56,7 @@
             this.cmbComments = new System.Windows.Forms.ComboBox();
             this.cmbUsers = new System.Windows.Forms.ComboBox();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.chkOnly2MonthReacted = new System.Windows.Forms.CheckBox();
             this.chkUsersFromDB = new System.Windows.Forms.CheckBox();
             this.chkUseLocalFavs = new System.Windows.Forms.CheckBox();
             this.cmdHideGavnoColumns = new System.Windows.Forms.Button();
@@ -68,7 +70,6 @@
             this.lblRandomComment = new System.Windows.Forms.Label();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.itemDelete = new System.Windows.Forms.ToolStripMenuItem();
-            this.button2 = new System.Windows.Forms.Button();
             this.tblMain.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.grdFavs)).BeginInit();
             this.tableLayoutPanel1.SuspendLayout();
@@ -129,7 +130,7 @@
             this.tableLayoutPanel1.ColumnCount = 2;
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 57.14286F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 42.85714F));
-            this.tableLayoutPanel1.Controls.Add(this.button2, 0, 5);
+            this.tableLayoutPanel1.Controls.Add(this.cmdProcessActiveContacts, 0, 5);
             this.tableLayoutPanel1.Controls.Add(this.btnLastPhotofavs, 0, 3);
             this.tableLayoutPanel1.Controls.Add(this.cmdMyPhotos, 0, 2);
             this.tableLayoutPanel1.Controls.Add(this.btnLastPhotoComments, 0, 4);
@@ -137,7 +138,6 @@
             this.tableLayoutPanel1.Controls.Add(this.btnFavAll, 1, 3);
             this.tableLayoutPanel1.Controls.Add(this.btnPopulateDefComments, 1, 2);
             this.tableLayoutPanel1.Controls.Add(this.gbox1, 1, 1);
-            this.tableLayoutPanel1.Controls.Add(this.cmdCleanActiveContacts, 0, 5);
             this.tableLayoutPanel1.Controls.Add(this.cmd10PhotoFavs, 0, 1);
             this.tableLayoutPanel1.Location = new System.Drawing.Point(3, 3);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
@@ -151,6 +151,16 @@
             this.tableLayoutPanel1.Size = new System.Drawing.Size(329, 182);
             this.tableLayoutPanel1.TabIndex = 6;
             this.tableLayoutPanel1.Paint += new System.Windows.Forms.PaintEventHandler(this.tableLayoutPanel1_Paint);
+            // 
+            // cmdProcessActiveContacts
+            // 
+            this.cmdProcessActiveContacts.Location = new System.Drawing.Point(3, 159);
+            this.cmdProcessActiveContacts.Name = "cmdProcessActiveContacts";
+            this.cmdProcessActiveContacts.Size = new System.Drawing.Size(181, 20);
+            this.cmdProcessActiveContacts.TabIndex = 8;
+            this.cmdProcessActiveContacts.Text = "Process Active Contacts";
+            this.cmdProcessActiveContacts.UseVisualStyleBackColor = true;
+            this.cmdProcessActiveContacts.Click += new System.EventHandler(this.ProcessPhotosOfPeopleWhoReacts);
             // 
             // btnLastPhotofavs
             // 
@@ -253,9 +263,9 @@
             // 
             // cmdCleanActiveContacts
             // 
-            this.cmdCleanActiveContacts.Location = new System.Drawing.Point(191, 159);
+            this.cmdCleanActiveContacts.Location = new System.Drawing.Point(3, 117);
             this.cmdCleanActiveContacts.Name = "cmdCleanActiveContacts";
-            this.cmdCleanActiveContacts.Size = new System.Drawing.Size(135, 20);
+            this.cmdCleanActiveContacts.Size = new System.Drawing.Size(121, 20);
             this.cmdCleanActiveContacts.TabIndex = 7;
             this.cmdCleanActiveContacts.Text = "Clean Active Contacts";
             this.cmdCleanActiveContacts.UseVisualStyleBackColor = true;
@@ -286,6 +296,7 @@
             this.tableLayoutPanel2.Controls.Add(this.cmdDeleteFavs, 1, 1);
             this.tableLayoutPanel2.Controls.Add(this.cmdShowUserStas, 0, 2);
             this.tableLayoutPanel2.Controls.Add(this.cmbComments, 1, 2);
+            this.tableLayoutPanel2.Controls.Add(this.cmdCleanActiveContacts, 0, 3);
             this.tableLayoutPanel2.Controls.Add(this.cmbUsers, 1, 3);
             this.tableLayoutPanel2.Location = new System.Drawing.Point(340, 3);
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
@@ -393,6 +404,7 @@
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.chkOnly2MonthReacted);
             this.panel1.Controls.Add(this.chkUsersFromDB);
             this.panel1.Controls.Add(this.chkUseLocalFavs);
             this.panel1.Controls.Add(this.cmdHideGavnoColumns);
@@ -406,10 +418,22 @@
             this.panel1.Size = new System.Drawing.Size(167, 182);
             this.panel1.TabIndex = 10;
             // 
+            // chkOnly2MonthReacted
+            // 
+            this.chkOnly2MonthReacted.AutoSize = true;
+            this.chkOnly2MonthReacted.Checked = true;
+            this.chkOnly2MonthReacted.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chkOnly2MonthReacted.Location = new System.Drawing.Point(4, 161);
+            this.chkOnly2MonthReacted.Name = "chkOnly2MonthReacted";
+            this.chkOnly2MonthReacted.Size = new System.Drawing.Size(131, 17);
+            this.chkOnly2MonthReacted.TabIndex = 15;
+            this.chkOnly2MonthReacted.Text = "Use Contacts from DB";
+            this.chkOnly2MonthReacted.UseVisualStyleBackColor = true;
+            // 
             // chkUsersFromDB
             // 
             this.chkUsersFromDB.AutoSize = true;
-            this.chkUsersFromDB.Location = new System.Drawing.Point(3, 148);
+            this.chkUsersFromDB.Location = new System.Drawing.Point(3, 143);
             this.chkUsersFromDB.Name = "chkUsersFromDB";
             this.chkUsersFromDB.Size = new System.Drawing.Size(131, 17);
             this.chkUsersFromDB.TabIndex = 14;
@@ -419,7 +443,7 @@
             // chkUseLocalFavs
             // 
             this.chkUseLocalFavs.AutoSize = true;
-            this.chkUseLocalFavs.Location = new System.Drawing.Point(3, 129);
+            this.chkUseLocalFavs.Location = new System.Drawing.Point(3, 124);
             this.chkUseLocalFavs.Name = "chkUseLocalFavs";
             this.chkUseLocalFavs.Size = new System.Drawing.Size(141, 17);
             this.chkUseLocalFavs.TabIndex = 13;
@@ -525,15 +549,6 @@
             this.itemDelete.Size = new System.Drawing.Size(133, 22);
             this.itemDelete.Text = "Delete Row";
             // 
-            // button2
-            // 
-            this.button2.Location = new System.Drawing.Point(3, 159);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(181, 20);
-            this.button2.TabIndex = 8;
-            this.button2.Text = "Process Active Contacts";
-            this.button2.UseVisualStyleBackColor = true;
-            // 
             // ContactList
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -600,6 +615,7 @@
         private System.Windows.Forms.Button cmdCleanActiveContacts;
         private System.Windows.Forms.Button cmdShowUserStas;
         private System.Windows.Forms.CheckBox chkUsersFromDB;
-        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button cmdProcessActiveContacts;
+        private System.Windows.Forms.CheckBox chkOnly2MonthReacted;
     }
 }

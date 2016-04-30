@@ -530,7 +530,7 @@ BADUSER_EXIT:
             ContactCollection mycontacts = GetMyContactsList();
             List<string> deadcontacts = new List<string>();
             MyPeople PersonActive = null;
-            List<MyPeople> mypeople = GeAlltMyActivePeopleFromDB();
+            List<MyPeople> mypeople = GetAlltMyActivePeopleFromDB();
             try
             {
                 foreach (Contact contact in mycontacts)
@@ -2270,7 +2270,7 @@ BADUSER_EXIT:
             return retval;
         }
 
-        private List<MyPeople> GeAlltMyActivePeopleFromDB()
+        private List<MyPeople> GetAlltMyActivePeopleFromDB()
         {
             List<MyPeople> retval = new List<MyPeople>();
 
@@ -2292,6 +2292,30 @@ BADUSER_EXIT:
             return retval;
         }
 
+        private List<MyPeople> GetAlltMyActive2MonthPeopleFromDB()
+        {
+            List<MyPeople> retval = new List<MyPeople>();
+
+            try
+            {
+                using (DataClasses1DataContext db = new DataClasses1DataContext())
+                {
+                    //select those who reacted to my photo staring from 2 month ago till now
+                    List<MyPeople> proc = new List<MyPeople>();
+                    proc = db.MyPeoples.OrderBy(m => m.LastReacted).ToList<MyPeople>();
+                    proc = proc.Where(p => !BadUsersCollection.Contains(p.UserId)).ToList<MyPeople>();
+                    retval = proc.Where(p => p.LastReacted > DateTime.Now.AddMonths(-2) ).ToList<MyPeople>();
+
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+
+            return retval;
+        }
+
         private void ContactList_Shown(object sender, EventArgs e)
         {
             this.CommentsCol = GetComments();
@@ -2302,7 +2326,7 @@ BADUSER_EXIT:
 
         private void cmdShowUserStas_Click(object sender, EventArgs e)
         {
-            List<MyPeople> mypeople = GeAlltMyActivePeopleFromDB();
+            List<MyPeople> mypeople = GetAlltMyActivePeopleFromDB();
             DataFuncs.BindGrid<MyPeople>(mypeople, grdFavs);
             List<string> gavnocols = new List<string>();
             gavnocols.Add("IconFarm");
@@ -2377,6 +2401,105 @@ BADUSER_EXIT:
                 }
             }
         }
+
+        private void ProcessPhotosOfPeopleWhoReacts(object sender, EventArgs e)
+        {
+            List<MyPeople> PeopleReacted = new List<MyPeople>();
+            List<MyFlickrContact> retval = new List<MyFlickrContact>();
+            PhotoInfo curphoto; ;
+            int num = 0;
+
+            if (chkOnly2MonthReacted.Checked)
+            {
+                PeopleReacted = GetAlltMyActive2MonthPeopleFromDB();
+            }
+            else
+            {
+                PeopleReacted = GetAlltMyActivePeopleFromDB();
+            }
+            if (PeopleReacted.Count == 0) return;
+
+            //Load last photos of people reacting to my photos
+
+            foreach (MyPeople p in PeopleReacted)
+            {
+                try
+                {
+                    Person person = flickr.PeopleGetInfo(p.UserId);
+                }
+                catch (Exception exp)
+                {
+                    //user not found
+                    continue;
+                }
+         
+                string friendLastPhotoId = GetLastPhotoID(p.UserId);
+                this.Text = "Processing last photo of " + p.UserName + ". Preselected " + mycontuploadlast.Count.ToString() + " photos for processing";
+
+                bool favexists = MyLastfavs.Contains(friendLastPhotoId);
+
+                if (!favexists)
+                {
+                    //Person person = flickr.PeopleGetInfo(p.UserId);
+                    try
+                    {
+                        curphoto = flickr.PhotosGetInfo(friendLastPhotoId);
+                    }
+                    catch (Exception exp)
+                    {
+                        //photo doesn't exist
+                        continue;
+                    }
+                    num++;
+                    MyFlickrContact mycontact = new MyFlickrContact();
+                    mycontact.ItemNum = num;
+                    mycontact.UserID = p.UserId;
+                    mycontact.UserName = p.UserName;
+                    mycontact.RealName = p.RealName;
+
+                    string fname, mname, lname;
+
+                    if (curphoto != null)
+                    {
+                        if (!String.IsNullOrEmpty(curphoto.OwnerRealName))
+                        {
+                            mycontact.RealName = curphoto.OwnerRealName;
+                            mycontact.ParseFullName(curphoto.OwnerRealName, out fname, out mname, out lname);
+                            mycontact.FirstName = fname;
+                        }
+                        mycontact.Location = curphoto.WebUrl;
+                        mycontact.UploadDT = curphoto.DateUploaded;
+                    }
+
+                    mycontact.Family = p.IsFamily;
+                    mycontact.Friend = p.IsFriend;
+
+                    mycontact.LastPhotoID = curphoto.PhotoId;
+                    mycontact.LastPhoto = LoadPicture(curphoto.SmallUrl);
+                    mycontact.Icon = LoadPicture(p.BuddyIconUrl);
+                    mycontact.UploadDT = curphoto.DateUploaded;
+
+                    DateTime maxdt = DateTime.Now.AddMonths(-1);
+                    if (mycontact.UploadDT > maxdt)
+                    {
+                        mycontuploadlast.Add(mycontact);
+                    }
+
+
+                }
+
+
+            }
+            var sorted = from element in mycontuploadlast
+                         where element.UploadDT > DateTime.Now.AddMonths(-1)
+                         orderby element.UploadDT descending
+                         select element;
+
+            AllContactsPhotos = sorted.ToList<MyFlickrContact>();
+            DataFuncs.BindGrid(sorted.ToList<MyFlickrContact>(), this.grdFavs);
+        }
+
+
     }
 
     public static class ExtensionGridView
