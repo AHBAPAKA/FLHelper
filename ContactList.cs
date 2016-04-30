@@ -2408,6 +2408,14 @@ BADUSER_EXIT:
             List<MyFlickrContact> retval = new List<MyFlickrContact>();
             PhotoInfo curphoto; ;
             int num = 0;
+            //Load favorites
+            GetMyFavs();
+
+            if (MyLastfavs.Count() == 0)
+            {
+                this.Text = "No Favorites to compare";
+                return;
+            }
 
             if (chkOnly2MonthReacted.Checked)
             {
@@ -2436,57 +2444,63 @@ BADUSER_EXIT:
                 string friendLastPhotoId = GetLastPhotoID(p.UserId);
                 this.Text = "Processing last photo of " + p.UserName + ". Preselected " + mycontuploadlast.Count.ToString() + " photos for processing";
 
-                bool favexists = MyLastfavs.Contains(friendLastPhotoId);
+                bool favexists;
 
-                if (!favexists)
+                try
                 {
-                    //Person person = flickr.PeopleGetInfo(p.UserId);
-                    try
+                    curphoto = flickr.PhotosGetInfo(friendLastPhotoId);
+                }
+                catch (Exception exp)
+                {
+                    //photo doesn't exist
+                    continue;
+                }
+                num++;
+                MyFlickrContact mycontact = new MyFlickrContact();
+                mycontact.ItemNum = num;
+                mycontact.UserID = p.UserId;
+                mycontact.UserName = p.UserName;
+                mycontact.RealName = p.RealName;
+
+                string fname, mname, lname;
+
+                if (curphoto != null)
+                {
+                    favexists = MyLastfavs.Contains(friendLastPhotoId);
+
+                    if(favexists)
                     {
-                        curphoto = flickr.PhotosGetInfo(friendLastPhotoId);
-                    }
-                    catch (Exception exp)
-                    {
-                        //photo doesn't exist
+                        //skip if photo exists in favs
                         continue;
                     }
-                    num++;
-                    MyFlickrContact mycontact = new MyFlickrContact();
-                    mycontact.ItemNum = num;
-                    mycontact.UserID = p.UserId;
-                    mycontact.UserName = p.UserName;
-                    mycontact.RealName = p.RealName;
-
-                    string fname, mname, lname;
-
-                    if (curphoto != null)
+                    else
                     {
-                        if (!String.IsNullOrEmpty(curphoto.OwnerRealName))
-                        {
-                            mycontact.RealName = curphoto.OwnerRealName;
-                            mycontact.ParseFullName(curphoto.OwnerRealName, out fname, out mname, out lname);
-                            mycontact.FirstName = fname;
-                        }
-                        mycontact.Location = curphoto.WebUrl;
-                        mycontact.UploadDT = curphoto.DateUploaded;
+
                     }
-
-                    mycontact.Family = p.IsFamily;
-                    mycontact.Friend = p.IsFriend;
-
-                    mycontact.LastPhotoID = curphoto.PhotoId;
-                    mycontact.LastPhoto = LoadPicture(curphoto.SmallUrl);
-                    mycontact.Icon = LoadPicture(p.BuddyIconUrl);
+                    if (!String.IsNullOrEmpty(curphoto.OwnerRealName))
+                    {
+                        mycontact.RealName = curphoto.OwnerRealName;
+                        mycontact.ParseFullName(curphoto.OwnerRealName, out fname, out mname, out lname);
+                        mycontact.FirstName = fname;
+                    }
+                    mycontact.Location = curphoto.WebUrl;
                     mycontact.UploadDT = curphoto.DateUploaded;
-
-                    DateTime maxdt = DateTime.Now.AddMonths(-1);
-                    if (mycontact.UploadDT > maxdt)
-                    {
-                        mycontuploadlast.Add(mycontact);
-                    }
-
-
                 }
+
+                mycontact.Family = p.IsFamily;
+                mycontact.Friend = p.IsFriend;
+
+                mycontact.LastPhotoID = curphoto.PhotoId;
+                mycontact.LastPhoto = LoadPicture(curphoto.SmallUrl);
+                mycontact.Icon = LoadPicture(p.BuddyIconUrl);
+                mycontact.UploadDT = curphoto.DateUploaded;
+
+                DateTime maxdt = DateTime.Now.AddMonths(-1);
+                if (mycontact.UploadDT > maxdt)
+                {
+                    mycontuploadlast.Add(mycontact);
+                }
+
 
 
             }

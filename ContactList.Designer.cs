@@ -425,9 +425,9 @@
             this.chkOnly2MonthReacted.CheckState = System.Windows.Forms.CheckState.Checked;
             this.chkOnly2MonthReacted.Location = new System.Drawing.Point(4, 161);
             this.chkOnly2MonthReacted.Name = "chkOnly2MonthReacted";
-            this.chkOnly2MonthReacted.Size = new System.Drawing.Size(131, 17);
+            this.chkOnly2MonthReacted.Size = new System.Drawing.Size(157, 17);
             this.chkOnly2MonthReacted.TabIndex = 15;
-            this.chkOnly2MonthReacted.Text = "Use Contacts from DB";
+            this.chkOnly2MonthReacted.Text = "Last 2 Month Active People";
             this.chkOnly2MonthReacted.UseVisualStyleBackColor = true;
             // 
             // chkUsersFromDB
