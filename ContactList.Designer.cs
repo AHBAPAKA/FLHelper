@@ -43,7 +43,6 @@
             this.gbox1 = new System.Windows.Forms.GroupBox();
             this.radioComments = new System.Windows.Forms.RadioButton();
             this.radioFavs = new System.Windows.Forms.RadioButton();
-            this.cmdCleanActiveContacts = new System.Windows.Forms.Button();
             this.cmd10PhotoFavs = new System.Windows.Forms.Button();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.cmdUpdateFavDB = new System.Windows.Forms.Button();
@@ -54,6 +53,7 @@
             this.cmdDeleteFavs = new System.Windows.Forms.Button();
             this.cmdShowUserStas = new System.Windows.Forms.Button();
             this.cmbComments = new System.Windows.Forms.ComboBox();
+            this.cmdCleanActiveContacts = new System.Windows.Forms.Button();
             this.cmbUsers = new System.Windows.Forms.ComboBox();
             this.panel1 = new System.Windows.Forms.Panel();
             this.chkOnly2MonthReacted = new System.Windows.Forms.CheckBox();
@@ -261,16 +261,6 @@
             this.radioFavs.Text = "Favs";
             this.radioFavs.UseVisualStyleBackColor = true;
             // 
-            // cmdCleanActiveContacts
-            // 
-            this.cmdCleanActiveContacts.Location = new System.Drawing.Point(3, 117);
-            this.cmdCleanActiveContacts.Name = "cmdCleanActiveContacts";
-            this.cmdCleanActiveContacts.Size = new System.Drawing.Size(121, 20);
-            this.cmdCleanActiveContacts.TabIndex = 7;
-            this.cmdCleanActiveContacts.Text = "Clean Active Contacts";
-            this.cmdCleanActiveContacts.UseVisualStyleBackColor = true;
-            this.cmdCleanActiveContacts.Click += new System.EventHandler(this.cmdCleanActiveContacts_Click);
-            // 
             // cmd10PhotoFavs
             // 
             this.cmd10PhotoFavs.Location = new System.Drawing.Point(3, 11);
@@ -389,6 +379,16 @@
             this.cmbComments.Name = "cmbComments";
             this.cmbComments.Size = new System.Drawing.Size(417, 21);
             this.cmbComments.TabIndex = 0;
+            // 
+            // cmdCleanActiveContacts
+            // 
+            this.cmdCleanActiveContacts.Location = new System.Drawing.Point(3, 117);
+            this.cmdCleanActiveContacts.Name = "cmdCleanActiveContacts";
+            this.cmdCleanActiveContacts.Size = new System.Drawing.Size(121, 20);
+            this.cmdCleanActiveContacts.TabIndex = 7;
+            this.cmdCleanActiveContacts.Text = "Clean Active Contacts";
+            this.cmdCleanActiveContacts.UseVisualStyleBackColor = true;
+            this.cmdCleanActiveContacts.Click += new System.EventHandler(this.cmdCleanActiveContacts_Click);
             // 
             // cmbUsers
             // 
